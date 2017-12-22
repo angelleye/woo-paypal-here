@@ -60,5 +60,10 @@ class Paypal_Here_Woocommerce_Admin {
     public function enqueue_scripts() {
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-admin.js', array('jquery'), $this->version, false);
     }
+    
+    public function angelleye_paypal_here_add_payment_method($payment_method) {
+        $payment_method[] = 'Paypal_Here_Woocommerce_Payment';
+        return $payment_method;
+    }
 
 }

@@ -107,7 +107,7 @@ class Paypal_Here_Woocommerce {
          * side of the site.
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
-
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
         $this->loader = new Paypal_Here_Woocommerce_Loader();
     }
 
@@ -135,11 +135,10 @@ class Paypal_Here_Woocommerce {
      * @access   private
      */
     private function define_admin_hooks() {
-
         $plugin_admin = new Paypal_Here_Woocommerce_Admin($this->get_plugin_name(), $this->get_version());
-
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_paypal_here_add_payment_method');
     }
 
     /**

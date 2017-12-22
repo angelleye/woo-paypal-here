@@ -75,4 +75,10 @@ function run_paypal_here_woocommerce() {
     $plugin->run();
 }
 
-run_paypal_here_woocommerce();
+add_action('plugins_loaded', 'load_angelleye_paypal_here');
+
+function load_angelleye_paypal_here() {
+    if (class_exists('WC_Payment_Gateway')) {
+        run_paypal_here_woocommerce();
+    }
+}
