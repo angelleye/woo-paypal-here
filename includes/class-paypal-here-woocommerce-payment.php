@@ -22,7 +22,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
     
     public function process_admin_options() {
-        $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key'] = 'Generate WooCommerce REST API key';
+        $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button'] = 'Generate WooCommerce REST API key';
         parent::process_admin_options();
     }
 
@@ -31,7 +31,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         ?>
         <style type="text/css">
             .woocommerce table.form-table {
-                width: 50%;
+                width: 60%;
             }
         </style>
         <?php
@@ -46,12 +46,16 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 'label' => __('Enable PayPal Here', 'woocommerce'),
                 'default' => 'yes'
             ),
-            'generate_woocommerce_rest_api_key' => array(
+            'generate_woocommerce_rest_api_push_button' => array(
                 'title' => __('WooCommerce REST API', 'woocommerce'),
                 'type' => 'button',
                 'description' => __('', ''),
                 'default' => 'Generate WooCommerce REST API key',
                 'class' => 'button button-primary'
+            ),
+            'generate_woocommerce_rest_api_key_value' => array(
+                'title' => __('Consumer key ending in', 'woocommerce'),
+                'type' => 'text',
             ),
             'paypla_here_endpoint' => array('title' => __('PayPal Here endpoint', 'woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'woocommerce')),
             'paypal_here_endpoint_value' => array(

@@ -76,9 +76,35 @@ function run_paypal_here_woocommerce() {
 }
 
 add_action('plugins_loaded', 'load_angelleye_paypal_here');
+add_action('init', 'angelleye_paypal_here_add_endpoints');
+add_filter('template_include', 'template_loader', 0, 1);
 
 function load_angelleye_paypal_here() {
     if (class_exists('WC_Payment_Gateway')) {
         run_paypal_here_woocommerce();
     }
+}
+
+function angelleye_paypal_here_add_endpoints() {
+    $woocommerce_angelleye_paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+
+    if (!empty($woocommerce_angelleye_paypal_here_settings['paypal_here_endpoint_value'])) {
+
+        add_rewrite_endpoint($woocommerce_angelleye_paypal_here_settings['paypal_here_endpoint_value'], EP_PERMALINK | EP_PAGES);
+    }
+}
+
+function template_loader($template) {
+    global $wp;
+    $woocommerce_angelleye_paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+    if (!empty($wp->query_vars)) {
+        if (!empty($woocommerce_angelleye_paypal_here_settings['paypal_here_endpoint_value']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $woocommerce_angelleye_paypal_here_settings['paypal_here_endpoint_value']) {
+            $template = plugin_path() . '/templates/' . 'page.php';
+        }
+    }
+    return $template;
+}
+
+function plugin_path() {
+    return untrailingslashit(plugin_dir_path(PAYPAL_HERE_PLUGIN_FILE));
 }
