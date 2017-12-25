@@ -59,6 +59,16 @@ class Paypal_Here_Woocommerce_Admin {
      */
     public function enqueue_scripts() {
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-admin.js', array('jquery'), $this->version, false);
+        wp_localize_script(
+				$this->plugin_name,
+				'woocommerce_admin_api_keys',
+				array(
+					'ajax_url'         => admin_url( 'admin-ajax.php' ),
+					'update_api_nonce' => wp_create_nonce( 'update-api-key' ),
+                                        'user' => get_current_user_id(),
+					'clipboard_failed' => esc_html__( 'Copying to clipboard failed. Please press Ctrl/Cmd+C to copy.', 'woocommerce' ),
+				)
+			);
     }
     
     public function angelleye_paypal_here_add_payment_method($payment_method) {
