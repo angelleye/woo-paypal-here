@@ -2,7 +2,6 @@
     'use strict';
     $(function () {
         $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button').click(function () {
-            alert('hi');
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
@@ -22,17 +21,39 @@
                    var data = response.data;
                    if ( response.success ) {
                        if ( 0 < data.consumer_key.length && 0 < data.consumer_secret.length ) {
-                           
                            $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value').val('...'+data.truncated_key);
                        }
                        $( 'h2').append( '<div class="wc-api-message updated"><p>' + 'API Key generated successfully.' + '</p></div>' );
                        $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button').closest('tr').hide();
-                       
+                       $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value').closest('tr').show();
                    } else {
                       $( 'h2').append( '<div class="wc-api-message error"><p>' + response.data.message + '</p></div>' );
                    }
                 }
             });
         });
+        $('#rest_api_key_value_description').click(function (evt) {
+            evt.preventDefault();
+            $.ajax({
+                method: 'POST',
+                dataType: 'json',
+                url: ajaxurl,
+                data: {
+                    action: 'angelleye_paypal_here_revoke_key',
+                    security: woocommerce_admin_api_keys.update_api_nonce,
+                },
+                success: function (response) {
+                   var data = response.data;
+                   if ( response.success ) {
+                       window.location.reload();
+                        return;
+                   } 
+                }
+            });
+        });
+        
+        
+        
+        
     });
 })(jQuery);

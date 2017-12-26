@@ -33,6 +33,14 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
     public function admin_options() {
         parent::admin_options();
+        $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
+        if( empty($this->generate_woocommerce_rest_api_key_value) ) {
+            ?>
+            <script type="text/javascript">
+                jQuery('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value').closest('tr').hide();
+            </script>
+            <?php
+        }
         ?>
         <style type="text/css">
             .woocommerce table.form-table {
@@ -60,11 +68,12 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 'default' => 'Generate WooCommerce REST API key',
                 'class' => "button button-primary"
             );
-        }
+        } 
 
         $this->form_fields['generate_woocommerce_rest_api_key_value'] = array(
             'title' => __('Consumer key ending in', 'woocommerce'),
             'type' => 'text',
+            'description' => '<div id="rest_api_key_value_description"><a style="color: #a00; text-decoration: none;" href="">Revoke key</a></div>',
             'disabled' => true
         );
         $this->form_fields['paypla_here_endpoint'] = array('title' => __('PayPal Here endpoint', 'woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'woocommerce'));

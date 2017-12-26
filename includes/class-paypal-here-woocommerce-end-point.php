@@ -16,6 +16,7 @@ class Paypal_Here_Woocommerce_End_Point {
         add_filter('template_include', array($this, 'template_loader'), 0, 1);
         //add_filter('the_title', 'angelleye_paypal_here_page_endpoint_title');
         add_action('wp_ajax_angelleye_paypal_here_woocommerce_update_api_key', array($this, 'angelleye_paypal_here_update_api_key'));
+        add_action('wp_ajax_angelleye_paypal_here_revoke_key', array($this, 'angelleye_paypal_here_revoke_key'));
     }
 
     public function angelleye_paypal_here_page_endpoint_title($title) {
@@ -71,8 +72,27 @@ class Paypal_Here_Woocommerce_End_Point {
         return untrailingslashit(plugin_dir_path(PAYPAL_HERE_PLUGIN_FILE));
     }
 
+    public function angelleye_paypal_here_revoke_key() {
+        global $wpdb;
+        if (empty($this->paypal_here_settings)) {
+            $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        }
+        ob_start();
+        check_ajax_referer('update-api-key', 'security');
+        if (!current_user_can('manage_woocommerce')) {
+            wp_die(-1);
+        }
+        $this->angelleye_paypal_here_remove_key($this->paypal_here_settings['key_id']);
+        unset($this->paypal_here_settings['generate_woocommerce_rest_api_key_value']);
+        unset($this->paypal_here_settings['uniq_cs']);
+        unset($this->paypal_here_settings['key_id']);
+        update_option('woocommerce_angelleye_paypal_here_settings', $this->paypal_here_settings);
+        $data['message'] = 'API key revoked successfully.';
+        wp_send_json_success($data);
+    }
+
     public function angelleye_paypal_here_update_api_key() {
-        if( empty($this->paypal_here_settings)) {
+        if (empty($this->paypal_here_settings)) {
             $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         }
         ob_start();
@@ -132,17 +152,15 @@ class Paypal_Here_Woocommerce_End_Point {
                     '%s',
                         )
                 );
-                $this->paypal_here_settings['generate_woocommerce_rest_api_key_value'] = '...'.substr($consumer_key, -7);
+                $this->paypal_here_settings['generate_woocommerce_rest_api_key_value'] = '...' . substr($consumer_key, -7);
                 $this->paypal_here_settings['uniq_cs'] = str_replace('cs_', '', $consumer_secret);
-                
-                if( !empty($_POST['enabled']) && 'true' == $_POST['enabled']) {
+
+                if (!empty($_POST['enabled']) && 'true' == $_POST['enabled']) {
                     $this->paypal_here_settings['enabled'] = 'yes';
                 }
+                $this->paypal_here_settings['key_id'] = $wpdb->insert_id;
                 $this->paypal_here_settings['paypal_here_endpoint_url'] = !empty($_POST['paypal_here_endpoint_url']) ? $_POST['paypal_here_endpoint_url'] : 'paypal-here';
                 $this->paypal_here_settings['paypal_here_endpoint_title'] = !empty($_POST['paypal_here_endpoint_title']) ? $_POST['paypal_here_endpoint_title'] : 'PayPal Here';
-                
-                
-                
                 update_option('woocommerce_angelleye_paypal_here_settings', $this->paypal_here_settings);
                 $key_id = $wpdb->insert_id;
                 $data['consumer_key'] = $consumer_key;
@@ -153,6 +171,16 @@ class Paypal_Here_Woocommerce_End_Point {
             wp_send_json_success($data);
         } catch (Exception $e) {
             wp_send_json_error(array('message' => $e->getMessage()));
+        }
+    }
+
+    public function angelleye_paypal_here_remove_key($key_id) {
+        try {
+            global $wpdb;
+            $delete = $wpdb->delete($wpdb->prefix . 'woocommerce_api_keys', array('key_id' => $key_id), array('%d'));
+            return $delete;
+        } catch (Exception $ex) {
+            
         }
     }
 
