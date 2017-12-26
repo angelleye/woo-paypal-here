@@ -3,9 +3,3 @@
  * included in this file.
  */
 
-.woocommerce table.form-table input.regular-input.button.button-primary {
-    width: auto;
-    padding: 0px;
-    min-width: 250px;
-    
-}
