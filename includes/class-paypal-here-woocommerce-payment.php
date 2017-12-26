@@ -32,7 +32,10 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
 
     public function admin_options() {
-        parent::admin_options();
+        echo '<h2>' . esc_html( $this->get_method_title() ) . '</h2>';
+        echo '<div id="paypal_here_details">' . wp_kses_post( $this->get_method_description()) . '</div>';
+        echo '<div id="paypal_here_endpoint_url_qrcode"><b>Load PayPal Here Web App</b></div>';
+        echo '<table class="form-table">' . $this->generate_settings_html( $this->get_form_fields(), false ) . '</table>';
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
         if( empty($this->generate_woocommerce_rest_api_key_value) ) {
             ?>
@@ -43,9 +46,20 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         }
         ?>
         <style type="text/css">
-            .woocommerce table.form-table {
-                width: 60%;
+            #paypal_here_details {
+                width: 75%;
+                float: left;
             }
+            #paypal_here_endpoint_url_qrcode {
+                float: right;
+                
+                width: 20%;
+            }
+            #paypal_here_endpoint_url_qrcode table {
+                margin-left: 25px;
+                margin-top: 10px;
+            }
+            
         </style>
         <?php
 
@@ -76,6 +90,8 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'description' => '<div id="rest_api_key_value_description"><a style="color: #a00; text-decoration: none;" href="">Revoke key</a></div>',
             'disabled' => true
         );
+        
+        
         $this->form_fields['paypla_here_endpoint'] = array('title' => __('PayPal Here endpoint', 'woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'woocommerce'));
         $this->form_fields['paypal_here_endpoint_url'] = array(
             'title' => __('PayPal Here URL', 'woocommerce'),

@@ -12,6 +12,7 @@ class Paypal_Here_Woocommerce_End_Point {
 
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        
         add_action('init', array($this, 'angelleye_paypal_here_add_endpoints'));
         add_filter('template_include', array($this, 'template_loader'), 0, 1);
         //add_filter('the_title', 'angelleye_paypal_here_page_endpoint_title');
