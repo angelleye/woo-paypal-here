@@ -3,9 +3,7 @@
  * included in this file.
  */
 
-.woocommerce table.form-table input.regular-input.button.button-primary {
-    width: auto;
-    padding: 0px;
-    min-width: 250px;
-    
+
+#paypal_here_endpoint_url_qrcode table {
+    margin: 0 auto;
 }

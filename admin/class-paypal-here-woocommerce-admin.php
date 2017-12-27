@@ -32,6 +32,7 @@ class Paypal_Here_Woocommerce_Admin {
     public $paypal_here_settings = array();
     public $paypal_here_endpoint_url;
     public $home_url;
+
     /**
      * Initialize the class and set its properties.
      *
@@ -40,7 +41,6 @@ class Paypal_Here_Woocommerce_Admin {
      * @param      string    $version    The version of this plugin.
      */
     public function __construct($plugin_name, $version) {
-
         $this->plugin_name = $plugin_name;
         $this->version = $version;
     }
@@ -60,7 +60,7 @@ class Paypal_Here_Woocommerce_Admin {
      * @since    1.0.0
      */
     public function enqueue_scripts() {
-        $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/'); 
+        $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
         wp_register_script('qrcode', WC()->plugin_url() . '/assets/js/jquery-qrcode/jquery.qrcode.js', array('jquery'), WC_VERSION);
@@ -69,7 +69,7 @@ class Paypal_Here_Woocommerce_Admin {
             'ajax_url' => admin_url('admin-ajax.php'),
             'update_api_nonce' => wp_create_nonce('update-api-key'),
             'user' => get_current_user_id(),
-            'paypal_here_url' => $this->home_url.$this->paypal_here_endpoint_url
+            'paypal_here_url' => $this->home_url . $this->paypal_here_endpoint_url
                 )
         );
     }
