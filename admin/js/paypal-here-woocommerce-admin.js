@@ -53,8 +53,8 @@
         });
         $('#paypal_here_endpoint_url_qrcode').qrcode({
             text: woocommerce_admin_api_keys.paypal_here_url,
-            width: 120,
-            height: 120,
+            width: 200,
+            height: 200,
             render: "table"
         });
     });
