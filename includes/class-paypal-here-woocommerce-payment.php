@@ -38,7 +38,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         ?>
         <p class="submit_button">
             <?php if (empty($GLOBALS['hide_save_button'])) : ?>
-                <input name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e('Save changes', 'woocommerce'); ?>" />
+                <input name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e('Save changes', 'paypal-here-woocommerce'); ?>" />
             <?php endif; ?>
             <?php wp_nonce_field('woocommerce-settings'); ?>
         </p>
@@ -71,8 +71,6 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 padding: 0px;
                 width: 251px;
             }
-
-
             p.submit {
                 display: none;
             }
@@ -83,14 +81,14 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     public function init_form_fields() {
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
         $this->form_fields['enabled'] = array(
-            'title' => __('Enable/Disable', 'woocommerce'),
+            'title' => __('Enable/Disable', 'paypal-here-woocommerce'),
             'type' => 'checkbox',
-            'label' => __('Enable PayPal Here', 'woocommerce'),
+            'label' => __('Enable PayPal Here', 'paypal-here-woocommerce'),
             'default' => 'no'
         );
         if (empty($this->generate_woocommerce_rest_api_key_value)) {
             $this->form_fields['generate_woocommerce_rest_api_push_button'] = array(
-                'title' => __('WooCommerce REST API', 'woocommerce'),
+                'title' => __('WooCommerce REST API', 'paypal-here-woocommerce'),
                 'type' => 'button',
                 'description' => __('', ''),
                 'default' => 'Generate WooCommerce REST API key',
@@ -98,28 +96,39 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             );
         }
         $this->form_fields['generate_woocommerce_rest_api_key_value'] = array(
-            'title' => __('Consumer key ending in', 'woocommerce'),
+            'title' => __('Consumer key ending in', 'paypal-here-woocommerce'),
             'type' => 'text',
             'description' => '<div id="rest_api_key_value_description"><a style="color: #a00; text-decoration: none;" href="">Revoke key</a></div>',
             'disabled' => true
         );
-        $this->form_fields['paypla_here_endpoint'] = array('title' => __('PayPal Here endpoint', 'woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'woocommerce'));
+        $this->form_fields['product_filter_settings'] = array(
+            'title' => __('View Products', 'paypal-here-woocommerce'),
+            'type' => 'select',
+            'class' => 'wc-enhanced-select',
+            'description' => __('Choose whether you wish to how to display the "View Products" screen in the web app.', 'paypal-here-woocommerce'),
+            'default' => 'featured_products',
+            'desc_tip' => true,
+            'options' => array(
+                'featured_products' => __('Featured Products', 'paypal-here-woocommerce'),
+                'new_products' => __('New Products', 'paypal-here-woocommerce'),
+                'top_selling_products' => __('Top Selling Products', 'paypal-here-woocommerce')
+            ),
+        );
+        $this->form_fields['paypla_here_endpoint'] = array('title' => __('PayPal Here endpoint', 'paypal-here-woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'paypal-here-woocommerce'));
         $this->form_fields['paypal_here_endpoint_url'] = array(
-            'title' => __('PayPal Here URL', 'woocommerce'),
+            'title' => __('PayPal Here URL', 'paypal-here-woocommerce'),
             'id' => 'paypal_here_endpoint_url',
             'type' => 'text',
-            'description' => sprintf(__('Endpoint for PayPal Here e.g %s/%s', 'woocommerce'), site_url(), 'paypal-here'),
+            'description' => sprintf(__('Endpoint for PayPal Here e.g %s/%s', 'paypal-here-woocommerce'), site_url(), 'paypal-here'),
             'default' => 'paypal-here',
         );
         $this->form_fields['paypal_here_endpoint_title'] = array(
-            'title' => __('PayPal Here Page Title', 'woocommerce'),
+            'title' => __('PayPal Here Page Title', 'paypal-here-woocommerce'),
             'id' => 'paypal_here_endpoint_title',
             'type' => 'text',
             'description' => '',
             'default' => 'PayPal Here',
         );
     }
-    
-    
 
 }
