@@ -9,6 +9,7 @@
 class Paypal_Here_Woocommerce_End_Point {
 
     public $paypal_here_settings = array();
+    public $here_rest_api;
 
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
@@ -18,9 +19,20 @@ class Paypal_Here_Woocommerce_End_Point {
         add_filter('wp_title', array($this, 'angelleye_paypal_here_page_endpoint_wp_title'), 0, 1);
         add_action('wp_ajax_angelleye_paypal_here_woocommerce_update_api_key', array($this, 'angelleye_paypal_here_update_api_key'));
         add_action('wp_ajax_angelleye_paypal_here_revoke_key', array($this, 'angelleye_paypal_here_revoke_key'));
+        add_action('angelleye_paypal_here_dashboard_body_content', array($this, 'angelleye_paypal_here_dashboard_body_content'), 5);
+        add_action('angelleye_paypal_here_view_products_body_content', array($this, 'angelleye_paypal_here_view_products_body_content'), 5);
+        add_action('angelleye_paypal_here_view_pending_orders_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_body_content'), 5);
         if (!is_admin()) {
             add_filter('query_vars', array($this, 'angelleye_paypal_here_add_query_vars'), 0);
             add_action('parse_request', array($this, 'angelleye_paypal_here_parse_request'), 0);
+        }
+        try {
+            require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-rest-api.php';
+            if (class_exists('Paypal_Here_Woocommerce_Rest_API')) {
+                $this->here_rest_api = new Paypal_Here_Woocommerce_Rest_API();
+            }
+        } catch (Exception $ex) {
+            
         }
     }
 
@@ -207,8 +219,20 @@ class Paypal_Here_Woocommerce_End_Point {
             $delete = $wpdb->delete($wpdb->prefix . 'woocommerce_api_keys', array('key_id' => $key_id), array('%d'));
             return $delete;
         } catch (Exception $ex) {
-
+            
         }
+    }
+
+    public function angelleye_paypal_here_dashboard_body_content() {
+        echo '<br/>call angelleye_paypal_here_dashboard_body_content hook';
+    }
+
+    public function angelleye_paypal_here_view_products_body_content() {
+        echo '<br/>call angelleye_paypal_here_view_products_body_content hook';
+    }
+
+    public function angelleye_paypal_here_view_pending_orders_body_content() {
+        echo '<br/>call angelleye_paypal_here_view_pending_orders_body_content hook';
     }
 
 }

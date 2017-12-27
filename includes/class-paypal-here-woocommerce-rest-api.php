@@ -18,7 +18,7 @@ class Paypal_Here_Woocommerce_Rest_API {
         $this->ck;
         $this->ck;
         try {
-            include_once PAYPAL_HERE_PLUGIN_DIR . 'includes/lib/wc-api-php-master/vendor/autoload.php';
+            include_once PAYPAL_HERE_PLUGIN_DIR . '/includes/lib/wc-api-php-master/vendor/autoload.php';
             $this->woocommerce = new Client(
                     $this->site_url, $this->ck, $this->ck, [
                 'wp_api' => true,

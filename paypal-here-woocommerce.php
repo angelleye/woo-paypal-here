@@ -96,3 +96,7 @@ function run_paypal_here_woocommerce_end_point() {
     }
     
 }
+
+function run_paypal_here_woocommerce_rest_api() {
+    
+}
