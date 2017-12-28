@@ -194,6 +194,7 @@ class Paypal_Here_Woocommerce_End_Point {
                 );
                 $this->paypal_here_settings['generate_woocommerce_rest_api_key_value'] = '...' . substr($consumer_key, -7);
                 $this->paypal_here_settings['uniq_cs'] = str_replace('cs_', '', $consumer_secret);
+                $this->paypal_here_settings['uniq_ck'] = str_replace('ck_', '', $consumer_key);
                 if (!empty($_POST['enabled']) && 'true' == $_POST['enabled']) {
                     $this->paypal_here_settings['enabled'] = 'yes';
                 }
