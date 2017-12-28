@@ -10,6 +10,7 @@ class Paypal_Here_Woocommerce_End_Point {
 
     public $paypal_here_settings = array();
     public $here_rest_api;
+    public $result;
 
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
@@ -31,8 +32,8 @@ class Paypal_Here_Woocommerce_End_Point {
             if (class_exists('Paypal_Here_Woocommerce_Rest_API')) {
                 $this->here_rest_api = new Paypal_Here_Woocommerce_Rest_API();
             }
-        } catch (Exception $ex) {
-            
+        } catch (HttpClientException $ex) {
+            return $ex->getMessage();
         }
     }
 
@@ -229,11 +230,25 @@ class Paypal_Here_Woocommerce_End_Point {
     }
 
     public function angelleye_paypal_here_view_products_body_content() {
-        echo '<br/>call angelleye_paypal_here_view_products_body_content hook';
+       try {
+            $this->result = $this->here_rest_api->angelleye_paypal_here_get_product();
+            echo print_r($this->result, true);
+        } catch (HttpClientException $ex) {
+            echo print_r($ex->getMessage(), true);
+        } catch (Exception $ex) {
+            echo print_r($ex->getMessage(), true);
+        }
     }
 
     public function angelleye_paypal_here_view_pending_orders_body_content() {
-        echo '<br/>call angelleye_paypal_here_view_pending_orders_body_content hook';
+        try {
+            $this->result = $this->here_rest_api->angelleye_paypal_here_get_pending_order();
+            echo print_r($this->result, true);
+        } catch (HttpClientException $ex) {
+            echo print_r($ex->getMessage(), true);
+        } catch (Exception $ex) {
+            echo print_r($ex->getMessage(), true);
+        }
     }
 
 }
