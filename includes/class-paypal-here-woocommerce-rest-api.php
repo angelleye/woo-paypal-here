@@ -31,7 +31,7 @@ class Paypal_Here_Woocommerce_Rest_API {
                     ]
             );
         } catch (Exception $ex) {
-            
+
         }
     }
 
@@ -44,13 +44,12 @@ class Paypal_Here_Woocommerce_Rest_API {
                 $this->result = $this->woocommerce->get('products');
                 break;
             case 'top_selling_products':
-
                 // not supported
-                //filter[orderby]=meta_value_num&filter[orderby_meta_key]=_price. 
+                //filter[orderby]=meta_value_num&filter[orderby_meta_key]=_price.
                 //$query_args['meta_key'] = 'total_sales'; // @codingStandardsIgnoreLine
                 //$query_args['order']    = 'DESC';
                 //$query_args['orderby']  = 'meta_value_num';
-                $this->result = $this->woocommerce->get('products', array('meta_key' => 'total_sales', 'order' => 'desc', 'orderby' => 'date'));
+                $this->result = $this->woocommerce->get('products');
                 break;
         }
         return $this->result;
@@ -62,7 +61,7 @@ class Paypal_Here_Woocommerce_Rest_API {
     }
 
     public function angelleye_paypal_here_get_shipping_methods() {
-        
+
     }
 
 }

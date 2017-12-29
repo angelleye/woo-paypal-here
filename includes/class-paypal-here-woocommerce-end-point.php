@@ -11,6 +11,8 @@ class Paypal_Here_Woocommerce_End_Point {
     public $paypal_here_settings = array();
     public $here_rest_api;
     public $result;
+    public $order_list;
+    public $product_list;
 
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
@@ -221,7 +223,7 @@ class Paypal_Here_Woocommerce_End_Point {
             $delete = $wpdb->delete($wpdb->prefix . 'woocommerce_api_keys', array('key_id' => $key_id), array('%d'));
             return $delete;
         } catch (Exception $ex) {
-            
+
         }
     }
 
@@ -230,9 +232,8 @@ class Paypal_Here_Woocommerce_End_Point {
     }
 
     public function angelleye_paypal_here_view_products_body_content() {
-       try {
-            $this->result = $this->here_rest_api->angelleye_paypal_here_get_product();
-            echo print_r($this->result, true);
+        try {
+            $this->angelleye_paypal_here_display_product_list();
         } catch (HttpClientException $ex) {
             echo print_r($ex->getMessage(), true);
         } catch (Exception $ex) {
@@ -240,14 +241,41 @@ class Paypal_Here_Woocommerce_End_Point {
         }
     }
 
+    public function angelleye_paypal_here_display_product_list() {
+        $this->result = $this->here_rest_api->angelleye_paypal_here_get_product();
+        $this->angelleye_paypal_here_get_product_list();
+        include $this->plugin_path() . '/templates/' . 'products.php';
+    }
+
+    public function angelleye_paypal_here_get_product_list() {
+        if (!empty($this->result)) {
+            foreach ($this->result as $key => $value) {
+                $this->product_list[$key] = $value['id'];
+            }
+        }
+    }
+
     public function angelleye_paypal_here_view_pending_orders_body_content() {
         try {
-            $this->result = $this->here_rest_api->angelleye_paypal_here_get_pending_order();
-            echo print_r($this->result, true);
+            $this->angelleye_paypal_here_display_order_list();
         } catch (HttpClientException $ex) {
             echo print_r($ex->getMessage(), true);
         } catch (Exception $ex) {
             echo print_r($ex->getMessage(), true);
+        }
+    }
+
+    public function angelleye_paypal_here_display_order_list() {
+        $this->result = $this->here_rest_api->angelleye_paypal_here_get_pending_order();
+        $this->angelleye_paypal_here_get_order_list();
+        include $this->plugin_path() . '/templates/' . 'orders.php';
+    }
+
+    public function angelleye_paypal_here_get_order_list() {
+        if (!empty($this->result)) {
+            foreach ($this->result as $key => $value) {
+                $this->order_list[$key] = $value['id'];
+            }
         }
     }
 
