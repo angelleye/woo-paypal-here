@@ -1,6 +1,6 @@
 <?php
 
-get_header();
+include_once 'header.php';
 do_action('angelleye_paypal_here_before_body_content');
 $action = !empty($_GET['action']) ? $_GET['action'] : 'dashboard';
 switch ($action) {
@@ -15,4 +15,4 @@ switch ($action) {
         break;
 }
 do_action('angelleye_paypal_here_after_body_content');
-get_footer();
+include_once 'footer.php';

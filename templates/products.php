@@ -1,14 +1,22 @@
-
-<div class="woocommerce">
-    <div class="woocommerce-MyAccount-content">
-        <table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">
-            <tbody>
-                <?php
-                foreach ($this->product_list as $product):
-                    echo $product . '<br/>';
-                endforeach;
+<div class="row">
+    <table class="table">
+        <tbody>
+            <?php
+            foreach ($this->product_list as $product):
+                $product_obj = wc_get_product($product);
                 ?>
-            </tbody>
-        </table>
-    </div>
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <label><input type="checkbox" class="form-check-input" id=""><?php echo $product_obj->get_title(); ?></label>
+                        </div>
+                    </td>
+                    <td><?php echo $product_obj->get_title(); ?></td>
+                    <td><?php echo $product_obj->get_price_html(); ?></td>
+                </tr>
+                <?php
+            endforeach;
+            ?>
+        </tbody>
+    </table>
 </div>
