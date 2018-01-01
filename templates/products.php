@@ -21,7 +21,32 @@
                 </tbody>
             </table>
         </div>
-    <?php
+        <script type="text/javascript">
+
+
+
+
+            jQuery(document).ready(function () {
+                jQuery(".form-check").click(function () {
+                    jQuery('#exampleModal').modal({show: true});
+                });
+            });
+        </script>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <span>ADD ITEM</span>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
     } else {
         echo __('No product found');
     }

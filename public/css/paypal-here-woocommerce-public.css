@@ -16,3 +16,13 @@
 .fr {
     float: right;
 }
+
+.modal-header .close {
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.modal-content  {
+   
+    border-radius: 15px;
+}
