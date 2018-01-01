@@ -13,7 +13,6 @@
                                     <label><input type="checkbox" class="form-check-input" id=""><?php echo $product_obj->get_title(); ?></label>
                                 </div>
                             </td>
-                            <td><?php echo $product_obj->get_title(); ?></td>
                             <td><?php echo $product_obj->get_price_html(); ?></td>
                         </tr>
                         <?php
