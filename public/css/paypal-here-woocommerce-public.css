@@ -3,7 +3,7 @@
  * included in this file.
  */
 
-body { padding-top: 50px; }
+.container-fluid { padding-top: 75px; }
 .default-ceneter-button {
     max-width: 250px;
     margin: 0 auto;

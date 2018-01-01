@@ -51,7 +51,7 @@ class Paypal_Here_Woocommerce_Public {
     public function enqueue_styles() {
         global $wp_query, $wp, $wp_styles;
         $wp->query_vars;
-        if (!is_null($wp_query) && !is_admin() && is_main_query() && is_page() == false) {
+        if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
             foreach ($wp_styles->registered as $handle => $data) {
                 wp_deregister_style($handle);
                 wp_dequeue_style($handle);
@@ -69,9 +69,23 @@ class Paypal_Here_Woocommerce_Public {
     public function enqueue_scripts() {
         global $wp_query, $wp;
         $wp->query_vars;
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery'), $this->version, false);
-        if (!is_null($wp_query) && !is_admin() && is_main_query() && is_page() == false) {
-            wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
+        if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
+            wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery'), $this->version, false);
+            if (!is_null($wp_query) && !is_admin() && is_main_query() && is_page() == false && is_front_page() == false) {
+                wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
+            }
+        }
+    }
+    
+    public function is_angelleye_paypal_here_endpoint_url($title = false) {
+        global $wp;
+        $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        if (!empty($wp->query_vars)) {
+            if (!empty($this->paypal_here_settings['paypal_here_endpoint_url']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url'] && strpos($title, 'not found') !== false) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
