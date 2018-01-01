@@ -1,5 +1,6 @@
 <div class="row">
     <?php if (!empty($this->order_list)) { ?>
+    <div class="col">
         <table class="table ">
             <tbody>
                 <?php
@@ -31,6 +32,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
     <?php } else {
     echo __('No Pending order found'); 
     } ?>

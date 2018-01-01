@@ -3,7 +3,7 @@
  * included in this file.
  */
 
-.container-fluid { padding-top: 75px; }
+.container-fluid { padding-top: 50px; }
 .default-ceneter-button {
     max-width: 250px;
     margin: 0 auto;
@@ -11,4 +11,8 @@
 }
 .w195 {
     width: 195px;
+}
+
+.fr {
+    float: right;
 }
