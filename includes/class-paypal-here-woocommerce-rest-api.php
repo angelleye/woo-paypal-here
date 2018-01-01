@@ -36,12 +36,15 @@ class Paypal_Here_Woocommerce_Rest_API {
     }
 
     public function angelleye_paypal_here_get_product() {
+        $request_param = array();
+        if( !empty($_GET['search'])) {
+            $request_param['search'] = $_GET['search'];
+        }
         switch ($this->product_filter_settings) {
             case 'featured_products':
-                $this->result = $this->woocommerce->get('products', array('featured' => true));
+                $request_param['featured'] = true;
                 break;
             case 'new_products':
-                $this->result = $this->woocommerce->get('products');
                 break;
             case 'top_selling_products':
                 // not supported
@@ -49,8 +52,13 @@ class Paypal_Here_Woocommerce_Rest_API {
                 //$query_args['meta_key'] = 'total_sales'; // @codingStandardsIgnoreLine
                 //$query_args['order']    = 'DESC';
                 //$query_args['orderby']  = 'meta_value_num';
-                $this->result = $this->woocommerce->get('products');
+                //$this->result = $this->woocommerce->get('products');
                 break;
+        }
+        if( !empty($request_param)) {
+            $this->result = $this->woocommerce->get('products', $request_param);
+        } else {
+            $this->result = $this->woocommerce->get('products');
         }
         return $this->result;
     }

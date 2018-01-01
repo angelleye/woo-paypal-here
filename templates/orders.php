@@ -33,7 +33,9 @@
             </tbody>
         </table>
     </div>
-    <?php } else {
-    echo __('No Pending order found'); 
-    } ?>
+    <?php
+    } else {
+        echo __('No Pending order found');
+    }
+    ?>
 </div>

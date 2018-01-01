@@ -249,6 +249,7 @@ class Paypal_Here_Woocommerce_End_Point {
     public function angelleye_paypal_here_display_product_list() {
         $this->result = $this->here_rest_api->angelleye_paypal_here_get_product();
         $this->angelleye_paypal_here_get_product_list();
+        include $this->plugin_path() . '/templates/' . 'products_search.php';
         include $this->plugin_path() . '/templates/' . 'products.php';
     }
 
