@@ -1,15 +1,6 @@
 (function ($) {
     'use strict';
 
-    /**
-     * $(function() {
-     *
-     * });
-     *
-     * $( window ).load(function() {
-     *
-     * });
-     *
-     */
+   $('#colorful').bootstrapNumber();
 
 })(jQuery);

@@ -53,10 +53,10 @@ class Paypal_Here_Woocommerce_Public {
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
             foreach ($wp_styles->registered as $handle => $data) {
-                wp_deregister_style($handle);
-                wp_dequeue_style($handle);
+                //wp_deregister_style($handle);
+                //wp_dequeue_style($handle);
             }
-            wp_enqueue_style($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
+            wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
         }
     }
@@ -70,13 +70,16 @@ class Paypal_Here_Woocommerce_Public {
         global $wp_query, $wp;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-            wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery'), $this->version, false);
-            if (!is_null($wp_query) && !is_admin() && is_main_query() && is_page() == false && is_front_page() == false) {
+
+            if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
+                wp_enqueue_script($this->plugin_name . 'popper', '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array('jquery'), $this->version, false);
                 wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
             }
+            wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, true);
+            wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
         }
     }
-    
+
     public function is_angelleye_paypal_here_endpoint_url($title = false) {
         global $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
@@ -87,6 +90,42 @@ class Paypal_Here_Woocommerce_Public {
                 return false;
             }
         }
+    }
+
+    public function paypal_here_quick_view() {
+        require_once PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-quick-view.php';
+        $quick_view_obj = new Paypal_Here_Woocommerce_Quick_View();
+        $quick_view_obj->quick_view();
+    }
+
+    public function angelleye_paypal_here_woocommerce_locate_template($template, $template_name, $template_path) {
+        global $woocommerce;
+
+        $_template = $template;
+
+        if (!$template_path)
+            $template_path = $woocommerce->template_url;
+
+        $plugin_path = PAYPAL_HERE_PLUGIN_DIR . '/templates/';
+
+        // Look within passed path within the theme - this is priority
+        $template = locate_template(
+                array(
+                    $template_path . $template_name,
+                    $template_name
+                )
+        );
+
+        // Modification: Get the template from this plugin, if it exists
+        if (!$template && file_exists($plugin_path . $template_name))
+            $template = $plugin_path . $template_name;
+
+        // Use default template
+        if (!$template)
+            $template = $_template;
+
+        // Return what we found
+        return $template;
     }
 
 }

@@ -108,6 +108,7 @@ class Paypal_Here_Woocommerce {
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-quick-view.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
         $this->loader = new Paypal_Here_Woocommerce_Loader();
     }
@@ -150,12 +151,13 @@ class Paypal_Here_Woocommerce {
      * @access   private
      */
     private function define_public_hooks() {
-
         $plugin_public = new Paypal_Here_Woocommerce_Public($this->get_plugin_name(), $this->get_version());
-
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+        $this->loader->add_action( 'woocommerce_api_paypal_here_woocommerce_quick_view', $plugin_public , 'paypal_here_quick_view'  );
+        $this->loader->add_filter( 'woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3 );
     }
+    //
 
     /**
      * Run the loader to execute all of the hooks with WordPress.
