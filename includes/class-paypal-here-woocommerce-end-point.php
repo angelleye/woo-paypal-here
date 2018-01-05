@@ -22,9 +22,15 @@ class Paypal_Here_Woocommerce_End_Point {
         add_filter('wp_title', array($this, 'angelleye_paypal_here_page_endpoint_wp_title'), 0, 1);
         add_action('wp_ajax_angelleye_paypal_here_woocommerce_update_api_key', array($this, 'angelleye_paypal_here_update_api_key'));
         add_action('wp_ajax_angelleye_paypal_here_revoke_key', array($this, 'angelleye_paypal_here_revoke_key'));
+        add_action('angelleye_paypal_here_before_body_content', array($this, 'angelleye_paypal_here_before_body_content'), 5);
         add_action('angelleye_paypal_here_dashboard_body_content', array($this, 'angelleye_paypal_here_dashboard_body_content'), 5);
         add_action('angelleye_paypal_here_view_products_body_content', array($this, 'angelleye_paypal_here_view_products_body_content'), 5);
         add_action('angelleye_paypal_here_view_pending_orders_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_body_content'), 5);
+        add_action('angelleye_paypal_here_view_order_billing_body_content', array($this, 'angelleye_paypal_here_view_order_billing_body_content'), 5);
+
+
+
+
         if (!is_admin()) {
             add_filter('query_vars', array($this, 'angelleye_paypal_here_add_query_vars'), 0);
             add_action('parse_request', array($this, 'angelleye_paypal_here_parse_request'), 0);
@@ -226,15 +232,13 @@ class Paypal_Here_Woocommerce_End_Point {
             $delete = $wpdb->delete($wpdb->prefix . 'woocommerce_api_keys', array('key_id' => $key_id), array('%d'));
             return $delete;
         } catch (Exception $ex) {
-
+            
         }
     }
 
     public function angelleye_paypal_here_dashboard_body_content() {
-         include $this->plugin_path() . '/templates/' . 'default.php';
+        include $this->plugin_path() . '/templates/' . 'default.php';
     }
-    
-   
 
     public function angelleye_paypal_here_view_products_body_content() {
         try {
@@ -276,7 +280,6 @@ class Paypal_Here_Woocommerce_End_Point {
         $this->angelleye_paypal_here_get_order_list();
         include $this->plugin_path() . '/templates/' . 'orders_search.php';
         include $this->plugin_path() . '/templates/' . 'orders.php';
-        
     }
 
     public function angelleye_paypal_here_get_order_list() {
@@ -284,6 +287,47 @@ class Paypal_Here_Woocommerce_End_Point {
             foreach ($this->result as $key => $value) {
                 $this->order_list[$key] = $value['id'];
             }
+        }
+    }
+
+    public function angelleye_paypal_here_view_order_billing_body_content() {
+        include $this->plugin_path() . '/templates/' . 'order_billing.php';
+    }
+
+    public function angelleye_paypal_here_before_body_content() {
+
+        if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_billing') {
+            WC()->customer->set_props(array(
+                'billing_country' => isset($_POST['country']) ? wp_unslash($_POST['country']) : null,
+                'billing_state' => isset($_POST['state']) ? wp_unslash($_POST['state']) : null,
+                'billing_postcode' => isset($_POST['postcode']) ? wp_unslash($_POST['postcode']) : null,
+                'billing_city' => isset($_POST['city']) ? wp_unslash($_POST['city']) : null,
+                'billing_address_1' => isset($_POST['address']) ? wp_unslash($_POST['address']) : null,
+                'billing_address_2' => isset($_POST['address_2']) ? wp_unslash($_POST['address_2']) : null,
+            ));
+            if (!empty($_POST['skip_shipping'])) {
+                WC()->customer->set_props(array(
+                    'shipping_country' => isset($_POST['country']) ? wp_unslash($_POST['country']) : null,
+                    'shipping_state' => isset($_POST['state']) ? wp_unslash($_POST['state']) : null,
+                    'shipping_postcode' => isset($_POST['postcode']) ? wp_unslash($_POST['postcode']) : null,
+                    'shipping_city' => isset($_POST['city']) ? wp_unslash($_POST['city']) : null,
+                    'shipping_address_1' => isset($_POST['address']) ? wp_unslash($_POST['address']) : null,
+                    'shipping_address_2' => isset($_POST['address_2']) ? wp_unslash($_POST['address_2']) : null,
+                ));
+            } else {
+                
+            }
+        }
+
+        if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_shipping') {
+            WC()->customer->set_props(array(
+                'shipping_country' => isset($_POST['country']) ? wp_unslash($_POST['country']) : null,
+                'shipping_state' => isset($_POST['state']) ? wp_unslash($_POST['state']) : null,
+                'shipping_postcode' => isset($_POST['postcode']) ? wp_unslash($_POST['postcode']) : null,
+                'shipping_city' => isset($_POST['city']) ? wp_unslash($_POST['city']) : null,
+                'shipping_address_1' => isset($_POST['address']) ? wp_unslash($_POST['address']) : null,
+                'shipping_address_2' => isset($_POST['address_2']) ? wp_unslash($_POST['address_2']) : null,
+            ));
         }
     }
 
