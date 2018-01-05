@@ -75,8 +75,13 @@ class Paypal_Here_Woocommerce_Public {
                 wp_enqueue_script($this->plugin_name . 'popper', '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array('jquery'), $this->version, false);
                 wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
             }
-            wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, true);
+            wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, false);
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
+            wp_localize_script($this->plugin_name, 'paypal_here_ajax_param', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'paypal_here_nonce' => wp_create_nonce('paypal_here_nonce')
+                    )
+            );
         }
     }
 
@@ -90,12 +95,6 @@ class Paypal_Here_Woocommerce_Public {
                 return false;
             }
         }
-    }
-
-    public function paypal_here_quick_view() {
-        require_once PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-quick-view.php';
-        $quick_view_obj = new Paypal_Here_Woocommerce_Quick_View();
-        $quick_view_obj->quick_view();
     }
 
     public function angelleye_paypal_here_woocommerce_locate_template($template, $template_name, $template_path) {
@@ -126,6 +125,65 @@ class Paypal_Here_Woocommerce_Public {
 
         // Return what we found
         return $template;
+    }
+
+    public function paypal_here_get_modal_body() {
+        ob_start();
+        global $wpdb, $woocommerce, $post;
+        $product_id = absint($_POST['product_id']);
+        check_ajax_referer('paypal_here_nonce', 'security');
+        $product = wc_get_product($product_id);
+        setup_postdata($product);
+        $GLOBALS['product'] = $product;
+//        if (empty($product) || !$product->is_visible() || !$product->is_purchasable() || !$product->is_in_stock()) {
+//            continue;
+//        }
+        $input_id = uniqid('quantity_');
+        $input_name = 'quantity';
+        $input_value = '1';
+        $min_value = apply_filters('woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product);
+        $max_value = apply_filters('woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product);
+        $min_value = max($min_value, 0);
+        $max_value = 0 < $max_value ? $max_value : '';
+        if ('' !== $max_value && $max_value < $min_value) {
+            $max_value = $min_value;
+        }
+        $step = apply_filters('woocommerce_quantity_input_step', 1, $product);
+        $pattern = apply_filters('woocommerce_quantity_input_pattern', has_filter('woocommerce_stock_amount', 'intval') ? '[0-9]*' : '');
+        $inputmode = apply_filters('woocommerce_quantity_input_inputmode', has_filter('woocommerce_stock_amount', 'intval') ? 'numeric' : '');
+        ?>
+        <div class="container-fluid">
+            <form>
+                <div class="row form-group">
+                    <div class="col-9 col-sm-6">
+                        <span><?php echo $product->get_title(); ?></span>
+                    </div>
+                    <div class="col-3 col-sm-3 tal">
+                        <?php echo $product->get_price_html(); ?>
+                    </div>
+                    <div class="col-12 col-sm-12 mtonerem">
+                        <?php if ($max_value && $min_value === $max_value) {
+                            ?>
+                            <div class="quantity hidden form-group">
+                                <input type="hidden" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($min_value); ?>" />
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="quantity form-group">
+                                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php esc_html_e('Quantity', 'woocommerce'); ?></label>
+                                <input type="number" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" step="<?php echo esc_attr($step); ?>" min="<?php echo esc_attr($min_value); ?>" max="<?php echo esc_attr(0 < $max_value ? $max_value : empty($max_value) ? 99 : '' ); ?>" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($input_value); ?>" title="<?php echo esc_attr_x('Qty', 'Product quantity input tooltip', 'woocommerce') ?>" size="4" pattern="<?php echo esc_attr($pattern); ?>" inputmode="<?php echo esc_attr($inputmode); ?>" />
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <?php
+        $data['html'] = ob_get_clean();
+        wp_send_json_success($data);
     }
 
 }

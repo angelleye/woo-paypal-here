@@ -65,6 +65,7 @@ class Paypal_Here_Woocommerce {
         $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
+        
     }
 
     /**
@@ -108,7 +109,6 @@ class Paypal_Here_Woocommerce {
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-quick-view.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
         $this->loader = new Paypal_Here_Woocommerce_Loader();
     }
@@ -154,9 +154,12 @@ class Paypal_Here_Woocommerce {
         $plugin_public = new Paypal_Here_Woocommerce_Public($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-        $this->loader->add_action( 'woocommerce_api_paypal_here_woocommerce_quick_view', $plugin_public , 'paypal_here_quick_view'  );
-        $this->loader->add_filter( 'woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3 );
+        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3);
+        $this->loader->add_action('wp_ajax_nopriv_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
+        $this->loader->add_action('wp_ajax_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
+        
     }
+
     //
 
     /**
@@ -197,6 +200,10 @@ class Paypal_Here_Woocommerce {
      */
     public function get_version() {
         return $this->version;
+    }
+    
+    public function prefix_ajax_add_foobar() {
+        $abc = 10;
     }
 
 }

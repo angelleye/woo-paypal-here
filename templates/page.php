@@ -2,7 +2,7 @@
 
 include_once 'header.php';
 do_action('angelleye_paypal_here_before_body_content');
-$action = !empty($_GET['action']) ? $_GET['action'] : 'dashboard';
+$action = !empty($_GET['actions']) ? $_GET['actions'] : 'dashboard';
 switch ($action) {
     case 'dashboard':
         do_action('angelleye_paypal_here_dashboard_body_content');

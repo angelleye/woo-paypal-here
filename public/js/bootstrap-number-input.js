@@ -1,4 +1,3 @@
-
 /* ========================================================================
  * bootstrap-spin - v1.0
  * https://github.com/wpic/bootstrap-spin
@@ -25,8 +24,8 @@
 	$.fn.bootstrapNumber = function( options ) {
 
 		var settings = $.extend({
-			upClass: 'btn btn-light',
-			downClass: 'btn btn-light',
+			upClass: 'default',
+			downClass: 'default',
 			upText: '+',
 			downText: '-',
 			center: true
