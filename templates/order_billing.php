@@ -41,13 +41,13 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="billing_country">Country</label>
-                    <input type="text" class="form-control" id="billing_postcode" name="billing_country" placeholder="Country">
+                    <input type="text" class="form-control" id="billing_country" name="billing_country" placeholder="Country">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    <label for="billing_email">Email</label>
+                    <input type="billing_email" class="form-control" id="billing_email" placeholder="Email">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="billing_phone">Phone</label>
