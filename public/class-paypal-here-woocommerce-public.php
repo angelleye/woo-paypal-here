@@ -156,6 +156,7 @@ class Paypal_Here_Woocommerce_Public {
             <form>
                 <div class="row form-group">
                     <div class="col-9 col-sm-6">
+                        <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id();?>">
                         <span><?php echo $product->get_title(); ?></span>
                     </div>
                     <div class="col-3 col-sm-3 tal">
@@ -184,6 +185,39 @@ class Paypal_Here_Woocommerce_Public {
         <?php
         $data['html'] = ob_get_clean();
         wp_send_json_success($data);
+    }
+    
+    public function paypal_here_add_to_cart() {
+        global $wpdb, $post, $product;
+        $product_id = '';
+        check_ajax_referer('paypal_here_nonce', 'security');
+        WC()->shipping->reset_shipping();
+        if( empty($post->ID)) {
+            $product_id = $_POST['product_id'];
+        } else {
+            $product_id = $post->ID;
+        }
+        $product = wc_get_product($product_id);
+        if(is_object($product)) {
+            if (!defined('WOOCOMMERCE_CART')) {
+                define('WOOCOMMERCE_CART', true);
+            }
+            $qty = !isset($_POST['qty']) ? 1 : absint($_POST['qty']);
+            if ($product->is_type('variable')) {
+                $attributes = array_map('wc_clean', $_POST['attributes']);
+                if (version_compare(WC_VERSION, '3.0', '<')) {
+                    $variation_id = $product->get_matching_variation($attributes);
+                } else {
+                    $data_store = WC_Data_Store::load('product');
+                    $variation_id = $data_store->find_matching_product_variation($product, $attributes);
+                }
+                WC()->cart->add_to_cart($product->get_id(), $qty, $variation_id, $attributes);
+            } elseif ($product->is_type('simple')) {
+                WC()->cart->add_to_cart($product->get_id(), $qty);
+            }
+            WC()->cart->calculate_totals();
+        }
+       
     }
 
 }
