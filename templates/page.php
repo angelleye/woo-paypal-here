@@ -15,6 +15,10 @@ switch ($action) {
         break;
     case 'order_billing':
         do_action('angelleye_paypal_here_view_order_billing_body_content');
+        break;
+    case 'order_shipping':
+        do_action('angelleye_paypal_here_view_order_shipping_body_content');
+        break;
 }
 do_action('angelleye_paypal_here_after_body_content');
 include_once 'footer.php';
