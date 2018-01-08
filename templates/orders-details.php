@@ -4,7 +4,7 @@
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
         ?>
         <div class="col">
-            <div class="form-group col-md-6">
+            <div class="form-group">
                  <h2 class="text-center text-primary"><?php echo $this->order->get_formatted_order_total(); ?></h2>
             </div>
            
