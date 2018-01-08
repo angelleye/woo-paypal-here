@@ -11,7 +11,11 @@ switch ($action) {
         do_action('angelleye_paypal_here_view_products_body_content');
         break;
     case 'view_pending_orders':
-        do_action('angelleye_paypal_here_view_pending_orders_body_content');
+        if(!empty($_GET['order_id'])) {
+            do_action('angelleye_paypal_here_view_pending_orders_details_body_content');
+        } else {
+            do_action('angelleye_paypal_here_view_pending_orders_body_content');
+        }
         break;
     case 'order_billing':
         do_action('angelleye_paypal_here_view_order_billing_body_content');

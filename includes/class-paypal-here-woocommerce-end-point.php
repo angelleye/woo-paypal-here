@@ -28,7 +28,8 @@ class Paypal_Here_Woocommerce_End_Point {
         add_action('angelleye_paypal_here_view_pending_orders_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_body_content'), 5);
         add_action('angelleye_paypal_here_view_order_billing_body_content', array($this, 'angelleye_paypal_here_view_order_billing_body_content'), 5);
         add_action('angelleye_paypal_here_view_order_shipping_body_content', array($this, 'angelleye_paypal_here_view_order_shipping_body_content'), 5);
-        add_action( 'template_redirect', array( $this, 'add_payment_method_action' ), 20 );
+        add_action( 'template_redirect', array( $this, 'angelleye_paypal_here_handle_submit_action' ), 20 );
+        add_action('angelleye_paypal_here_view_pending_orders_details_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_details_body_content'), 10);
 
 
         if (!is_admin()) {
@@ -302,7 +303,7 @@ class Paypal_Here_Woocommerce_End_Point {
 
     }
     
-    public function add_payment_method_action() {
+    public function angelleye_paypal_here_handle_submit_action() {
         if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_billing') {
             WC()->customer->set_props(array(
                 'billing_country' => isset($_POST['billing_country']) ? wp_unslash($_POST['billing_country']) : null,
@@ -343,5 +344,9 @@ class Paypal_Here_Woocommerce_End_Point {
             wp_redirect(add_query_arg('actions', 'view_products',  remove_query_arg('actions')));
              exit();
         }
+    }
+    
+    public function angelleye_paypal_here_view_pending_orders_details_body_content() {
+        
     }
 }
