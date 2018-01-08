@@ -4,6 +4,10 @@
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
         ?>
         <div class="col">
+            <div class="form-group col-md-6">
+                 <h2 class="text-center text-primary"><?php echo $this->order->get_formatted_order_total(); ?></h2>
+            </div>
+           
             <table class="table ">
                 <tbody>
                     <?php
@@ -15,11 +19,12 @@
                         echo '</tr>';
                     endforeach;
                     foreach ($this->order->get_order_item_totals() as $key => $total) :
-
-                        echo '<tr>';
-                        echo '<td>' . $total['label'] . '</th>';
-                        echo '<td>' . $total['value'] . '</td>';
-                        echo '</tr>';
+                        if (!in_array($key, array('payment_method', 'order_total'))) :
+                            echo '<tr>';
+                            echo '<td>' . $total['label'] . '</th>';
+                            echo '<td>' . $total['value'] . '</td>';
+                            echo '</tr>';
+                        endif;
                     endforeach;
                     ?>
                 </tbody>
