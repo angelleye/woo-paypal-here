@@ -13,6 +13,7 @@ class Paypal_Here_Woocommerce_End_Point {
     public $result;
     public $order_list = array();
     public $product_list;
+    public $order;
 
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
@@ -28,7 +29,7 @@ class Paypal_Here_Woocommerce_End_Point {
         add_action('angelleye_paypal_here_view_pending_orders_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_body_content'), 5);
         add_action('angelleye_paypal_here_view_order_billing_body_content', array($this, 'angelleye_paypal_here_view_order_billing_body_content'), 5);
         add_action('angelleye_paypal_here_view_order_shipping_body_content', array($this, 'angelleye_paypal_here_view_order_shipping_body_content'), 5);
-        add_action( 'template_redirect', array( $this, 'angelleye_paypal_here_handle_submit_action' ), 20 );
+        add_action('template_redirect', array($this, 'angelleye_paypal_here_handle_submit_action'), 20);
         add_action('angelleye_paypal_here_view_pending_orders_details_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_details_body_content'), 10);
 
 
@@ -294,15 +295,15 @@ class Paypal_Here_Woocommerce_End_Point {
     public function angelleye_paypal_here_view_order_billing_body_content() {
         include $this->plugin_path() . '/templates/' . 'order_billing.php';
     }
-    
+
     public function angelleye_paypal_here_view_order_shipping_body_content() {
         include $this->plugin_path() . '/templates/' . 'order_shipping.php';
     }
 
     public function angelleye_paypal_here_before_body_content() {
-
+        
     }
-    
+
     public function angelleye_paypal_here_handle_submit_action() {
         if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_billing') {
             WC()->customer->set_props(array(
@@ -327,7 +328,7 @@ class Paypal_Here_Woocommerce_End_Point {
                 wp_redirect(add_query_arg('actions', 'view_products', remove_query_arg('actions')));
                 exit();
             } else {
-                wp_redirect(add_query_arg('actions', 'order_shipping',  remove_query_arg('actions')));
+                wp_redirect(add_query_arg('actions', 'order_shipping', remove_query_arg('actions')));
                 exit();
             }
         }
@@ -341,12 +342,17 @@ class Paypal_Here_Woocommerce_End_Point {
                 'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
             ));
             WC()->customer->save();
-            wp_redirect(add_query_arg('actions', 'view_products',  remove_query_arg('actions')));
-             exit();
+            wp_redirect(add_query_arg('actions', 'view_products', remove_query_arg('actions')));
+            exit();
         }
     }
-    
+
     public function angelleye_paypal_here_view_pending_orders_details_body_content() {
-        
+        if (!empty($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+            $this->order = wc_get_order($order_id);
+            include $this->plugin_path() . '/templates/' . 'orders-details.php';
+        }
     }
+
 }
