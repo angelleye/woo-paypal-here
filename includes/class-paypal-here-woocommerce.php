@@ -110,6 +110,10 @@ class Paypal_Here_Woocommerce {
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-checkout.php';
+        
+        
+        
         $this->loader = new Paypal_Here_Woocommerce_Loader();
     }
 

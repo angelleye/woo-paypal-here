@@ -29,6 +29,8 @@ class Paypal_Here_Woocommerce_Public {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
+    
+    public $checkout;
 
     /**
      * Initialize the class and set its properties.
@@ -41,6 +43,7 @@ class Paypal_Here_Woocommerce_Public {
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+        $this->checkout = new Paypal_Here_Woocommerce_Checkout();
     }
 
     /**
@@ -70,7 +73,6 @@ class Paypal_Here_Woocommerce_Public {
         global $wp_query, $wp;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-
             if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
                 wp_enqueue_script($this->plugin_name . 'popper', '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array('jquery'), $this->version, false);
                 wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
@@ -156,7 +158,7 @@ class Paypal_Here_Woocommerce_Public {
             <form>
                 <div class="row form-group">
                     <div class="col-9 col-sm-6">
-                        <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id();?>">
+                        <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id(); ?>">
                         <span><?php echo $product->get_title(); ?></span>
                     </div>
                     <div class="col-3 col-sm-3 tal">
@@ -186,19 +188,22 @@ class Paypal_Here_Woocommerce_Public {
         $data['html'] = ob_get_clean();
         wp_send_json_success($data);
     }
-    
+
     public function paypal_here_add_to_cart() {
         global $wpdb, $post, $product;
         $product_id = '';
+        if (!defined('WOOCOMMERCE_CART')) {
+            define('WOOCOMMERCE_CART', true);
+        }
         check_ajax_referer('paypal_here_nonce', 'security');
         WC()->shipping->reset_shipping();
-        if( empty($post->ID)) {
+        if (empty($post->ID)) {
             $product_id = $_POST['product_id'];
         } else {
             $product_id = $post->ID;
         }
         $product = wc_get_product($product_id);
-        if(is_object($product)) {
+        if (is_object($product)) {
             if (!defined('WOOCOMMERCE_CART')) {
                 define('WOOCOMMERCE_CART', true);
             }
@@ -215,9 +220,30 @@ class Paypal_Here_Woocommerce_Public {
             } elseif ($product->is_type('simple')) {
                 WC()->cart->add_to_cart($product->get_id(), $qty);
             }
+            WC()->shipping->reset_shipping();
             WC()->cart->calculate_totals();
+            $order_id = $this->checkout->create_order(array());
+            WC()->session->set( 'angelleye_paypal_here_order_awaiting_payment', $order_id );
+            //WC()->cart->empty_cart();
+            if (is_wp_error($order_id)) {
+                throw new Exception($order_id->get_error_message());
+            } else {
+                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+            }
         }
-       
+    }
+
+    public function angelleye_paypal_here_redirect($location) {
+        if (is_ajax()) {
+            wp_send_json(array(
+                'result' => 'success',
+                'redirect' => $location
+            ));
+            exit();
+        } else {
+            wp_redirect($location);
+            exit();
+        }
     }
 
 }
