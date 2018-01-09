@@ -223,8 +223,10 @@ class Paypal_Here_Woocommerce_Public {
             WC()->shipping->reset_shipping();
             WC()->cart->calculate_totals();
             $order_id = $this->checkout->create_order(array());
+            $order = wc_get_order($order_id);
+            $order->calculate_totals();
             WC()->session->set( 'angelleye_paypal_here_order_awaiting_payment', $order_id );
-            //WC()->cart->empty_cart();
+            WC()->cart->empty_cart();
             if (is_wp_error($order_id)) {
                 throw new Exception($order_id->get_error_message());
             } else {

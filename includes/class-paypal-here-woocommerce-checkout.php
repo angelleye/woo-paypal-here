@@ -265,7 +265,7 @@ class Paypal_Here_Woocommerce_Checkout {
 
 		try {
 			$order_id           = absint( WC()->session->get( 'angelleye_paypal_here_order_awaiting_payment' ) );
-			//$cart_hash          = md5( json_encode( wc_clean( WC()->cart->get_cart_for_session() ) ) . WC()->cart->total );
+			$cart_hash          = md5( json_encode( wc_clean( WC()->cart->get_cart_for_session() ) ) . WC()->cart->total );
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
 			/**
@@ -279,7 +279,10 @@ class Paypal_Here_Woocommerce_Checkout {
 				do_action( 'woocommerce_resume_order', $order_id );
 
 				// Remove all items - we will re-add them later.
-				$order->remove_order_items();
+                                
+                                $order->remove_order_items('coupons');
+                                $order->remove_order_items('shipping');
+                                $order->remove_order_items('taxes');
 			} else {
 				$order = new WC_Order();
 			}
