@@ -23,7 +23,7 @@
                 };
             };
             var data = {
-                 action: 'paypal_here_add_to_cart',
+                action: 'paypal_here_add_to_cart',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
                 'qty': $("input[name=quantity]").val(),
                 'attributes': $('.variations_form').length ? get_attributes().data : [],
@@ -33,14 +33,14 @@
                 type: 'POST',
                 data: data,
                 url: paypal_here_ajax_param.ajax_url,
-                dataType:   'json',
+                dataType: 'json',
                 success: function (result) {
                     $('#paypal_here_modal').modal('hide');
-                    if ( 'success' === result.result ) {
-                        if ( -1 === result.redirect.indexOf( 'https://' ) || -1 === result.redirect.indexOf( 'http://' ) ) {
-                                window.location.href = result.redirect;
+                    if ('success' === result.result) {
+                        if (-1 === result.redirect.indexOf('https://') || -1 === result.redirect.indexOf('http://')) {
+                            window.location.href = result.redirect;
                         } else {
-                                window.location.href = decodeURI( result.redirect );
+                            window.location.href = decodeURI(result.redirect);
                         }
                     }
                 },
@@ -72,28 +72,22 @@
                 }
             });
         });
+        var searchRequest;
+        $("#coupon_code").autocomplete({
+            minLength: 3,
+            source: function (term, suggest) {
+                try {
+                    searchRequest.abort();
+                } catch (e) {
+                }
+                searchRequest = $.post(paypal_here_ajax_param.ajax_url, {search: term, action: 'paypal_here_get_copon_code'}, function (res) {
+                    suggest(res.data);
+                });
+            }
+        });
+
         $(".paypal_here_discount").click(function () {
             $('#paypal_here_modal_discount').modal({show: true});
-//            $.ajax({
-//                method: 'POST',
-//                dataType: 'json',
-//                url: paypal_here_ajax_param.ajax_url,
-//                data: {
-//                    action: 'paypal_here_get_modal_body',
-//                    security: paypal_here_ajax_param.paypal_here_nonce,
-//                    product_id: $(this).attr("id")
-//                },
-//                success: function (response) {
-//                    var data = response.data;
-//                    if (response.success) {
-//                        $('.modal-body').html(data.html);
-//                        $('#paypal_here_modal_discount').modal({show: true});
-//                       
-//                    } else {
-//                        $('#paypal_here_modal_discount').modal({show: true});
-//                    }
-//                }
-//            });
         });
     });
 })(jQuery);

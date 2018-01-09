@@ -154,3 +154,6 @@ html { margin-top: 32px !important; }
 .paypal_here_discount {
     cursor: pointer;
 }
+.ui-autocomplete {
+    z-index: 99999;
+}

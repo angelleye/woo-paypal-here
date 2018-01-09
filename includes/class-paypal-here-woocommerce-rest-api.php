@@ -31,13 +31,13 @@ class Paypal_Here_Woocommerce_Rest_API {
                     ]
             );
         } catch (Exception $ex) {
-
+            
         }
     }
 
     public function angelleye_paypal_here_get_product() {
         $request_param = array();
-        if( !empty($_GET['search'])) {
+        if (!empty($_GET['search'])) {
             $request_param['search'] = $_GET['search'];
         }
         switch ($this->product_filter_settings) {
@@ -55,7 +55,7 @@ class Paypal_Here_Woocommerce_Rest_API {
                 //$this->result = $this->woocommerce->get('products');
                 break;
         }
-        if( !empty($request_param)) {
+        if (!empty($request_param)) {
             $this->result = $this->woocommerce->get('products', $request_param);
         } else {
             $this->result = $this->woocommerce->get('products');
@@ -66,17 +66,24 @@ class Paypal_Here_Woocommerce_Rest_API {
     public function angelleye_paypal_here_get_pending_order() {
         $this->customer_id = get_current_user_id();
         $request_param = array('customer' => $this->customer_id, 'status' => 'pending');
-        if( !empty($_GET['search'])) {
+        if (!empty($_GET['search'])) {
             $request_param['search'] = $_GET['search'];
-        } 
+        }
         return $this->result = $this->woocommerce->get('orders', $request_param);
-        
     }
 
     public function angelleye_paypal_here_get_shipping_methods() {
-
+        
     }
-    
-    
+
+    public function angelleye_paypal_here_get_coupons() {
+        if (!empty($_POST['search']['term'])) {
+            $request_param['search'] = $_POST['search']['term'];
+            $this->result = $this->woocommerce->get('coupons', $request_param);
+        } else {
+            $this->result = $this->woocommerce->get('coupons');
+        }
+        return $this->result;
+    }
 
 }

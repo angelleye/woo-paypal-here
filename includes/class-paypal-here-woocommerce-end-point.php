@@ -31,7 +31,8 @@ class Paypal_Here_Woocommerce_End_Point {
         add_action('angelleye_paypal_here_view_order_shipping_body_content', array($this, 'angelleye_paypal_here_view_order_shipping_body_content'), 5);
         add_action('template_redirect', array($this, 'angelleye_paypal_here_handle_submit_action'), 20);
         add_action('angelleye_paypal_here_view_pending_orders_details_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_details_body_content'), 10);
-
+        add_action('wp_ajax_nopriv_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
+        add_action('wp_ajax_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
 
         if (!is_admin()) {
             add_filter('query_vars', array($this, 'angelleye_paypal_here_add_query_vars'), 0);
@@ -353,6 +354,17 @@ class Paypal_Here_Woocommerce_End_Point {
             $this->order = wc_get_order($order_id);
             include $this->plugin_path() . '/templates/' . 'orders-details.php';
         }
+    }
+
+    public function paypal_here_get_copon_code() {
+        $items = array();
+        $this->result = $this->here_rest_api->angelleye_paypal_here_get_coupons();
+        if (!empty($this->result)) {
+            foreach ($this->result as $key => $value) {
+                $items[] = $value['code'];
+            }
+        }
+        wp_send_json_success($items);
     }
 
 }

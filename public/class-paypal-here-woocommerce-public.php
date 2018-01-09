@@ -29,7 +29,6 @@ class Paypal_Here_Woocommerce_Public {
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
-    
     public $checkout;
 
     /**
@@ -59,6 +58,10 @@ class Paypal_Here_Woocommerce_Public {
                 //wp_deregister_style($handle);
                 //wp_dequeue_style($handle);
             }
+            wp_register_style('jquery-ui-styles', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
+            wp_enqueue_style('jquery-ui-styles');
+            
+            
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
         }
@@ -77,6 +80,7 @@ class Paypal_Here_Woocommerce_Public {
                 wp_enqueue_script($this->plugin_name . 'popper', '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array('jquery'), $this->version, false);
                 wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
             }
+            wp_enqueue_script('jquery-ui-autocomplete');
             wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, false);
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
             wp_localize_script($this->plugin_name, 'paypal_here_ajax_param', array(
@@ -225,7 +229,7 @@ class Paypal_Here_Woocommerce_Public {
             $order_id = $this->checkout->create_order(array());
             $order = wc_get_order($order_id);
             $order->calculate_totals();
-            WC()->session->set( 'angelleye_paypal_here_order_awaiting_payment', $order_id );
+            WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
             WC()->cart->empty_cart();
             if (is_wp_error($order_id)) {
                 throw new Exception($order_id->get_error_message());
@@ -247,5 +251,7 @@ class Paypal_Here_Woocommerce_Public {
             exit();
         }
     }
+    
+    
 
 }
