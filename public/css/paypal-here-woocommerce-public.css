@@ -150,3 +150,7 @@ html { margin-top: 32px !important; }
   color: #fff;
   background-color: #5bc0de;
 }
+
+.paypal_here_discount {
+    cursor: pointer;
+}

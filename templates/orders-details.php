@@ -30,8 +30,8 @@
                     endforeach;
 
                     if (!in_array('discount', $this->order->get_order_item_totals())) :
-                        echo '<tr>';
-                        echo '<td class="paypal_here_discount">' . 'Discount:' . '</th>';
+                        echo '<tr class="paypal_here_discount">';
+                        echo '<td>' . 'Discount:' . '</th>';
                         echo '<td>' . $this->order->get_discount_to_display() . '</td>';
                         echo '</tr>';
                     endif;
@@ -39,9 +39,30 @@
                 </tbody>
             </table>
         </div>
-                    <?php
-                } else {
-                    echo __('No Pending order found');
-                }
-                ?>
+        <div class="modal fade" id="paypal_here_modal_discount" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"  style="text-align: center;display: inline;">
+                        <h5 class="modal-title" id="paypal_here_modal_discountLabel">Discount</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="form-group">
+                            <div class="text-right form-group"> <?php echo $this->order->get_discount_to_display(); ?></div>
+                            <div>
+                                <input type="text" class="form-control" id="coupon_code" placeholder="Coupon code" name="coupon_code">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Apply coupon</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    } else {
+        echo __('No Pending order found');
+    }
+    ?>
 </div>

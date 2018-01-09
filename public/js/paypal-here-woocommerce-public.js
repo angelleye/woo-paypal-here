@@ -72,5 +72,28 @@
                 }
             });
         });
+        $(".paypal_here_discount").click(function () {
+            $('#paypal_here_modal_discount').modal({show: true});
+//            $.ajax({
+//                method: 'POST',
+//                dataType: 'json',
+//                url: paypal_here_ajax_param.ajax_url,
+//                data: {
+//                    action: 'paypal_here_get_modal_body',
+//                    security: paypal_here_ajax_param.paypal_here_nonce,
+//                    product_id: $(this).attr("id")
+//                },
+//                success: function (response) {
+//                    var data = response.data;
+//                    if (response.success) {
+//                        $('.modal-body').html(data.html);
+//                        $('#paypal_here_modal_discount').modal({show: true});
+//                       
+//                    } else {
+//                        $('#paypal_here_modal_discount').modal({show: true});
+//                    }
+//                }
+//            });
+        });
     });
 })(jQuery);
