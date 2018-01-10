@@ -351,6 +351,7 @@ class Paypal_Here_Woocommerce_End_Point {
     public function angelleye_paypal_here_view_pending_orders_details_body_content() {
         if (!empty($_GET['order_id'])) {
             $order_id = $_GET['order_id'];
+            WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
             $this->order = wc_get_order($order_id);
             include $this->plugin_path() . '/templates/' . 'orders-details.php';
         }

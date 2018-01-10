@@ -280,9 +280,9 @@ class Paypal_Here_Woocommerce_Checkout {
 
 				// Remove all items - we will re-add them later.
                                 
-                                $order->remove_order_items();
-                                //$order->remove_order_items('shipping');
-                                //$order->remove_order_items('taxes');
+                                
+                                $order->remove_order_items('shipping');
+                                $order->remove_order_items('taxes');
 			} else {
 				$order = new WC_Order();
 			}

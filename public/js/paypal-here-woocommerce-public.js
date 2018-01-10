@@ -79,7 +79,7 @@
                 action: 'paypal_here_apply_coupon',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
                 'coupon_code': $("input[name=coupon_code]").val(),
-                'order_id': 604
+                'order_id': $("input[name=order_id]").val()
             };
             $.ajax({
                 type: 'POST',

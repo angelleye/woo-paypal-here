@@ -30,6 +30,7 @@ class Paypal_Here_Woocommerce_Public {
      */
     private $version;
     public $checkout;
+    public $order;
 
     /**
      * Initialize the class and set its properties.
@@ -60,8 +61,8 @@ class Paypal_Here_Woocommerce_Public {
             }
             wp_register_style('jquery-ui-styles', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
             wp_enqueue_style('jquery-ui-styles');
-            
-            
+
+
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
         }
@@ -230,7 +231,7 @@ class Paypal_Here_Woocommerce_Public {
             $order = wc_get_order($order_id);
             $order->calculate_totals();
             WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
-            //WC()->cart->empty_cart();
+            WC()->cart->empty_cart();
             if (is_wp_error($order_id)) {
                 throw new Exception($order_id->get_error_message());
             } else {
@@ -251,9 +252,9 @@ class Paypal_Here_Woocommerce_Public {
             exit();
         }
     }
-    
+
     public function paypal_here_apply_coupon() {
-        if( !empty($_POST['coupon_code']) ) {
+        if (!empty($_POST['coupon_code']) && WC()->cart->is_empty() == false) {
             WC()->cart->apply_coupon($_POST['coupon_code']);
             WC()->shipping->reset_shipping();
             WC()->cart->calculate_totals();
@@ -266,8 +267,21 @@ class Paypal_Here_Woocommerce_Public {
             } else {
                 $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
             }
+        } else {
+
+            if (!empty($_POST['order_id']) && !empty($_POST['coupon_code'])) {
+                $this->order = wc_get_order($_POST['order_id']);
+                try {
+                    $return = $this->order->apply_coupon($_POST['coupon_code']);
+                    if($return == true) {
+                        
+                    }
+                } catch (Exception $ex) {
+                    wc_add_notice($ex->getMessage());
+                }
+                
+            }
         }
     }
-    
 
 }
