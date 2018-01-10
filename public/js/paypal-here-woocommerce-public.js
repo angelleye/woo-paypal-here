@@ -72,6 +72,38 @@
                 }
             });
         });
+        
+        $(".paypal_here_apply_coupon").click(function () {
+          
+            var data = {
+                action: 'paypal_here_apply_coupon',
+                'security': paypal_here_ajax_param.paypal_here_nonce,
+                'coupon_code': $("input[name=coupon_code]").val(),
+                'order_id': 604
+            };
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: paypal_here_ajax_param.ajax_url,
+                dataType: 'json',
+                success: function (result) {
+                    $('#paypal_here_modal').modal('hide');
+                    if ('success' === result.result) {
+                        if (-1 === result.redirect.indexOf('https://') || -1 === result.redirect.indexOf('http://')) {
+                            window.location.href = result.redirect;
+                        } else {
+                            window.location.href = decodeURI(result.redirect);
+                        }
+                    }
+                },
+                error: function (e) {
+                    alert("Error in ajax post:" + e.statusText);
+                }
+            });
+        });
+        
+        
+        
         var searchRequest;
         $("#coupon_code").autocomplete({
             minLength: 3,

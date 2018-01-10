@@ -68,6 +68,8 @@
         ?>
     </head>
     <body <?php body_class(); ?>>
-     
+    <div class="row">
+        <div class="col"><?php echo wc_print_notices(); ?></div>
+    </div>
        
               

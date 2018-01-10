@@ -164,6 +164,9 @@ class Paypal_Here_Woocommerce {
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);
         $this->loader->add_action('wp_ajax_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);
         
+        $this->loader->add_action('wp_ajax_nopriv_paypal_here_apply_coupon', $plugin_public, 'paypal_here_apply_coupon', 10);
+        $this->loader->add_action('wp_ajax_paypal_paypal_here_apply_coupon', $plugin_public, 'paypal_here_apply_coupon', 10);
+        
     }
 
     //

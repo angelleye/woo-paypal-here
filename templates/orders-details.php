@@ -1,4 +1,7 @@
+
 <div class="row">
+    
+    
     <?php
     if (!empty($this->order)) {
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
@@ -10,7 +13,7 @@
             <div class="form-group">
                 <a class="btn btn-primary" href="<?php echo esc_url(add_query_arg('actions', 'view_products', remove_query_arg('order_id'))); ?>" role="button">&plus; Add Item</a>
             </div>
-            <table class="table ">
+            <table class="table">
                 <tbody>
                     <?php
                     foreach ($order_items as $item_id => $item) :
@@ -55,7 +58,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Apply coupon</button>
+                        <button type="button" class="btn btn-primary paypal_here_apply_coupon">Apply coupon</button>
                     </div>
                 </div>
             </div>

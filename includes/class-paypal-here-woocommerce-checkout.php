@@ -280,9 +280,9 @@ class Paypal_Here_Woocommerce_Checkout {
 
 				// Remove all items - we will re-add them later.
                                 
-                                $order->remove_order_items('coupons');
-                                $order->remove_order_items('shipping');
-                                $order->remove_order_items('taxes');
+                                $order->remove_order_items();
+                                //$order->remove_order_items('shipping');
+                                //$order->remove_order_items('taxes');
 			} else {
 				$order = new WC_Order();
 			}
@@ -298,7 +298,7 @@ class Paypal_Here_Woocommerce_Checkout {
 					$order->update_meta_data( '_' . $key, $value );
 				}
 			}
-
+                        $data['payment_method'] = 'angelleye_paypal_here';
 			$order->set_created_via( 'checkout' );
 			$order->set_cart_hash( $cart_hash );
 			$order->set_customer_id( apply_filters( 'woocommerce_checkout_customer_id', get_current_user_id() ) );
