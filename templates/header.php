@@ -23,9 +23,9 @@
     <!--<![endif]-->
     <head>
         <meta charset="<?php bloginfo('charset'); ?>" />
+        
+        
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta charset="utf-8">
-
         <title><?php
             // Print the <title> tag based on what is being viewed.
             global $page, $paged;
@@ -67,9 +67,7 @@
         wp_head();
         ?>
     </head>
-    <body <?php body_class(); ?>>
-    <div class="row">
-        <div class="col"><?php echo wc_print_notices(); ?></div>
-    </div>
+    <body>
+   
        
               

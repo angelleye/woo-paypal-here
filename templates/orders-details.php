@@ -3,7 +3,7 @@
     
     
     <?php
-    
+    wp_enqueue_style('jquery-ui-styles');
     if (!empty($this->order)) {
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
         ?>
