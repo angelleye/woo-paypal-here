@@ -60,7 +60,7 @@ class Paypal_Here_Woocommerce_Public {
                 wp_dequeue_style($handle);
             }
             wp_register_style('jquery-ui-styles', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
-            
+
 
 
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
@@ -268,18 +268,23 @@ class Paypal_Here_Woocommerce_Public {
                 $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
             }
         } else {
-
             if (!empty($_POST['order_id']) && !empty($_POST['coupon_code'])) {
+                $order_id = $_POST['order_id'];
                 $this->order = wc_get_order($_POST['order_id']);
                 try {
                     $return = $this->order->apply_coupon($_POST['coupon_code']);
-                    if($return == true) {
-                        
+                    if (is_wp_error($return)) {
+                        wc_add_notice($return->get_error_message(), 'error');
+                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                    }
+                    if ($return == true) {
+                        wc_add_notice(__('Coupon code applied successfully.', 'woocommerce'), 'success');
+                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
                     }
                 } catch (Exception $ex) {
-                    wc_add_notice($ex->getMessage());
+                    wc_add_notice($ex->getMessage(), 'error');
+                    $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
                 }
-                
             }
         }
     }

@@ -18,3 +18,6 @@
     </div>
 </nav>
 <div class="container-fluid pt50">     
+<div class="row">
+    <div class="col"><?php echo wc_print_notices(); ?></div>
+</div>    
