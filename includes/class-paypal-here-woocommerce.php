@@ -65,7 +65,6 @@ class Paypal_Here_Woocommerce {
         $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
-        
     }
 
     /**
@@ -111,9 +110,9 @@ class Paypal_Here_Woocommerce {
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-checkout.php';
-        
-        
-        
+
+
+
         $this->loader = new Paypal_Here_Woocommerce_Loader();
     }
 
@@ -165,9 +164,6 @@ class Paypal_Here_Woocommerce {
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_apply_coupon', $plugin_public, 'paypal_here_apply_coupon', 10);
         $this->loader->add_action('wp_ajax_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);
         $this->loader->add_action('wp_ajax_paypal_here_apply_coupon', $plugin_public, 'paypal_here_apply_coupon', 10);
-        
-        
-        
     }
 
     //
@@ -211,7 +207,7 @@ class Paypal_Here_Woocommerce {
     public function get_version() {
         return $this->version;
     }
-    
+
     public function prefix_ajax_add_foobar() {
         $abc = 10;
     }

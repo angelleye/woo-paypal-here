@@ -20,6 +20,7 @@
             <table class="table">
                 <tbody>
                     <?php
+                    
                     foreach ($order_items as $item_id => $item) :
                         $product = apply_filters('woocommerce_order_item_product', $item->get_product(), $item);
                         echo '<tr>';
@@ -35,8 +36,7 @@
                             echo '</tr>';
                         endif;
                     endforeach;
-
-                    if (!in_array('discount', $this->order->get_order_item_totals())) :
+                    if (!array_key_exists('discount', $this->order->get_order_item_totals())) :
                         echo '<tr class="paypal_here_discount">';
                         echo '<td>' . 'Discount:' . '</th>';
                         echo '<td>' . $this->order->get_discount_to_display() . '</td>';
