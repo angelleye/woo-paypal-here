@@ -29,19 +29,19 @@
                         echo '</tr>';
                     endforeach;
                     foreach ($this->order->get_order_item_totals() as $key => $total) :
-                        if (!in_array($key, array('payment_method', 'order_total'))) :
+                        if (!in_array($key, array('payment_method', 'order_total', 'discount'))) :
                             echo '<tr>';
                             echo '<td>' . $total['label'] . '</th>';
                             echo '<td>' . $total['value'] . '</td>';
                             echo '</tr>';
                         endif;
                     endforeach;
-                    if (!array_key_exists('discount', $this->order->get_order_item_totals())) :
+                    
                         echo '<tr class="paypal_here_discount">';
                         echo '<td>' . 'Discount:' . '</th>';
-                        echo '<td>' . $this->order->get_discount_to_display() . '</td>';
+                        echo '<td>' . '-' .$this->order->get_discount_to_display() . '</td>';
                         echo '</tr>';
-                    endif;
+                  
                     ?>
                 </tbody>
             </table>

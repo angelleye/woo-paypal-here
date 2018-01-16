@@ -9,8 +9,8 @@
                     <?php
                     foreach ($this->product_list as $product_id):
                         $product_obj = wc_get_product($product_id);
-                        $GLOBALS['product'] = $product_obj;
-                        $GLOBALS['post'] = get_post($product_id);
+                       // $GLOBALS['product'] = $product_obj;
+                        //$GLOBALS['post'] = get_post($product_id);
                         $post = get_post($product_id);
                         $product = $product_obj;
                         if (empty($product_obj) || !$product_obj->is_visible() || !$product_obj->is_purchasable() || !$product_obj->is_in_stock()) {
