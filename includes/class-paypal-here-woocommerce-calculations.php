@@ -156,7 +156,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             $temp_roundedPayPalTotal = 0;
             if (!empty($this->order_items) && is_array($this->order_items)) {
                 foreach ($this->order_items as $key => $values) {
-                    $temp_roundedPayPalTotal += round($values['amt'] * $values['qty'], $this->decimals);
+                    $temp_roundedPayPalTotal += round($values['unitPrice'] * $values['quantity'], $this->decimals);
                 }
             }
             $this->itemamt = $temp_roundedPayPalTotal;
@@ -172,14 +172,14 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 } elseif ($this->taxamt > 0) {
                     $this->taxamt += round($cartItemAmountDifference, $this->decimals);
                 } else {
-                    if (count($this->order_items) == 1 && (!empty($this->order_items[0]['qty']) && $this->order_items[0]['qty'] > 1 )) {
+                    if (count($this->order_items) == 1 && (!empty($this->order_items[0]['quantity']) && $this->order_items[0]['quantity'] > 1 )) {
                         unset($this->order_items);
                         $this->order_total = WC()->cart->total;
                         $this->itemamt = WC()->cart->total;
                     } else {
                         foreach ($this->order_items as $key => $value) {
                             if ($value['qty'] == 1 && $this->is_adjust == false) {
-                                $this->order_items[$key]['amt'] = $this->order_items[$key]['amt'] + round($cartItemAmountDifference, $this->decimals);
+                                $this->order_items[$key]['amt'] = $this->order_items[$key]['unitPrice'] + round($cartItemAmountDifference, $this->decimals);
                                 $this->order_total += round($cartItemAmountDifference, $this->decimals);
                                 $this->itemamt += round($cartItemAmountDifference, $this->decimals);
                                 $this->is_adjust = true;
