@@ -160,3 +160,10 @@ html { margin-top: 32px !important; }
 .ui-autocomplete {
     z-index: 99999;
 }
+.angelleye_paypal_here_shop_thumbnail { 
+    width: 50px;
+}
+
+.open-modal {
+    cursor: pointer;
+}

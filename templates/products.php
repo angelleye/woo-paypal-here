@@ -1,25 +1,39 @@
 <div class="row">
-    <?php if (!empty($this->product_list)) { ?>
+    <?php
+    if (!empty($this->product_list)) {
+        global $post, $product;
+        ?>
         <div class="col">
             <table class="table">
                 <tbody>
                     <?php
                     foreach ($this->product_list as $product_id):
                         $product_obj = wc_get_product($product_id);
-                        setup_postdata($product_obj);
+                        $GLOBALS['product'] = $product_obj;
+                        $GLOBALS['post'] = get_post($product_id);
+                        $post = get_post($product_id);
+                        $product = $product_obj;
                         if (empty($product_obj) || !$product_obj->is_visible() || !$product_obj->is_purchasable() || !$product_obj->is_in_stock()) {
                             continue;
                         }
                         ?>
-                        <tr>
+                    <tr class="open-modal" id="<?php echo $product_obj->get_id(); ?>">
                             <td>
+                                <?php if (has_post_thumbnail($post)) { ?>
+                                    <img class="angelleye_paypal_here_shop_thumbnail" src="<?php echo get_the_post_thumbnail_url($product_id, 'shop_thumbnail'); ?> ">
+                                <?php } else { ?>
+                                    <?php echo sprintf('<img src="%s" alt="%s" class="wp-post-image angelleye_paypal_here_shop_thumbnail" />', esc_url(wc_placeholder_img_src()), esc_html__('Awaiting product image', 'woocommerce')) ?>
+                                <?php } ?>
+                            </td> 
+                            <td colspan="2">
                                 <div class="form-check">
-                                    <label><input type="checkbox" class="form-check-input open-modal" id="<?php echo $product_obj->get_id(); ?>"><?php echo $product_obj->get_title(); ?></label>
+                                <?php echo $product_obj->get_title(); ?>
                                 </div>
                             </td>
                             <td><?php echo $product_obj->get_price_html(); ?></td>
                         </tr>
                         <?php
+                        setup_postdata($product_obj);
                     endforeach;
                     ?>
                 </tbody>
@@ -35,7 +49,7 @@
                         <button type="button" class="btn btn-light paypal_here_add_to_cart_button">ADD ITEM</button>
                     </div>
                     <div class="modal-body">
-                        <?php wp_enqueue_script('wc-add-to-cart-variation'); ?>
+                    <?php wp_enqueue_script('wc-add-to-cart-variation'); ?>
                     </div>
                 </div>
             </div>
