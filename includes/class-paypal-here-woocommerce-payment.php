@@ -5,21 +5,39 @@ if (!defined('ABSPATH')) {
 
 class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
+    public $order_item;
+
     public function __construct() {
         $this->id = 'angelleye_paypal_here';
+        $this->has_fields = true;
         $this->method_title = __('PayPal Here', 'paypal-here-woocommerce');
         $this->method_description = __('', 'paypal-here-woocommerce');
-        $this->has_fields = true;
+        $this->description = $this->get_option('description', 'PayPal Here');
+        $this->title = $this->get_option('title', 'PayPal Here');
         $this->init_form_fields();
         $this->init_settings();
         $this->paypal_here_endpoint_url = $this->get_option('paypal_here_endpoint_url', 'paypal-here');
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         $this->generate_woocommerce_rest_api_key = $this->get_option('generate_woocommerce_rest_api_key', 'Generate WooCommerce REST API key');
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
+        $this->email = $this->get_option('email');
+        $this->accepted_payment_methods = $this->get_option('accepted_payment_methods', array('cash', 'card', 'paypal'));
     }
 
     public function is_available() {
+        if ($this->enabled === "yes") {
+            if (!$this->generate_woocommerce_rest_api_key || !$this->generate_woocommerce_rest_api_key_value || !$this->email) {
+                return false;
+            }
+            return true;
+        }
         return false;
+    }
+
+    public function payment_fields() {
+        if ($this->description) {
+            echo wpautop(wptexturize($this->description));
+        }
     }
 
     public function process_admin_options() {
@@ -86,6 +104,29 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'label' => __('Enable PayPal Here', 'paypal-here-woocommerce'),
             'default' => 'no'
         );
+        $this->form_fields['email'] = array(
+            'title' => __('PayPal email', 'paypal-here-woocommerce'),
+            'type' => 'email',
+            'description' => __('Please enter your PayPal email address; this is needed in order to take payment.', 'paypal-here-woocommerce'),
+            'default' => get_option('admin_email'),
+            'desc_tip' => true,
+            'placeholder' => 'you@youremail.com',
+        );
+        $this->form_fields['accepted_payment_methods'] = array(
+            'title' => __('Accepted payment methods', 'woocommerce'),
+            'type' => 'multiselect',
+            'class' => 'chosen_select',
+            'css' => 'width: 350px;',
+            'desc_tip' => __('Select accepted payment methods.', 'woocommerce'),
+            'options' => array(
+                'cash' => 'Cash',
+                'card' => 'Card',
+                'invoice' => 'Invoice',
+                'check' => 'Check',
+                'paypal' => 'PayPal'
+            ),
+            'default' => array('cash', 'card', 'paypal'),
+        );
         if (empty($this->generate_woocommerce_rest_api_key_value)) {
             $this->form_fields['generate_woocommerce_rest_api_push_button'] = array(
                 'title' => __('WooCommerce REST API', 'paypal-here-woocommerce'),
@@ -129,6 +170,24 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'description' => '',
             'default' => 'PayPal Here',
         );
+    }
+
+    public function process_payment($order_id) {
+        try {
+            require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-calculations.php';
+            if (class_exists('Paypal_Here_Woocommerce_Calculation')) {
+                $order = wc_get_order($order_id);
+                $this->calculation = new Paypal_Here_Woocommerce_Calculation();
+                $this->order_item = $this->calculation->order_calculation($order_id);
+                $this->invoice['itemList'] = $this->order_item;
+                $this->invoice['paymentTerms'] = 'DueOnReceipt';
+                $this->invoice['discountPercent'] = '0';
+                $this->invoice['merchantEmail'] = $this->email;
+                $this->invoice['shippingAmount'] = $this->calculation['shippingamt'];
+            }
+        } catch (Exception $ex) {
+            
+        }
     }
 
 }
