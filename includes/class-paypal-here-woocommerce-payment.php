@@ -239,8 +239,10 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
 
     public function angelleye_paypal_here_return_url() {
-        //urlencode('paypalhere://takePayment/{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&TxId={TxId}');
-        return 'http://192.168.1.2/here/paypal-here';
+        $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
+        $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
+        return $this->home_url . $this->paypal_here_endpoint_url;
         //return add_query_arg(array('paypal_here_action' => 'return_action', 'utm_nooverride' => '1'), WC()->api_request_url('Paypal_Here_Woocommerce_Payment'));
     }
     
