@@ -282,4 +282,12 @@ class Paypal_Here_Woocommerce_Public {
             }
         }
     }
+    
+    public function send_to_paypal_here_action() {
+        if(!class_exists('Paypal_Here_Woocommerce_Payment')) {
+            require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-paypal-here-woocommerce-payment.php';
+        }
+        $payment_gateway = new Paypal_Here_Woocommerce_Payment();
+        $payment_gateway->angelleye_paypal_here_process_payment();
+    }
 }

@@ -24,7 +24,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         $this->accepted_payment_methods = $this->get_option('accepted_payment_methods', array('cash', 'card', 'paypal'));
         $this->return_url = $this->angelleye_paypal_here_return_url();
         $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', '');
-        $this->paypal_here_payment_url = 'paypalhere://takePayment?accepted=';
+        $this->paypal_here_payment_url = 'paypalhere://takePayment?returnUrl=';
         if (!has_action('woocommerce_api_' . strtolower('Paypal_Here_Woocommerce_Payment'))) {
             add_action('woocommerce_api_' . strtolower('Paypal_Here_Woocommerce_Payment'), array($this, 'handle_wc_api'));
         }
@@ -187,27 +187,43 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
     public function process_payment($order_id) {
         try {
+            unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
             require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-calculations.php';
             if (class_exists('Paypal_Here_Woocommerce_Calculation')) {
                 $order = wc_get_order($order_id);
                 $billing_phone = $order->get_billing_phone();
+                $billing_email = $order->get_billing_email();
                 $this->calculation = new Paypal_Here_Woocommerce_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
+                $this->invoice['paymentTerms'] = 'DueOnReceipt';
                 $this->invoice['currencyCode'] = $order->get_currency();
                 $this->invoice['number'] = str_replace("#", "", $order->get_order_number());
-                $this->invoice['paymentTerms'] = 'DueOnReceipt';
+                if (!empty($billing_email)) {
+                    $this->invoice['payerEmail'] = $billing_email;
+                }
                 $this->invoice['merchantEmail'] = $this->email;
-                $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
-                $this->invoice = urlencode(json_encode($this->invoice));
-                $this->paypal_here_payment_url .= urlencode(implode(",", $this->accepted_payment_methods));
-                $this->paypal_here_payment_url .= "&invoice=" . $this->invoice;
-                $this->paypal_here_payment_url .= "&returnUrl=" . $this->return_url;
+                if ($this->order_item['shippingamt'] > 0) {
+                    $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
+                }
+                $this->invoice_encoded = urlencode(json_encode($this->invoice));
+                $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
+                $this->retUrl = urlencode($this->return_url . "?{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}");
+                $this->paypal_here_payment_url .= $this->retUrl;
+                $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
                 $this->paypal_here_payment_url .= "&InvoiceId=" . $this->invoice_id_prefix . preg_replace("/[^a-zA-Z0-9]/", "", str_replace("#", "", $order->get_order_number()));
                 $this->paypal_here_payment_url .= "&step=choosePayment";
+
                 if (!empty($billing_phone)) {
-                    $this->paypal_here_payment_url .= "&payerPhone=" . $billing_phone;
+                    if (in_array($order->get_billing_country(), array('US', 'CA'))) {
+                        $billing_phone = str_replace(array('(', '-', ' ', ')', '.'), '', $billing_phone);
+                        $billing_phone = ltrim($billing_phone, '+1');
+                    }
+                    // $this->paypal_here_payment_url .= "&payerPhone=" . $billing_phone;
                 }
+                $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
+
+
                 return array(
                     'result' => 'success',
                     'redirect' => $this->paypal_here_payment_url,
@@ -224,8 +240,14 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
     public function angelleye_paypal_here_return_url() {
         //urlencode('paypalhere://takePayment/{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&TxId={TxId}');
-
-        return urlencode(add_query_arg(array('paypal_here_action' => 'return_action', 'utm_nooverride' => '1'), WC()->api_request_url('Paypal_Here_Woocommerce_Payment') . '{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&TxId={TxId}'));
+        return 'http://192.168.1.2/here/paypal-here';
+        //return add_query_arg(array('paypal_here_action' => 'return_action', 'utm_nooverride' => '1'), WC()->api_request_url('Paypal_Here_Woocommerce_Payment'));
+    }
+    
+    public function angelleye_paypal_here_process_payment() {
+        $order_id = $_POST['order_id'];
+        $location = $this->process_payment($order_id);
+        wp_send_json($location);
     }
 
 }

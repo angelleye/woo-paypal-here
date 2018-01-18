@@ -91,12 +91,15 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     }
                 }
                 $item = array(
-                    'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
-                    'description' => html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8'),
+                    'name' => urlencode(html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8')),
                     'quantity' => $values['qty'],
                     'unitPrice' => $this->number_format($amount)
                     
                 );
+                if( !empty($desc) ) {
+                    $item['description'] = urlencode(html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8'));
+                }
+                
                 $this->order_items[] = $item;
                 $roundedPayPalTotal += round($amount * $values['qty'], $this->decimals);
             }
@@ -104,8 +107,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $fee_item_name = version_compare(WC_VERSION, '3.0', '<') ? $fee_values['name'] : $fee_values->get_name();
                 $amount = $order->get_line_total($fee_values);
                 $fee_item = array(
-                    'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
-                    'description' => '',
+                    'name' => urlencode(html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8')),
                     'quantity' => 1,
                     'unitPrice' => $this->number_format($amount)
                 );
@@ -125,7 +127,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     if ($this->discount_amount > 0) {
                         $discLineItem = array(
                             'name' => 'Discount',
-                            'description' => 'Discount Amount',
+                            'description' => urlencode('Discount Amount'),
                             'quantity' => 1,
                             'unitPrice' => '-' . $this->number_format($this->discount_amount)
                         );
