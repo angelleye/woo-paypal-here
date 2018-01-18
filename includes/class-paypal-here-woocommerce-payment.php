@@ -73,7 +73,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 <div id="postimagediv" class="postbox ">
                     <h2 class="hndle ui-sortable-handle" style="text-align: center;"><span>' . __('Load PayPal Here Web App', 'paypal-here-woocommerce') . '</span></h2>
                     <div class="inside">
-                    <div id="paypal_here_endpoint_url_qrcode"></div>
+                    <div style="text-align:center;"><img src="" class="paypal_here_endpoint_url_qrcode"/></div>
                     </div>
                 </div>
                 </div>
