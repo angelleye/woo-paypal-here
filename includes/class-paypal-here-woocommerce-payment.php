@@ -47,6 +47,11 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
 
     public function process_admin_options() {
+        $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
+        if( !empty($this->generate_woocommerce_rest_api_key_value)) {
+            $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value'] = $this->generate_woocommerce_rest_api_key_value;
+        }
+        
         $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button'] = 'Generate WooCommerce REST API key';
         parent::process_admin_options();
     }
