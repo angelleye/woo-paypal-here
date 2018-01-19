@@ -17,5 +17,5 @@
         ?>
     </div>
 </nav>
-<div class="container-fluid pt30">     
+<div class="container-fluid pt30 min-content-ht">     
 <?php echo wc_print_notices(); ?>

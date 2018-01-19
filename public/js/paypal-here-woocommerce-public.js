@@ -51,6 +51,8 @@
         });
 
         $(".open-modal").click(function () {
+            
+            
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
@@ -61,13 +63,16 @@
                     product_id: $(this).attr("id")
                 },
                 success: function (response) {
+                    alert('hi');
                     var data = response.data;
                     if (response.success) {
+                        $('.modal-body').html('');
                         $('.modal-body').html(data.html);
+                        alert(data.html);
                         $('#paypal_here_modal').modal({show: true});
                         $('.paypal_here_number_input').bootstrapNumber();
                     } else {
-
+                        alert('hi');
                     }
                 }
             });

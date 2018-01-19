@@ -67,7 +67,7 @@ class Paypal_Here_Woocommerce_Rest_API {
 
     public function angelleye_paypal_here_get_pending_order() {
         $this->customer_id = get_current_user_id();
-        $request_param = array('customer' => $this->customer_id, 'status' => 'pending');
+        $request_param = array('status' => 'pending');
         if (!empty($_GET['search'])) {
             $request_param['search'] = $_GET['search'];
         }

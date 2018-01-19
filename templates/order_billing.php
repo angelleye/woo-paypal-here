@@ -55,6 +55,7 @@
                 </div>
             </div>
             <br>
+
             <div class="form-row btn-group-vertical text-center float-right">
                 <div class="form-group col-md-12 ">
                     <button type="submit" class="btn btn-primary" value="continue_to_shipping" name="action"><?php echo __('Continue to Shipping', ''); ?></button>
@@ -66,3 +67,4 @@
     </div>
 </form>
 </div>
+<br>

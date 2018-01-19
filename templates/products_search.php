@@ -9,7 +9,7 @@
                 <input type="hidden" name="actions" value="view_products">
                 <input name="search" type="text" class="form-control" placeholder="Keywords" aria-label="Keywords" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    <button class="btn btn-outline-success" type="submit">Search</button>
                 </div>
             </div>
         </form>

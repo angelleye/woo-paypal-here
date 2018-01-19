@@ -2,7 +2,11 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">PayPal Here</a>
+    <div class="text-center float-right">
+        <img src="https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom-white.svg" class="img-fluid here_header_img">
+    <img src="https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png" class="img-fluid here_header_img" alt="PayPal Here" >
+    </div>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <?php
         /* Primary navigation */
@@ -17,5 +21,5 @@
         ?>
     </div>
 </nav>
-<div class="container-fluid pt30">  
+<div class="container-fluid pt30 min-content-ht">  
 <?php echo wc_print_notices(); ?>

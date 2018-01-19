@@ -173,3 +173,30 @@ html { margin-top: 32px !important; }
 .open-modal {
     cursor: pointer;
 }
+
+.here_header_img {
+    width: 87px;
+    display: inline-block;
+padding-top: .3125rem;
+padding-bottom: .3125rem;
+margin-right: 1rem;
+font-size: 1.25rem;
+line-height: inherit;
+white-space: nowrap;
+}
+@media (min-width: 992px) { 
+    .pt30 {
+        padding-top: 50px;
+    }
+}
+
+
+@media (min-width: 1200px) { 
+    .pt30 {
+        padding-top: 50px;
+    }
+}
+
+.min-content-ht {
+    min-height: 339px;
+}
