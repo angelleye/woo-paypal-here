@@ -45,22 +45,21 @@ class Paypal_Here_Woocommerce_Rest_API {
         switch ($this->product_filter_settings) {
             case 'featured_products':
                 $request_param['featured'] = true;
+                $this->result = $this->woocommerce->get('products', $request_param);
+                if(empty($this->result)) {
+                    $this->result = $this->woocommerce->get('products');
+                }
                 break;
             case 'new_products':
+                $this->result = $this->woocommerce->get('products');
                 break;
             case 'top_selling_products':
-                // not supported
-                //filter[orderby]=meta_value_num&filter[orderby_meta_key]=_price.
-                //$query_args['meta_key'] = 'total_sales'; // @codingStandardsIgnoreLine
-                //$query_args['order']    = 'DESC';
-                //$query_args['orderby']  = 'meta_value_num';
-                //$this->result = $this->woocommerce->get('products');
+                $request_param['period'] = 'year';
+                $this->result = $this->woocommerce->get('reports/top_sellers', $request_param);
+                if(empty($this->result)) {
+                    $this->result = $this->woocommerce->get('products');
+                }
                 break;
-        }
-        if (!empty($request_param)) {
-            $this->result = $this->woocommerce->get('products', $request_param);
-        } else {
-            $this->result = $this->woocommerce->get('products');
         }
         return $this->result;
     }

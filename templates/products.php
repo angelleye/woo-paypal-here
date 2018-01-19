@@ -58,7 +58,7 @@
         </div>
         <?php
     } else {
-        echo __('No product found');
+        echo '<div class="col">'. __('No products found') . '</div>';
     }
     ?>
 </div>

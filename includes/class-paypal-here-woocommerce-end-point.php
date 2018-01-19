@@ -267,7 +267,11 @@ class Paypal_Here_Woocommerce_End_Point {
     public function angelleye_paypal_here_get_product_list() {
         if (!empty($this->result)) {
             foreach ($this->result as $key => $value) {
-                $this->product_list[$key] = $value['id'];
+                if(!empty($value['id'])) {
+                    $this->product_list[$key] = $value['id'];
+                } elseif(!empty($value['product_id'])) {
+                     $this->product_list[$key] = $value['product_id'];
+                }
             }
         }
     }

@@ -71,7 +71,7 @@
         </div>
         <?php
     } else {
-        echo __('No Pending order found');
+        echo '<div class="col">'. __('No Pending order found') . '</div>';
     }
     ?>
 </div>
