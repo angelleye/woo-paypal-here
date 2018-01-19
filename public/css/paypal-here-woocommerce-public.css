@@ -210,3 +210,6 @@ border-color: #0062cc;
 {
   border-bottom: 1px solid #dee2e6;
 }
+.paypal_here_clickable_row, .paypal_here_clickable_row label {
+    cursor: pointer;
+}

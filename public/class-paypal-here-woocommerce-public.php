@@ -44,6 +44,9 @@ class Paypal_Here_Woocommerce_Public {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
         $this->checkout = new Paypal_Here_Woocommerce_Checkout();
+        $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
+        $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
     }
 
     /**
@@ -229,7 +232,7 @@ class Paypal_Here_Woocommerce_Public {
             if (is_wp_error($order_id)) {
                 throw new Exception($order_id->get_error_message());
             } else {
-                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
             }
         }
     }
@@ -259,7 +262,7 @@ class Paypal_Here_Woocommerce_Public {
             if (is_wp_error($order_id)) {
                 throw new Exception($order_id->get_error_message());
             } else {
-                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
             }
         } else {
             if (!empty($_POST['order_id']) && !empty($_POST['coupon_code'])) {
@@ -269,15 +272,15 @@ class Paypal_Here_Woocommerce_Public {
                     $return = $this->order->apply_coupon($_POST['coupon_code']);
                     if (is_wp_error($return)) {
                         wc_add_notice($return->get_error_message(), 'error');
-                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
                     }
                     if ($return == true) {
                         wc_add_notice(__('Coupon code applied successfully.', 'woocommerce'), 'success');
-                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
                     }
                 } catch (Exception $ex) {
                     wc_add_notice($ex->getMessage(), 'error');
-                    $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), home_url('/paypal-here')));
+                    $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
                 }
             }
         }

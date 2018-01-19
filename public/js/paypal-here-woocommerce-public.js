@@ -147,5 +147,8 @@
         $(".paypal_here_discount").click(function () {
             $('#paypal_here_modal_discount').modal({show: true});
         });
+        $(".paypal_here_clickable_row").click(function() {
+            window.document.location = $(this).data("href");
+        });
     });
 })(jQuery);
