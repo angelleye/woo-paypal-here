@@ -200,3 +200,13 @@ white-space: nowrap;
 .min-content-ht {
     min-height: 339px;
 }
+
+.send_to_paypal_here {
+    color: #fff;
+background-color: #0069d9;
+border-color: #0062cc;
+}
+.table tr:last-child
+{
+  border-bottom: 1px solid #dee2e6;
+}

@@ -1,7 +1,8 @@
 <div class="row">
     <?php if (!empty($this->order_list)) { ?>
         <div class="col">
-            <table class="table ">
+            <div class="table-responsive">
+            <table class="table table-hover">
                 <tbody>
                     <?php
                     $columns = apply_filters('woocommerce_account_orders_columns', array(
@@ -39,6 +40,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            </div>
         </div>
         <?php
     } else {

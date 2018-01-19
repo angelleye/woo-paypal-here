@@ -51,8 +51,6 @@
         });
 
         $(".open-modal").click(function () {
-            
-            
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
@@ -63,28 +61,25 @@
                     product_id: $(this).attr("id")
                 },
                 success: function (response) {
-                    alert('hi');
                     var data = response.data;
                     if (response.success) {
                         $('.modal-body').html('');
                         $('.modal-body').html(data.html);
-                        alert(data.html);
                         $('#paypal_here_modal').modal({show: true});
                         $('.paypal_here_number_input').bootstrapNumber();
                     } else {
-                        alert('hi');
+
                     }
                 }
             });
         });
-        
+
         $('.send_to_paypal_here').click(function () {
             var data = {
                 action: 'send_to_paypal_here_action',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
                 'order_id': $("input[name=order_id]").val()
             };
-            
             $.ajax({
                 type: 'POST',
                 data: data,
@@ -104,11 +99,11 @@
                     alert("Error in ajax post:" + e.statusText);
                 }
             });
-            
+
         });
-        
+
         $(".paypal_here_apply_coupon").click(function () {
-          
+
             var data = {
                 action: 'paypal_here_apply_coupon',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
@@ -135,9 +130,7 @@
                 }
             });
         });
-        
-        
-        
+
         var searchRequest;
         $("#coupon_code").autocomplete({
             minLength: 3,
@@ -151,7 +144,6 @@
                 });
             }
         });
-
         $(".paypal_here_discount").click(function () {
             $('#paypal_here_modal_discount').modal({show: true});
         });

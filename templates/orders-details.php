@@ -17,7 +17,8 @@
                 <a class="btn btn-primary" href="<?php echo esc_url(add_query_arg('actions', 'view_products', remove_query_arg('order_id'))); ?>" role="button">&plus; Add Item</a>
             </div>
             <input type="hidden" name="order_id" value="<?php echo $this->order->get_id();?>">
-            <table class="table">
+            <div class="table-responsive">
+            <table class="table table-hover">
                 <tbody>
                     <?php
                     
@@ -45,6 +46,7 @@
                     ?>
                 </tbody>
             </table>
+            </div>
         </div>
         <div class="modal fade" id="paypal_here_modal_discount" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">

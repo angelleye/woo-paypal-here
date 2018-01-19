@@ -4,7 +4,8 @@
         global $post, $product;
         ?>
         <div class="col">
-            <table class="table">
+            <div class="table-responsive">
+            <table class="table table-hover">
                 <tbody>
                     <?php
                     foreach ($this->product_list as $product_id):
@@ -38,6 +39,7 @@
                     ?>
                 </tbody>
             </table>
+            </div>
         </div>
         <div class="modal fade" id="paypal_here_modal" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
