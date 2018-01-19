@@ -315,6 +315,7 @@ class Paypal_Here_Woocommerce_End_Point {
                 'billing_address_1' => isset($_POST['billing_address_1']) ? wp_unslash($_POST['billing_address_1']) : null,
                 'billing_address_2' => isset($_POST['billing_address_2']) ? wp_unslash($_POST['billing_address_2']) : null,
             ));
+            paypal_here_set_session('billing_address', $_POST);
             WC()->customer->save();
             if (!empty($_POST['action']) && 'skip_shipping' == $_POST['action']) {
                 WC()->customer->set_props(array(
@@ -343,6 +344,7 @@ class Paypal_Here_Woocommerce_End_Point {
                 'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
             ));
             WC()->customer->save();
+            paypal_here_set_session('shipping_address', $_POST);
             wp_redirect(add_query_arg('actions', 'view_products', remove_query_arg('actions')));
             exit();
         }

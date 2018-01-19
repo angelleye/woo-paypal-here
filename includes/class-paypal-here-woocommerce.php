@@ -106,6 +106,7 @@ class Paypal_Here_Woocommerce {
          * The class responsible for defining all actions that occur in the public-facing
          * side of the site.
          */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-functions.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';

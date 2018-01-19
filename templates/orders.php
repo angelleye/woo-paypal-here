@@ -24,7 +24,7 @@
                                 <td>
                                     <?php if ('order-select' === $column_id) : ?>
                                         <div class="form-check w-100">
-                                            <label><input type="checkbox" class="form-check-input" id=""><?php echo $billing_first_last_name; ?></label>
+                                            <label><?php echo $billing_first_last_name; ?></label>
                                         </div>
                                     <?php elseif ('order-total' === $column_id) : ?>
                                         <?php
