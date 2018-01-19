@@ -15,6 +15,12 @@ html { margin-top: 32px !important; }
 .pt30 {
     padding-top: 25px;
 }
+.mt10 {
+    margin-top: 10px;
+}
+.pb20 {
+    padding-bottom: 20px;
+}
 .modal-body {
     padding: 10px 10px 10px 6px;
 }
