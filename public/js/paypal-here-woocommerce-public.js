@@ -1,6 +1,30 @@
 (function ($) {
     'use strict';
-    $(document).ready(function () {
+       $(document).ready(function () {
+        $('.discount_field').hide();
+        $('#paypal_here_coupon_code').show();
+        $(".img-check").click(function(){
+            $(".img-check").removeClass('img-check-check');
+            $(this).toggleClass("img-check-check");
+            
+        });
+        if(typeof AutoNumeric != 'undefined') {
+            new AutoNumeric('#paypal_here_percentage', 'percentageUS2dec');
+            new AutoNumeric('#paypal_here_dollar', 'dollarPos');
+        }
+        $('input[type=radio][name=discount_amount]').change(function() {
+            $('.discount_field').hide();
+            var discount_amount = $('[name=discount_amount]:checked').val();
+            if (discount_amount == 'coupon') {
+                $('#paypal_here_coupon_code').show();
+            }
+            else if (discount_amount == 'percentage') {
+                $('#paypal_here_percentage').show();
+            }
+            else if (discount_amount == 'amount') {
+                $('#paypal_here_dollar').show();
+            }
+        });
         $(".paypal_here_add_to_cart_button").click(function () {
             var get_attributes = function () {
                 var select = $('.variations_form').find('.variations select'),
@@ -131,6 +155,8 @@
             });
         });
 
+
+
         var searchRequest;
         $("#coupon_code").autocomplete({
             minLength: 3,
@@ -139,9 +165,11 @@
                     searchRequest.abort();
                 } catch (e) {
                 }
-                searchRequest = $.post(paypal_here_ajax_param.ajax_url, {search: term, action: 'paypal_here_get_copon_code'}, function (res) {
-                    suggest(res.data);
-                });
+                if( $('#coupon_code').attr("placeholder") == 'Coupon code') {
+                    searchRequest = $.post(paypal_here_ajax_param.ajax_url, {search: term, action: 'paypal_here_get_copon_code'}, function (res) {
+                        suggest(res.data);
+                    });
+                }
             }
         });
         $(".paypal_here_discount").click(function () {

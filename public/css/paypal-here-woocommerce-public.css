@@ -213,3 +213,19 @@ border-color: #0062cc;
 .paypal_here_clickable_row, .paypal_here_clickable_row label {
     cursor: pointer;
 }
+.large-text-size {
+    font-size: 45px;
+}
+
+.img-check
+{
+    opacity:0.3;
+	color:#996;
+	
+}
+.img-check-check {
+    opacity:0.9;
+}
+.hidden {
+    display:none;
+}
