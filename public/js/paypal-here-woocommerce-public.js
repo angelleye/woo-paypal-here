@@ -2,10 +2,17 @@
     'use strict';
        $(document).ready(function () {
         $('.discount_field').hide();
+        $('.shipping_field').hide();
         $('#paypal_here_coupon_code').show();
-        $(".img-check").click(function(){
-            $(".img-check").removeClass('img-check-check');
-            $(this).toggleClass("img-check-check");
+        $('#paypal_here_shipping_postal_code').show();
+        $(".discount-img").click(function(){
+            $(".discount-img").removeClass('checked');
+            $(this).addClass("checked");
+            
+        });
+        $(".shipping-img").click(function(){
+            $(".shipping-img").removeClass('checked');
+            $(this).addClass("checked");
             
         });
         if(typeof AutoNumeric != 'undefined') {
@@ -23,6 +30,20 @@
             }
             else if (discount_amount == 'amount') {
                 $('#paypal_here_dollar').show();
+            }
+        });
+        $('input[type=radio][name=shipping_amount]').change(function() {
+            $('.shipping_field').hide();
+            var shipping_amount = $('[name=shipping_amount]:checked').val();
+            console.log(shipping_amount)
+            if (shipping_amount == 'postal_code') {
+                $('#paypal_here_shipping_postal_code').show();
+            }
+            else if (shipping_amount == 'percentage') {
+                $('#paypal_here_shipping_percentage').show();
+            }
+            else if (shipping_amount == 'amount') {
+                $('#paypal_here_shipping_dollar').show();
             }
         });
         $(".paypal_here_add_to_cart_button").click(function () {
@@ -127,7 +148,6 @@
         });
 
         $(".paypal_here_apply_coupon").click(function () {
-
             var discount_amount = $('[name=discount_amount]:checked').val();
             if (discount_amount == 'coupon') {
                 var data = {
@@ -152,16 +172,21 @@
                     'paypal_here_amount': $("input[name=paypal_here_amount]").val(),
                     'order_id': $("input[name=order_id]").val()
                 };
+            } else {
+                var data = {
+                    action: 'paypal_here_apply_coupon',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'coupon_code': $("input[name=coupon_code]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
             }
-
-            
             $.ajax({
                 type: 'POST',
                 data: data,
                 url: paypal_here_ajax_param.ajax_url,
                 dataType: 'json',
                 success: function (result) {
-                    $('#paypal_here_modal').modal('hide');
+                    $('#paypal_here_modal_discount').modal('hide');
                     if ('success' === result.result) {
                         if (-1 === result.redirect.indexOf('https://') || -1 === result.redirect.indexOf('http://')) {
                             window.location.href = result.redirect;
@@ -176,6 +201,59 @@
             });
         });
 
+        $(".paypal_here_apply_shipping").click(function () {
+            var shipping_amount = $('[name=shipping_amount]:checked').val();
+            if (shipping_amount == 'coupon') {
+                var data = {
+                    action: 'paypal_here_apply_shipping',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_shipping_postal_code': $("input[name=paypal_here_shipping_postal_code]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+            else if (shipping_amount == 'percentage') {
+                var data = {
+                    action: 'paypal_here_apply_shipping',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_shipping_percentage': $("input[name=paypal_here_shipping_percentage]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+            else if (shipping_amount == 'amount') {
+                var data = {
+                    action: 'paypal_here_apply_shipping',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_shipping_dollar': $("input[name=paypal_here_shipping_dollar]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            } else {
+                var data = {
+                    action: 'paypal_here_apply_shipping',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_shipping_postal_code': $("input[name=paypal_here_shipping_postal_code]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: paypal_here_ajax_param.ajax_url,
+                dataType: 'json',
+                success: function (result) {
+                    $('#paypal_here_modal_shipping').modal('hide');
+                    if ('success' === result.result) {
+                        if (-1 === result.redirect.indexOf('https://') || -1 === result.redirect.indexOf('http://')) {
+                            window.location.href = result.redirect;
+                        } else {
+                            window.location.href = decodeURI(result.redirect);
+                        }
+                    }
+                },
+                error: function (e) {
+                    
+                }
+            });
+        });
 
 
         var searchRequest;
@@ -195,6 +273,9 @@
         });
         $(".paypal_here_discount").click(function () {
             $('#paypal_here_modal_discount').modal({show: true});
+        });
+        $(".paypal_here_shipping").click(function () {
+            $('#paypal_here_modal_shipping').modal({show: true});
         });
         $(".paypal_here_clickable_row").click(function() {
             window.document.location = $(this).data("href");

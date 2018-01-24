@@ -160,7 +160,7 @@ html { margin-top: 32px !important; }
   background-color: #5bc0de;
 }
 
-.paypal_here_discount {
+.paypal_here_discount, .paypal_here_shipping {
     cursor: pointer;
 }
 .ui-autocomplete {
@@ -217,15 +217,18 @@ border-color: #0062cc;
     font-size: 45px;
 }
 
-.img-check
+.discount-img, .shipping-img
 {
     opacity:0.3;
-	color:#996;
+    color:#996;
 	
 }
-.img-check-check {
+.discount-img.checked , .shipping-img.checked {
     opacity:0.9;
 }
 .hidden {
     display:none;
+}
+tr.paypal_here_shipping td small.shipped_via, #paypal_here_modal_shipping small.shipped_via {
+    display: none;
 }

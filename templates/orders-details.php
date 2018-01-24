@@ -33,15 +33,17 @@
                         echo '</tr>';
                     endforeach;
                     foreach ($this->order->get_order_item_totals() as $key => $total) :
-                        if (!in_array($key, array('payment_method', 'order_total', 'discount'))) :
+                        if (!in_array($key, array('payment_method', 'order_total', 'discount', 'shipping'))) :
                             echo '<tr>';
-                           
                             echo '<td>' . $total['label'] . '</th>';
                             echo '<td>' . $total['value'] . '</td>';
                             echo '</tr>';
                         endif;
                     endforeach;
-                    
+                        echo '<tr class="paypal_here_shipping">';
+                        echo '<td> ' . 'Shipping:' . '</th>';
+                        echo '<td>' . $this->order->get_shipping_to_display() . '</td>';
+                        echo '</tr>';
                         echo '<tr class="paypal_here_discount">';
                         echo '<td> ' . 'Discount:' . '</th>';
                         echo '<td>' . '-' .$this->order->get_discount_to_display() . '</td>';
@@ -62,9 +64,9 @@
                         <form method="post" class="form-group">
                             <div class="text-right form-group"> <?php echo $this->order->get_discount_to_display(); ?></div>
                             <div>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/coupon.png'; ?>" width="42" alt="..." class="img-check img-check-check"><input type="radio" name="discount_amount" value="coupon" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="img-check"><input type="radio" name="discount_amount" value="percentage" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="img-check"><input type="radio" name="discount_amount" value="amount" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/coupon.png'; ?>" width="42" alt="..." class="discount-img checked"><input type="radio" name="discount_amount" value="coupon" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="discount-img"><input type="radio" name="discount_amount" value="percentage" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="discount-img"><input type="radio" name="discount_amount" value="amount" class="hidden" autocomplete="off"></label>
                             </div>
                             <div>
                                 <input type="text" class="form-control discount_field" id="paypal_here_coupon_code" placeholder="Coupon code" name="coupon_code">
@@ -76,6 +78,34 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary paypal_here_apply_coupon">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal fade" id="paypal_here_modal_shipping" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"  style="text-align: center;display: inline;">
+                        <h5 class="modal-title" id="paypal_here_modal_shippingLabel">Shipping</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="form-group">
+                            <div class="text-right form-group"> <?php echo $this->order->get_shipping_to_display(); ?></div>
+                            <div>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/postal_code.png'; ?>" width="29" alt="..." class="shipping-img checked"><input type="radio" name="shipping_amount" value="postal_code" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="percentage" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="amount" class="hidden" autocomplete="off"></label>
+                            </div>
+                            <div>
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_postal_code" placeholder="Postal code" name="paypal_here_shipping_postal_code">
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_percentage" placeholder="Percentage" name="paypal_here_shipping_percentage" >
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_dollar" placeholder="Amount" name="paypal_here_shipping_dollar">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary paypal_here_apply_shipping">Apply</button>
                     </div>
                 </div>
             </div>
