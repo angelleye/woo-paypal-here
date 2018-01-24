@@ -250,47 +250,117 @@ class Paypal_Here_Woocommerce_Public {
         }
     }
 
-    public function paypal_here_apply_coupon() {
-        if (!empty($_POST['coupon_code']) && WC()->cart->is_empty() == false) {
-            WC()->cart->apply_coupon($_POST['coupon_code']);
-            WC()->shipping->reset_shipping();
-            WC()->cart->calculate_totals();
-            $order_id = $this->checkout->create_order(array());
-            $order = wc_get_order($order_id);
-            $order->calculate_totals();
-            WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
-            if (is_wp_error($order_id)) {
-                throw new Exception($order_id->get_error_message());
-            } else {
-                $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
-            }
-        } else {
-            if (!empty($_POST['order_id']) && !empty($_POST['coupon_code'])) {
-                $order_id = $_POST['order_id'];
-                $this->order = wc_get_order($_POST['order_id']);
-                try {
-                    $return = $this->order->apply_coupon($_POST['coupon_code']);
-                    if (is_wp_error($return)) {
-                        wc_add_notice($return->get_error_message(), 'error');
-                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+    public function paypal_here_apply_coupon_handler($coupon_code, $order_id, $is_delete = false) {
+        if (!empty($coupon_code)) {
+            if (!empty($coupon_code) && WC()->cart->is_empty() == false) {
+                WC()->cart->apply_coupon($coupon_code);
+                WC()->shipping->reset_shipping();
+                WC()->cart->calculate_totals();
+                $order_id = $this->checkout->create_order(array());
+                $order = wc_get_order($order_id);
+                $order->calculate_totals();
+                WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
+                if (is_wp_error($order_id)) {
+                    throw new Exception($order_id->get_error_message());
+                } else {
+                    if($is_delete == true) {
+                        $coupon = new WC_Coupon( $coupon_code );
+                        if(!empty($coupon)) {
+                            $coupon->delete(true);
+                        }
                     }
-                    if ($return == true) {
-                        wc_add_notice(__('Coupon code applied successfully.', 'woocommerce'), 'success');
-                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
-                    }
-                } catch (Exception $ex) {
-                    wc_add_notice($ex->getMessage(), 'error');
+                    
                     $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                }
+            } else {
+                if (!empty($order_id) && !empty($coupon_code)) {
+                    $order_id = $order_id;
+                    $this->order = wc_get_order($order_id);
+                    try {
+                        $return = $this->order->apply_coupon($coupon_code);
+                        if($is_delete == true) {
+                            $coupon = new WC_Coupon( $coupon_code );
+                            if(!empty($coupon)) {
+                                $coupon->delete(true);
+                            }
+                        }
+                        if (is_wp_error($return)) {
+                            wc_add_notice($return->get_error_message(), 'error');
+                            $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                        }
+                        if ($return == true) {
+                            wc_add_notice(__('Coupon code applied successfully.', 'woocommerce'), 'success');
+                            $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                        }
+                    } catch (Exception $ex) {
+                        wc_add_notice($ex->getMessage(), 'error');
+                        $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                    }
                 }
             }
         }
     }
-    
+
+    public function paypal_here_apply_coupon() {
+        if (!empty($_POST['coupon_code']) && !empty($_POST['order_id'])) {
+            $coupon_code = $_POST['coupon_code'];
+            $order_id = $_POST['order_id'];
+            $this->paypal_here_apply_coupon_handler($coupon_code, $order_id);
+        } elseif (!empty($_POST['paypal_here_percentage']) && !empty($_POST['order_id'])) {
+            $arg = array('coupon_code' => 'Discount_PayPal_Here' . wp_rand(1, 10000),
+                'amount' => str_replace('%', '', $_POST['paypal_here_percentage']),
+                'discount_type' => 'percent'
+            );
+            $order_id = $_POST['order_id'];
+            $this->paypal_here_create_coupon($arg);
+            $this->paypal_here_apply_coupon_handler($arg['coupon_code'], $order_id, true);
+            
+                
+        } elseif (!empty($_POST['paypal_here_amount']) && !empty($_POST['order_id'])) {
+            $arg = array('coupon_code' => 'Discount_PayPal_Here' . wp_rand(1, 10000),
+                'amount' => str_replace('$', '', $_POST['paypal_here_amount']),
+                'discount_type' => 'fixed_cart'
+            );
+            $order_id = $_POST['order_id'];
+            $this->paypal_here_create_coupon($arg);
+            $this->paypal_here_apply_coupon_handler($arg['coupon_code'], $order_id, true);
+            
+        }
+    }
+
+    public function paypal_here_create_coupon($arg) {
+        $coupon_code = $arg['coupon_code'];
+        $amount = $arg['amount'];
+        $discount_type = $arg['discount_type'];
+
+        $coupon = array(
+            'post_title' => $coupon_code,
+            'post_content' => '',
+            'post_status' => 'publish',
+            'post_author' => 1,
+            'post_type' => 'shop_coupon'
+        );
+
+        $new_coupon_id = wp_insert_post($coupon);
+
+
+        update_post_meta($new_coupon_id, 'discount_type', $discount_type);
+        update_post_meta($new_coupon_id, 'coupon_amount', $amount);
+        update_post_meta($new_coupon_id, 'individual_use', 'no');
+        update_post_meta($new_coupon_id, 'product_ids', '');
+        update_post_meta($new_coupon_id, 'exclude_product_ids', '');
+        update_post_meta($new_coupon_id, 'usage_limit', '');
+        update_post_meta($new_coupon_id, 'expiry_date', '');
+        update_post_meta($new_coupon_id, 'apply_before_tax', 'no');
+        update_post_meta($new_coupon_id, 'free_shipping', 'no');
+    }
+
     public function send_to_paypal_here_action() {
-        if(!class_exists('Paypal_Here_Woocommerce_Payment')) {
+        if (!class_exists('Paypal_Here_Woocommerce_Payment')) {
             require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-paypal-here-woocommerce-payment.php';
         }
         $payment_gateway = new Paypal_Here_Woocommerce_Payment();
         $payment_gateway->angelleye_paypal_here_process_payment();
     }
+
 }

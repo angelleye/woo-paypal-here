@@ -128,12 +128,33 @@
 
         $(".paypal_here_apply_coupon").click(function () {
 
-            var data = {
-                action: 'paypal_here_apply_coupon',
-                'security': paypal_here_ajax_param.paypal_here_nonce,
-                'coupon_code': $("input[name=coupon_code]").val(),
-                'order_id': $("input[name=order_id]").val()
-            };
+            var discount_amount = $('[name=discount_amount]:checked').val();
+            if (discount_amount == 'coupon') {
+                var data = {
+                    action: 'paypal_here_apply_coupon',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'coupon_code': $("input[name=coupon_code]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+            else if (discount_amount == 'percentage') {
+                var data = {
+                    action: 'paypal_here_apply_coupon',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_percentage': $("input[name=paypal_here_percentage]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+            else if (discount_amount == 'amount') {
+                var data = {
+                    action: 'paypal_here_apply_coupon',
+                    'security': paypal_here_ajax_param.paypal_here_nonce,
+                    'paypal_here_amount': $("input[name=paypal_here_amount]").val(),
+                    'order_id': $("input[name=order_id]").val()
+                };
+            }
+
+            
             $.ajax({
                 type: 'POST',
                 data: data,
@@ -150,7 +171,7 @@
                     }
                 },
                 error: function (e) {
-                    alert("Error in ajax post:" + e.statusText);
+                    
                 }
             });
         });
@@ -158,14 +179,14 @@
 
 
         var searchRequest;
-        $("#coupon_code").autocomplete({
+        $("#paypal_here_coupon_code").autocomplete({
             minLength: 3,
             source: function (term, suggest) {
                 try {
                     searchRequest.abort();
                 } catch (e) {
                 }
-                if( $('#coupon_code').attr("placeholder") == 'Coupon code') {
+                if( $('#paypal_here_coupon_code').attr("placeholder") == 'Coupon code') {
                     searchRequest = $.post(paypal_here_ajax_param.ajax_url, {search: term, action: 'paypal_here_get_copon_code'}, function (res) {
                         suggest(res.data);
                     });
