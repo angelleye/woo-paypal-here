@@ -1,7 +1,4 @@
-
 <div class="row">
-    
-    
     <?php
     wp_enqueue_script('paypal_here_autoNumeric', PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
     wp_enqueue_style('jquery-ui-styles');
@@ -9,12 +6,9 @@
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
         ?>
         <div class="col">
-           
             <div class="form-group">
-                 
                 <h2 class="text-center text-primary"><?php echo $this->order->get_formatted_order_total(); ?></h2>
             </div>
-            
             <div class="form-group">
                 <a class="btn btn-primary" href="<?php echo esc_url(add_query_arg('actions', 'view_products', remove_query_arg('order_id'))); ?>" role="button">&plus; Add Item</a>
             </div>
@@ -23,7 +17,6 @@
             <table class="table table-hover">
                 <tbody>
                     <?php
-                    
                     foreach ($order_items as $item_id => $item) :
                         $product = apply_filters('woocommerce_order_item_product', $item->get_product(), $item);
                         echo '<tr>';
@@ -48,7 +41,6 @@
                         echo '<td> ' . 'Discount:' . '</th>';
                         echo '<td>' . '-' .$this->order->get_discount_to_display() . '</td>';
                         echo '</tr>';
-                  
                     ?>
                 </tbody>
             </table>

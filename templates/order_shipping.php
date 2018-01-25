@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="shipping_last_name"><?php echo __('Last name', ''); ?></label>
-                    <input type="text" class="form-control" id="shipping_last_name" placeholder="Password" name="shipping_last_name">
+                    <input type="text" class="form-control" id="shipping_last_name" placeholder="Last name" name="shipping_last_name">
                 </div>
             </div>
             <div class="form-group">

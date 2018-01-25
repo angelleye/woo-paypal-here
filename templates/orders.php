@@ -31,8 +31,6 @@
                                     <?php elseif ('order-total' === $column_id) : ?>
                                         <?php
                                         echo $order->get_formatted_order_total();
-                                        /* translators: 1: formatted order total 2: total order items */
-                                        //printf(_n('%1$s for %2$s item', '%1$s for %2$s items', $item_count, 'woocommerce'), $order->get_formatted_order_total(), $item_count);
                                         ?>
                                     <?php endif; ?>
                                 </td>
