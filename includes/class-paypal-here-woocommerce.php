@@ -146,7 +146,7 @@ class Paypal_Here_Woocommerce {
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_paypal_here_add_payment_method');
         if (is_admin() && !defined('DOING_AJAX')) {
-            $this->loader->add_action('add_meta_boxes', $plugin_admin , 'angelleye_paypal_here_add_meta_box', 10);
+            $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_paypal_here_add_meta_box', 10);
         }
     }
 
@@ -215,10 +215,6 @@ class Paypal_Here_Woocommerce {
      */
     public function get_version() {
         return $this->version;
-    }
-
-    public function prefix_ajax_add_foobar() {
-        $abc = 10;
     }
 
 }

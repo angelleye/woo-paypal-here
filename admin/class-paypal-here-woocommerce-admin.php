@@ -63,9 +63,7 @@ class Paypal_Here_Woocommerce_Admin {
      * @since    1.0.0
      */
     public function enqueue_scripts() {
-        
-        wp_register_script('qrcode', WC()->plugin_url() . '/assets/js/jquery-qrcode/jquery.qrcode.js', array('jquery'), WC_VERSION);
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-admin.js', array('jquery', 'qrcode'), $this->version, false);
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-admin.js', array('jquery'), $this->version, false);
         wp_localize_script($this->plugin_name, 'woocommerce_admin_api_keys', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'update_api_nonce' => wp_create_nonce('update-api-key'),
@@ -83,11 +81,11 @@ class Paypal_Here_Woocommerce_Admin {
     public function angelleye_paypal_here_add_meta_box() {
         add_meta_box('angelleye_admin_paypal_here_metabox', __('PayPal Here', 'paypal-for-woocommerce'), array($this, 'angelleye_paypal_here_metabox'), 'shop_order', 'side', 'default');
     }
-    
+
     public function angelleye_paypal_here_metabox($post) {
         $order_id = $post->ID;
         $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
-         $url = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=" . urlencode($qrcode_order_url) . "&chld=H|O";
+        $url = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=" . urlencode($qrcode_order_url) . "&chld=H|O";
         echo "<div style='text-align:center;'><img src='$url'></div>";
     }
 

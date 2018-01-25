@@ -10,8 +10,6 @@
                     <?php
                     foreach ($this->product_list as $product_id):
                         $product_obj = wc_get_product($product_id);
-                       // $GLOBALS['product'] = $product_obj;
-                        //$GLOBALS['post'] = get_post($product_id);
                         $post = get_post($product_id);
                         $product = $product_obj;
                         if (empty($product_obj) || !$product_obj->is_visible() || !$product_obj->is_purchasable() || !$product_obj->is_in_stock()) {
@@ -48,7 +46,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <button type="button" class="btn btn-light paypal_here_add_to_cart_button">ADD ITEM</button>
+                        <button type="button" class="btn btn-light paypal_here_add_to_cart_button"><?php echo __('ADD ITEM', 'paypal-here-woocommerce'); ?></button>
                     </div>
                     <div class="modal-body">
                     <?php wp_enqueue_script('wc-add-to-cart-variation'); ?>
@@ -58,7 +56,7 @@
         </div>
         <?php
     } else {
-        echo '<div class="col">'. __('No products found') . '</div>';
+        echo '<div class="col">'. __('No products found', 'paypal-here-woocommerce') . '</div>';
     }
     ?>
 </div>

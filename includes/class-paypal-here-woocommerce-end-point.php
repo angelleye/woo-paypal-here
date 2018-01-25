@@ -33,8 +33,6 @@ class Paypal_Here_Woocommerce_End_Point {
         add_action('angelleye_paypal_here_view_pending_orders_details_body_content', array($this, 'angelleye_paypal_here_view_pending_orders_details_body_content'), 10);
         add_action('wp_ajax_nopriv_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
         add_action('wp_ajax_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
-        
-        
         if (!is_admin()) {
             add_filter('query_vars', array($this, 'angelleye_paypal_here_add_query_vars'), 0);
             add_action('parse_request', array($this, 'angelleye_paypal_here_parse_request'), 0);
@@ -47,7 +45,6 @@ class Paypal_Here_Woocommerce_End_Point {
         } catch (HttpClientException $ex) {
             return $ex->getMessage();
         }
-        
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
@@ -113,7 +110,6 @@ class Paypal_Here_Woocommerce_End_Point {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
             add_rewrite_endpoint($this->paypal_here_settings['paypal_here_endpoint_url'], EP_PAGES | EP_PERMALINK);
-            //do_action('woocommerce_flush_rewrite_rules');
         }
     }
 
@@ -240,7 +236,7 @@ class Paypal_Here_Woocommerce_End_Point {
             $delete = $wpdb->delete($wpdb->prefix . 'woocommerce_api_keys', array('key_id' => $key_id), array('%d'));
             return $delete;
         } catch (Exception $ex) {
-            
+
         }
     }
 
@@ -268,10 +264,10 @@ class Paypal_Here_Woocommerce_End_Point {
     public function angelleye_paypal_here_get_product_list() {
         if (!empty($this->result)) {
             foreach ($this->result as $key => $value) {
-                if(!empty($value['id'])) {
+                if (!empty($value['id'])) {
                     $this->product_list[$key] = $value['id'];
-                } elseif(!empty($value['product_id'])) {
-                     $this->product_list[$key] = $value['product_id'];
+                } elseif (!empty($value['product_id'])) {
+                    $this->product_list[$key] = $value['product_id'];
                 }
             }
         }
@@ -289,7 +285,7 @@ class Paypal_Here_Woocommerce_End_Point {
 
     public function angelleye_paypal_here_display_order_list() {
         $this->result = $this->here_rest_api->angelleye_paypal_here_get_pending_order();
-        
+
         $this->angelleye_paypal_here_get_order_list();
         include $this->plugin_path() . '/templates/' . 'orders_search.php';
         include $this->plugin_path() . '/templates/' . 'orders.php';
@@ -312,7 +308,7 @@ class Paypal_Here_Woocommerce_End_Point {
     }
 
     public function angelleye_paypal_here_before_body_content() {
-        
+
     }
 
     public function angelleye_paypal_here_handle_submit_action() {

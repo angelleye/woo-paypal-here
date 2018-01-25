@@ -19,7 +19,7 @@ class Paypal_Here_Woocommerce_Rest_API {
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->site_url = is_ssl() ? home_url('/', 'https') : home_url('/');
-        if( !empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) {
+        if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) {
             $this->cs = 'cs_' . $this->paypal_here_settings['uniq_cs'];
             $this->ck = 'ck_' . $this->paypal_here_settings['uniq_ck'];
             $this->product_filter_settings = $this->paypal_here_settings['product_filter_settings'];
@@ -32,7 +32,7 @@ class Paypal_Here_Woocommerce_Rest_API {
                         ]
                 );
             } catch (Exception $ex) {
-
+                
             }
         }
     }
@@ -46,7 +46,7 @@ class Paypal_Here_Woocommerce_Rest_API {
             case 'featured_products':
                 $request_param['featured'] = true;
                 $this->result = $this->woocommerce->get('products', $request_param);
-                if(empty($this->result)) {
+                if (empty($this->result)) {
                     $this->result = $this->woocommerce->get('products');
                 }
                 break;
@@ -56,7 +56,7 @@ class Paypal_Here_Woocommerce_Rest_API {
             case 'top_selling_products':
                 $request_param['period'] = 'year';
                 $this->result = $this->woocommerce->get('reports/top_sellers', $request_param);
-                if(empty($this->result)) {
+                if (empty($this->result)) {
                     $this->result = $this->woocommerce->get('products');
                 }
                 break;

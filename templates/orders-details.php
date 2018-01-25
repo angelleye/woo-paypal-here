@@ -50,7 +50,7 @@
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header"  style="text-align: center;display: inline;">
-                        <h5 class="modal-title" id="paypal_here_modal_discountLabel">Discount</h5>
+                        <h5 class="modal-title" id="paypal_here_modal_discountLabel"><?php echo __('Discount', 'paypal-here-woocommerce'); ?></h5>
                     </div>
                     <div class="modal-body">
                         <form method="post" class="form-group">
@@ -61,15 +61,15 @@
                                 <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="discount-img"><input type="radio" name="discount_amount" value="amount" class="hidden" autocomplete="off"></label>
                             </div>
                             <div>
-                                <input type="text" class="form-control discount_field" id="paypal_here_coupon_code" placeholder="Coupon code" name="coupon_code">
-                                <input type="text" class="form-control discount_field" id="paypal_here_percentage" placeholder="Percentage" name="paypal_here_percentage" >
-                                <input type="text" class="form-control discount_field" id="paypal_here_dollar" placeholder="Amount" name="paypal_here_amount">
+                                <input type="text" class="form-control discount_field" id="paypal_here_coupon_code" placeholder="<?php echo __('Coupon code', 'paypal-here-woocommerce'); ?>" name="coupon_code">
+                                <input type="text" class="form-control discount_field" id="paypal_here_percentage" placeholder="<?php echo __('Percentage', 'paypal-here-woocommerce'); ?>" name="paypal_here_percentage" >
+                                <input type="text" class="form-control discount_field" id="paypal_here_dollar" placeholder="<?php echo __('Amount', 'paypal-here-woocommerce'); ?>" name="paypal_here_amount">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary paypal_here_apply_coupon">Apply</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal"><?php echo __('Close', 'paypal-here-woocommerce'); ?></button>
+                        <button type="button" class="btn btn-primary paypal_here_apply_coupon"><?php echo __('Apply', 'paypal-here-woocommerce'); ?></button>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header"  style="text-align: center;display: inline;">
-                        <h5 class="modal-title" id="paypal_here_modal_shippingLabel">Shipping</h5>
+                        <h5 class="modal-title" id="paypal_here_modal_shippingLabel"><?php echo __('Shipping', 'paypal-here-woocommerce'); ?></h5>
                     </div>
                     <div class="modal-body">
                         <form method="post" class="form-group">
@@ -89,15 +89,15 @@
                                 <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="amount" class="hidden" autocomplete="off"></label>
                             </div>
                             <div>
-                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_postal_code" placeholder="Postal code" name="paypal_here_shipping_postal_code">
-                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_percentage" placeholder="Percentage" name="paypal_here_shipping_percentage" >
-                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_dollar" placeholder="Amount" name="paypal_here_shipping_dollar">
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_postal_code" placeholder="<?php echo __('Postal code', 'paypal-here-woocommerce'); ?>" name="paypal_here_shipping_postal_code">
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_percentage" placeholder="<?php echo __('Percentage', 'paypal-here-woocommerce'); ?>" name="paypal_here_shipping_percentage" >
+                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_dollar" placeholder="<?php echo __('Amount', 'paypal-here-woocommerce'); ?>" name="paypal_here_shipping_dollar">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary paypal_here_apply_shipping">Apply</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal"><?php echo __('Close', 'paypal-here-woocommerce'); ?></button>
+                        <button type="button" class="btn btn-primary paypal_here_apply_shipping"><?php echo __('Apply', 'paypal-here-woocommerce'); ?></button>
                     </div>
                 </div>
             </div>

@@ -20,7 +20,6 @@
                             $billing_first_last_name = 'N/A';
                         }
                         ?>
-                    
                         <tr class='paypal_here_clickable_row' data-href="<?php echo add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $customer_order), $this->home_url . $this->paypal_here_endpoint_url); ?>">
                             <?php foreach ($columns as $column_id => $column_name) : ?>
                                 <td>

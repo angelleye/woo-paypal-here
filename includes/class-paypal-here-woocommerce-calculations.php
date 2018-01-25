@@ -94,12 +94,10 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     'name' => urlencode(html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8')),
                     'quantity' => $values['qty'],
                     'unitPrice' => $this->number_format($amount)
-                    
                 );
-                if( !empty($desc) ) {
+                if (!empty($desc)) {
                     $item['description'] = urlencode(html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8'));
                 }
-                
                 $this->order_items[] = $item;
                 $roundedPayPalTotal += round($amount * $values['qty'], $this->decimals);
             }
@@ -229,30 +227,30 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 return false;
             }
         }
-        
+
         public function clean_product_title($product_title) {
             $product_title = strip_tags($product_title);
             $product_title = str_replace(array("&#8211;", "&#8211"), array("-"), $product_title);
             $product_title = str_replace('&', '-', $product_title);
             return $product_title;
         }
-        
-        public function number_format( $price ) {
-		$decimals = 2;
 
-		if ( !$this->currency_has_decimals( get_woocommerce_currency() ) ) {
-			$decimals = 0;
-		}
+        public function number_format($price) {
+            $decimals = 2;
+            if (!$this->currency_has_decimals(get_woocommerce_currency())) {
+                $decimals = 0;
+            }
+            return number_format($price, $decimals, '.', '');
+        }
 
-		return number_format( $price, $decimals, '.', '' );
-	}
-        public function currency_has_decimals( $currency ) {
-		if ( in_array( $currency, array( 'HUF', 'JPY', 'TWD' ) ) ) {
-			return false;
-		}
-
-		return true;
-	}
+        public function currency_has_decimals($currency) {
+            if (in_array($currency, array('HUF', 'JPY', 'TWD'))) {
+                return false;
+            }
+            return true;
+        }
 
     }
+
+
 endif;

@@ -1,6 +1,5 @@
 (function ($) {
     'use strict';
-    
     $(function () {
         $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button').click(function () {
             $.ajax({
@@ -52,10 +51,8 @@
                 }
             });
         });
-        
-        var url = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl='+ woocommerce_admin_api_keys.paypal_here_url + '&chld=H|O';
+        var url = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=' + woocommerce_admin_api_keys.paypal_here_url + '&chld=H|O';
         url = url.toString();
         $('.paypal_here_endpoint_url_qrcode').attr('src', url);
-                
     });
 })(jQuery);
