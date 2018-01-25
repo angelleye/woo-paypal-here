@@ -227,11 +227,11 @@ class Paypal_Here_Woocommerce_Public {
             $order_id = $this->checkout->create_order(array());
             $order = wc_get_order($order_id);
             $billing_address = paypal_here_get_session('billing_address');
-            if( !empty($billing_address) ) {
+            if (!empty($billing_address)) {
                 $this->paypal_here_set_address($order_id, $billing_address);
             }
             $shipping_address = paypal_here_get_session('shipping_address');
-            if( !empty($shipping_address) ) {
+            if (!empty($shipping_address)) {
                 $this->paypal_here_set_address($order_id, $shipping_address);
             }
             $order->calculate_totals();
@@ -251,6 +251,7 @@ class Paypal_Here_Woocommerce_Public {
             update_post_meta($order_id, "_" . $key, $value);
         }
     }
+
     public function angelleye_paypal_here_redirect($location) {
         if (is_ajax()) {
             wp_send_json(array(
@@ -394,6 +395,25 @@ class Paypal_Here_Woocommerce_Public {
         $order->add_item($item);
         $order->calculate_totals(true);
         $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order->get_id()), $this->home_url . $this->paypal_here_endpoint_url));
+    }
+
+    public function paypal_here_call_back_handler() {
+        if (!empty($_GET['Type']) && !empty($_GET['InvoiceId']) && !empty($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+            $transaction_id = $_GET['InvoiceId'];
+            $type = $_GET['Type'];
+            try {
+                $order = wc_get_order($order_id);
+                $order->payment_complete($transaction_id);
+                update_post_meta($order_id, 'Type', $type);
+                update_post_meta($order_id, 'InvoiceId', $transaction_id);
+                wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
+                exit();
+            } catch (Exception $ex) {
+                wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
+                exit();
+            }
+        }
     }
 
 }

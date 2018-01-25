@@ -22,7 +22,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
         $this->email = $this->get_option('email');
         $this->accepted_payment_methods = $this->get_option('accepted_payment_methods', array('cash', 'card', 'paypal'));
-        $this->return_url = $this->angelleye_paypal_here_return_url();
+        $this->return_url = '';
         $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', '');
         $this->paypal_here_payment_url = 'paypalhere://takePayment?returnUrl=';
         if (!has_action('woocommerce_api_' . strtolower('Paypal_Here_Woocommerce_Payment'))) {
@@ -225,7 +225,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 }
                 $language = (get_locale() != '') ? get_locale() : '';
                 if( !empty($language)) {
-                    $billingInfo['language'] = $this->limit_length($language, 5);
+                    //$billingInfo['language'] = $this->limit_length($language, 5);
                 }
                 if( !empty($billing_address_1)) {
                     $billingInfo['address']['line1'] = $this->limit_length($billing_address_1);
@@ -265,7 +265,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 }
                 $language = (get_locale() != '') ? get_locale() : '';
                 if( !empty($language)) {
-                    $shippingInfo['language'] = $this->limit_length($language, 5);
+                    //$shippingInfo['language'] = $this->limit_length($language, 5);
                 }
                 if( !empty($shipping_address_1)) {
                     $shippingInfo['address']['line1'] = $this->limit_length($shipping_address_1);
@@ -300,7 +300,8 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 }
                 $this->invoice_encoded = urlencode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
-                $this->retUrl = urlencode($this->return_url . "?{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}");
+                $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
+                $this->retUrl = urlencode($this->return_url . "{result}&Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}");
                 $this->paypal_here_payment_url .= $this->retUrl;
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
                 $this->paypal_here_payment_url .= "&InvoiceId=" . $this->invoice_id_prefix . preg_replace("/[^a-zA-Z0-9]/", "", str_replace("#", "", $order->get_order_number()));
@@ -330,12 +331,12 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         
     }
 
-    public function angelleye_paypal_here_return_url() {
+    public function angelleye_paypal_here_return_url($order_id) {
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
-        return $this->home_url . $this->paypal_here_endpoint_url;
-        //return add_query_arg(array('paypal_here_action' => 'return_action', 'utm_nooverride' => '1'), WC()->api_request_url('Paypal_Here_Woocommerce_Payment'));
+        return add_query_arg( 'order_id', $order_id, $this->home_url . $this->paypal_here_endpoint_url );
+        
     }
 
     public function angelleye_paypal_here_process_payment() {

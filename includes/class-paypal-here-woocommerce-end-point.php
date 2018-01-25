@@ -34,6 +34,7 @@ class Paypal_Here_Woocommerce_End_Point {
         add_action('wp_ajax_nopriv_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
         add_action('wp_ajax_paypal_here_get_copon_code', array($this, 'paypal_here_get_copon_code'), 10);
         
+        
         if (!is_admin()) {
             add_filter('query_vars', array($this, 'angelleye_paypal_here_add_query_vars'), 0);
             add_action('parse_request', array($this, 'angelleye_paypal_here_parse_request'), 0);
