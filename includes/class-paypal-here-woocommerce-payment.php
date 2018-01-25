@@ -48,10 +48,10 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
     public function process_admin_options() {
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
-        if( !empty($this->generate_woocommerce_rest_api_key_value)) {
+        if (!empty($this->generate_woocommerce_rest_api_key_value)) {
             $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value'] = $this->generate_woocommerce_rest_api_key_value;
         }
-        
+
         $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button'] = 'Generate WooCommerce REST API key';
         parent::process_admin_options();
     }
@@ -201,6 +201,93 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->calculation = new Paypal_Here_Woocommerce_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
+                $billingInfo = array();
+                $billing_company = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_company : $order->get_billing_company();
+                $billing_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
+                $billing_last_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_last_name : $order->get_billing_last_name();
+                $billing_address_1 = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_address_1 : $order->get_billing_address_1();
+                $billing_address_2 = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_address_2 : $order->get_billing_address_2();
+                $billing_city = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_city : $order->get_billing_city();
+                $billing_postcode = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_postcode : $order->get_billing_postcode();
+                $billing_country = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_country : $order->get_billing_country();
+                $billing_state = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_state : $order->get_billing_state();
+                if( !empty($billing_first_name)) {
+                    $billingInfo['firstName'] = $this->limit_length($billing_first_name);
+                }
+                if( !empty($billing_last_name)) {
+                    $billingInfo['lastName'] = $this->limit_length($billing_last_name);
+                }
+                if( !empty($billing_company)) {
+                    $billingInfo['businessName'] = $this->limit_length($billing_company);
+                }
+                if( !empty($billing_company)) {
+                    $billingInfo['businessName'] = $this->limit_length($billing_company);
+                }
+                $language = (get_locale() != '') ? get_locale() : '';
+                if( !empty($language)) {
+                    $billingInfo['language'] = $this->limit_length($language, 5);
+                }
+                if( !empty($billing_address_1)) {
+                    $billingInfo['address']['line1'] = $this->limit_length($billing_address_1);
+                }
+                if( !empty($billing_address_2)) {
+                    $billingInfo['address']['line2'] = $this->limit_length($billing_address_2);
+                }
+                if( !empty($billing_city)) {
+                    $billingInfo['address']['city'] = $this->limit_length($billing_city);
+                }
+                if( !empty($billing_state)) {
+                    $billingInfo['address']['state'] = $this->limit_length($billing_state);
+                }
+                if( !empty($billing_postcode)) {
+                    $billingInfo['address']['postalCode'] = $this->limit_length($billing_postcode);
+                }
+                if( !empty($billing_country)) {
+                    $billingInfo['address']['countryCode'] = $this->limit_length($billing_country);
+                }
+                if( !empty($billingInfo) ) {
+                    $this->invoice['billingInfo'] = $billingInfo;
+                }
+                $shippingInfo = array();
+                $shipping_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_first_name : $order->get_shipping_first_name();
+                $shipping_last_name = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_last_name : $order->get_shipping_last_name();
+                $shipping_address_1 = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_address_1 : $order->get_shipping_address_1();
+                $shipping_address_2 = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_address_2 : $order->get_shipping_address_2();
+                $shipping_city = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_city : $order->get_shipping_city();
+                $shipping_state = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_state : $order->get_shipping_state();
+                $shipping_postcode = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_postcode : $order->get_shipping_postcode();
+                $shipping_country = version_compare(WC_VERSION, '3.0', '<') ? $order->shipping_country : $order->get_shipping_country();
+                if( !empty($shipping_first_name)) {
+                    $shippingInfo['firstName'] = $this->limit_length($shipping_first_name);
+                }
+                if( !empty($shipping_last_name)) {
+                    $shippingInfo['lastName'] = $this->limit_length($shipping_last_name);
+                }
+                $language = (get_locale() != '') ? get_locale() : '';
+                if( !empty($language)) {
+                    $shippingInfo['language'] = $this->limit_length($language, 5);
+                }
+                if( !empty($shipping_address_1)) {
+                    $shippingInfo['address']['line1'] = $this->limit_length($shipping_address_1);
+                }
+                if( !empty($shipping_address_2)) {
+                    $shippingInfo['address']['line2'] = $this->limit_length($shipping_address_2);
+                }
+                if( !empty($shipping_city)) {
+                    $shippingInfo['address']['city'] = $this->limit_length($shipping_city);
+                }
+                if( !empty($shipping_state)) {
+                    $shippingInfo['address']['state'] = $this->limit_length($shipping_state);
+                }
+                if( !empty($shipping_postcode)) {
+                    $shippingInfo['address']['postalCode'] = $this->limit_length($shipping_postcode);
+                }
+                if( !empty($shipping_country)) {
+                    $shippingInfo['address']['countryCode'] = $this->limit_length($shipping_country);
+                }
+                if( !empty($shippingInfo) ) {
+                    $this->invoice['shippingInfo'] = $shippingInfo;
+                }
                 $this->invoice['paymentTerms'] = 'DueOnReceipt';
                 $this->invoice['currencyCode'] = $order->get_currency();
                 $this->invoice['number'] = str_replace("#", "", $order->get_order_number());
@@ -250,11 +337,18 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         return $this->home_url . $this->paypal_here_endpoint_url;
         //return add_query_arg(array('paypal_here_action' => 'return_action', 'utm_nooverride' => '1'), WC()->api_request_url('Paypal_Here_Woocommerce_Payment'));
     }
-    
+
     public function angelleye_paypal_here_process_payment() {
         $order_id = $_POST['order_id'];
         $location = $this->process_payment($order_id);
         wp_send_json($location);
+    }
+
+    public function limit_length($string, $limit = 127) {
+        if (strlen($string) > $limit) {
+            $string = substr($string, 0, $limit - 3) . '...';
+        }
+        return $string;
     }
 
 }
