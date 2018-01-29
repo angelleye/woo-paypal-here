@@ -175,6 +175,7 @@ class Paypal_Here_Woocommerce_Public {
                 <?php } else { ?>
                     <form class="variations_form cart">
                     <?php } ?> 
+                        
                     <div class="row form-group  variations">
                         <div class="col-9 col-sm-9">
                             <input name="variation_id" class="variation_id" value="" type="hidden">
@@ -219,7 +220,10 @@ class Paypal_Here_Woocommerce_Public {
                                
                                     <?php foreach ($attributes as $name => $options) : ?>
                                         <div class="attribute-<?php echo sanitize_title($name); ?>">
-                                            <div class="label"><label for="<?php echo sanitize_title($name); ?>"><?php echo wc_attribute_label($name); ?></label></div>
+                                            <div class="label">
+                                                
+                                                <hr class="hr-text" data-content="<?php echo wc_attribute_label($name); ?>">
+                                                </div>
                                             <?php
                                             $sanitized_name = sanitize_title($name);
                                             if (isset($_REQUEST['attribute_' . $sanitized_name])) {
@@ -241,7 +245,8 @@ class Paypal_Here_Woocommerce_Public {
                                                             if (!in_array($term->slug, $options)) {
                                                                 continue;
                                                             }
-                                                            print_attribute_radio($checked_value, $term->slug, $term->name, $sanitized_name);
+                                                             print_attribute_radio($checked_value, $term->slug, $term->name, $sanitized_name);
+                                                            
                                                         }
                                                     } else {
                                                         foreach ($options as $option) {

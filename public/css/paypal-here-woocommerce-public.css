@@ -232,3 +232,36 @@ border-color: #0062cc;
 tr.paypal_here_shipping td small.shipped_via, #paypal_here_modal_shipping small.shipped_via {
     display: none;
 }
+.hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: black;
+  text-align: center;
+  height: 1.5em;
+}
+.hr-text:before {
+  content: '';
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#818078), to(transparent));
+  background: linear-gradient(to right, transparent, #818078, transparent);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+}
+.hr-text:after {
+  content: attr(data-content);
+  position: relative;
+  display: inline-block;
+  color: black;
+  padding: 0 .5em;
+  line-height: 1.5em;
+  color: black;
+  background-color: #fcfcfa;
+}
+
+.paypal_here_variation_radio {
+    opacity: 0;
+}

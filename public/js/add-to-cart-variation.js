@@ -309,8 +309,9 @@
 			checkAttributes[ current_attr_name ] = '';
 
 			var variations = form.findMatchingVariations( form.variationData, checkAttributes );
-
+                        $fields.find('button').addClass('disabled');
 			$fields.attr( 'disabled', 'disabled' );
+                        console.log($fields);
 
 			// Loop through variations.
 			for ( var num in variations ) {
@@ -327,6 +328,7 @@
 							} else {
 								// Enable all radio buttons of attribute.
 								$fields.removeAttr( 'disabled' );
+                                                                $('button').removeClass('disabled');
 							}
 						}
 					}
