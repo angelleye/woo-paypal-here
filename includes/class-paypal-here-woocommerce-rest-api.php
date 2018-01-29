@@ -47,17 +47,18 @@ class Paypal_Here_Woocommerce_Rest_API {
                 $request_param['featured'] = true;
                 $this->result = $this->woocommerce->get('products', $request_param);
                 if (empty($this->result)) {
-                    $this->result = $this->woocommerce->get('products');
+                    $this->result = $this->woocommerce->get('products', array('per_page' => 100));
                 }
                 break;
             case 'new_products':
-                $this->result = $this->woocommerce->get('products');
+                $this->result = $this->woocommerce->get('products', array('per_page' => 100));
                 break;
             case 'top_selling_products':
                 $request_param['period'] = 'year';
+                $request_param['per_page'] = '100';
                 $this->result = $this->woocommerce->get('reports/top_sellers', $request_param);
                 if (empty($this->result)) {
-                    $this->result = $this->woocommerce->get('products');
+                    $this->result = $this->woocommerce->get('products', array('per_page' => 100));
                 }
                 break;
         }

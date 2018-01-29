@@ -134,14 +134,21 @@ class Paypal_Here_Woocommerce_Public {
     public function paypal_here_get_modal_body() {
         ob_start();
         global $wpdb, $woocommerce, $post;
+        
         $product_id = absint($_POST['product_id']);
         check_ajax_referer('paypal_here_nonce', 'security');
         $product = wc_get_product($product_id);
         setup_postdata($product);
+        $GLOBALS['post'] = $product;
         $GLOBALS['product'] = $product;
-//        if (empty($product) || !$product->is_visible() || !$product->is_purchasable() || !$product->is_in_stock()) {
-//            continue;
-//        }
+        wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array( 'jquery', 'wp-util' ), '10', true);
+        ?>
+        <script>
+		 	   
+		 	    var wc_add_to_cart_variation_params = {"ajax_url":"\/wp-admin\/admin-ajax.php"};     
+	            jQuery.getScript("<?php echo PAYPAL_HERE_ASSET_URL; ?>public/js/add-to-cart-variation.js");
+	 	    </script>
+                    <?php 
         $input_id = uniqid('quantity_');
         $input_name = 'quantity';
         $input_value = '1';
@@ -156,34 +163,103 @@ class Paypal_Here_Woocommerce_Public {
         $pattern = apply_filters('woocommerce_quantity_input_pattern', has_filter('woocommerce_stock_amount', 'intval') ? '[0-9]*' : '');
         $inputmode = apply_filters('woocommerce_quantity_input_inputmode', has_filter('woocommerce_stock_amount', 'intval') ? 'numeric' : '');
         ?>
-        <div class="container-fluid">
-            <form>
-                <div class="row form-group">
-                    <div class="col-9 col-sm-9">
-                        <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id(); ?>">
-                        <span><?php echo $product->get_title(); ?></span>
-                    </div>
-                    <div class="col-3 col-sm-3 tal">
-                        <?php echo $product->get_price_html(); ?>
-                    </div>
-                    <div class="col-12 col-sm-12 mtonerem">
-                        <?php if ($max_value && $min_value === $max_value) {
+        <div class="container-fluid product">
+            <?php
+            if ($product->get_type() == 'variable') {
+                $get_variations = count($product->get_children()) <= apply_filters('woocommerce_ajax_variation_threshold', 30, $product);
+                $available_variations = $get_variations ? $product->get_available_variations() : false;
+                $attributes = $product->get_variation_attributes();
+                $selected_attributes = $product->get_default_attributes();
+                ?>
+                <form class="variations_form cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint($product->get_id()); ?>" data-product_variations="<?php echo htmlspecialchars(wp_json_encode($available_variations)) ?>">
+                <?php } else { ?>
+                    <form class="variations_form cart">
+                    <?php } ?> 
+                    <div class="row form-group  variations">
+                        <div class="col-9 col-sm-9">
+                            <input name="variation_id" class="variation_id" value="" type="hidden">
+                            <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id(); ?>">
+                            <span><?php echo $product->get_title(); ?></span>
+                        </div>
+                        <div class="col-3 col-sm-3 tal price_html">
+                            <?php echo $product->get_price_html(); ?>
+                        </div>
+                        <div class="col-12 col-sm-12 mtonerem">
+                            <?php if ($max_value && $min_value === $max_value) {
+                                ?>
+                                <div class="quantity hidden form-group">
+                                    <input type="hidden" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($min_value); ?>" />
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="quantity form-group">
+                                    <input type="number" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" step="<?php echo esc_attr($step); ?>" min="<?php echo esc_attr($min_value); ?>" max="<?php echo esc_attr(0 < $max_value ? $max_value : empty($max_value) ? 99 : '' ); ?>" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($input_value); ?>" title="<?php echo esc_attr_x('Qty', 'Product quantity input tooltip', 'woocommerce') ?>" size="4" pattern="<?php echo esc_attr($pattern); ?>" inputmode="<?php echo esc_attr($inputmode); ?>" />
+                                </div>
+                                <?php
+                            }
                             ?>
-                            <div class="quantity hidden form-group">
-                                <input type="hidden" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($min_value); ?>" />
-                            </div>
-                            <?php
-                        } else {
-                            ?>
-                            <div class="quantity form-group">
-                                <input type="number" id="<?php echo esc_attr($input_id); ?>" class="input-text qty text form-control paypal_here_number_input" step="<?php echo esc_attr($step); ?>" min="<?php echo esc_attr($min_value); ?>" max="<?php echo esc_attr(0 < $max_value ? $max_value : empty($max_value) ? 99 : '' ); ?>" name="<?php echo esc_attr($input_name); ?>" value="<?php echo esc_attr($input_value); ?>" title="<?php echo esc_attr_x('Qty', 'Product quantity input tooltip', 'woocommerce') ?>" size="4" pattern="<?php echo esc_attr($pattern); ?>" inputmode="<?php echo esc_attr($inputmode); ?>" />
-                            </div>
-                            <?php
-                        }
-                        ?>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <?php
+                    if ($product->get_type() == 'variable') {
+
+                        $get_variations = count($product->get_children()) <= apply_filters('woocommerce_ajax_variation_threshold', 30, $product);
+                        $available_variations = $get_variations ? $product->get_available_variations() : false;
+                        $attributes = $product->get_variation_attributes();
+                        $attribute_keys = array_keys($attributes);
+                        $selected_attributes = $product->get_default_attributes();
+
+                        if (empty($available_variations) && false !== $available_variations) {
+                            ?>
+                            <p class="stock out-of-stock"><?php _e('This product is currently out of stock and unavailable.', 'woocommerce'); ?></p>
+                        <?php } else { ?>
+
+                            <div class="variations" cellspacing="0">
+                               
+                                    <?php foreach ($attributes as $name => $options) : ?>
+                                        <div class="attribute-<?php echo sanitize_title($name); ?>">
+                                            <div class="label"><label for="<?php echo sanitize_title($name); ?>"><?php echo wc_attribute_label($name); ?></label></div>
+                                            <?php
+                                            $sanitized_name = sanitize_title($name);
+                                            if (isset($_REQUEST['attribute_' . $sanitized_name])) {
+                                                $checked_value = $_REQUEST['attribute_' . $sanitized_name];
+                                            } elseif (isset($selected_attributes[$sanitized_name])) {
+                                                $checked_value = $selected_attributes[$sanitized_name];
+                                            } else {
+                                                $checked_value = '';
+                                            }
+                                            ?>
+                                            <div class="value">
+                                                <?php
+                                                if (!empty($options)) {
+                                                    if (taxonomy_exists($name)) {
+                                                        // Get terms if this is a taxonomy - ordered. We need the names too.
+                                                        $terms = wc_get_product_terms($product->get_id(), $name, array('fields' => 'all'));
+
+                                                        foreach ($terms as $term) {
+                                                            if (!in_array($term->slug, $options)) {
+                                                                continue;
+                                                            }
+                                                            print_attribute_radio($checked_value, $term->slug, $term->name, $sanitized_name);
+                                                        }
+                                                    } else {
+                                                        foreach ($options as $option) {
+                                                            print_attribute_radio($checked_value, $option, $option, $sanitized_name);
+                                                        }
+                                                    }
+                                                }
+
+                                                echo end($attribute_keys) === $name ? apply_filters('woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . __('Clear', 'woocommerce') . '</a>') : '';
+                                                ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                
+                        <?php }
+                    } ?>
+                </form>
+                  
         </div>
         <?php
         $data['html'] = ob_get_clean();

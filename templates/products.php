@@ -1,5 +1,6 @@
 <div class="row">
     <?php
+    
     if (!empty($this->product_list)) {
         global $post, $product;
         ?>
@@ -49,7 +50,10 @@
                         <button type="button" class="btn btn-light paypal_here_add_to_cart_button"><?php echo __('ADD ITEM', 'paypal-here-woocommerce'); ?></button>
                     </div>
                     <div class="modal-body">
-                    <?php wp_enqueue_script('wc-add-to-cart-variation'); ?>
+                    <?php 
+                    wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array( 'jquery', 'wp-util' ), '10', true);
+                    array( 'jquery', 'wp-util' )
+                    ?>
                     </div>
                 </div>
             </div>

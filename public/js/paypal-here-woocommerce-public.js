@@ -96,6 +96,7 @@
         });
 
         $(".open-modal").click(function () {
+            console.log('hiii');
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
@@ -106,6 +107,8 @@
                     product_id: $(this).attr("id")
                 },
                 success: function (response) {
+                   
+                    
                     var data = response.data;
                     if (response.success) {
                         $('.modal-body').html('');
