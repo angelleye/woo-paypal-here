@@ -56,7 +56,7 @@
         </div>
         <?php
     } else {
-        echo '<div class="col">'. __('No products found', 'paypal-here-woocommerce') . '</div>';
+        echo '<div class="default-ceneter-button">'. __('No products found', 'paypal-here-woocommerce') . '</div>';
     }
     ?>
 </div>
