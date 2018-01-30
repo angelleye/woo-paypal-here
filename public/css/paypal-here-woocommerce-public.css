@@ -262,6 +262,6 @@ tr.paypal_here_shipping td small.shipped_via, #paypal_here_modal_shipping small.
   background-color: #fcfcfa;
 }
 
-.paypal_here_variation_radio {
-    opacity: 0;
+div label.btn input[type="radio"] {
+    display: none;
 }

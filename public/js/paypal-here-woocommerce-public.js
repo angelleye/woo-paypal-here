@@ -48,13 +48,17 @@
         });
         $(".paypal_here_add_to_cart_button").click(function () {
             var get_attributes = function () {
-                var select = $('.variations_form').find('.variations select'),
+                var select = $('.variations_form').find('.variations input[type=radio]:checked'),
                         data = {},
                         count = 0,
                         chosen = 0;
                 select.each(function () {
                     var attribute_name = $(this).data('attribute_name') || $(this).attr('name');
-                    var value = $(this).val() || '';
+                    
+                        var value = $(this).val() || '';
+                    console.log(value);
+                   
+                    
                     if (value.length > 0) {
                         chosen++;
                     }
@@ -72,7 +76,8 @@
                 'security': paypal_here_ajax_param.paypal_here_nonce,
                 'qty': $("input[name=quantity]").val(),
                 'attributes': $('.variations_form').length ? get_attributes().data : [],
-                'product_id': $("input[name=add-to-cart]").val()
+                'product_id': $("input[name=add-to-cart]").val(),
+                'variation_id': $("input[name=variation_id]").val()
             };
             $.ajax({
                 type: 'POST',
@@ -283,5 +288,7 @@
         $(".paypal_here_clickable_row").click(function() {
             window.document.location = $(this).data("href");
         });
+        
+        
     });
 })(jQuery);

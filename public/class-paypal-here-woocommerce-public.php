@@ -219,7 +219,7 @@ class Paypal_Here_Woocommerce_Public {
                             <div class="variations" cellspacing="0">
                                
                                     <?php foreach ($attributes as $name => $options) : ?>
-                                        <div class="attribute-<?php echo sanitize_title($name); ?>">
+                                        <div class=" clearfix attribute-<?php echo sanitize_title($name); ?>">
                                             <div class="label">
                                                 
                                                 <hr class="hr-text" data-content="<?php echo wc_attribute_label($name); ?>">
@@ -234,7 +234,7 @@ class Paypal_Here_Woocommerce_Public {
                                                 $checked_value = '';
                                             }
                                             ?>
-                                            <div class="value">
+                                            <div class="value default-ceneter-button">
                                                 <?php
                                                 if (!empty($options)) {
                                                     if (taxonomy_exists($name)) {

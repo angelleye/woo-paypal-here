@@ -33,7 +33,7 @@
 		$form.on( 'reload_product_variations', { variationForm: this }, this.onReload );
 		$form.on( 'hide_variation', { variationForm: this }, this.onHide );
 		$form.on( 'show_variation', { variationForm: this }, this.onShow );
-		$form.on( 'click', '.single_add_to_cart_button', { variationForm: this }, this.onAddToCart );
+		$form.on( 'click', '.paypal_here_add_to_cart_button', { variationForm: this }, this.onAddToCart );
 		$form.on( 'reset_data', { variationForm: this }, this.onResetDisplayedVariation );
 		$form.on( 'reset_image', { variationForm: this }, this.onResetImage );
 		$form.on( 'change', '.variations input[type=radio]', { variationForm: this }, this.onChange );
@@ -70,7 +70,7 @@
 	 */
 	VariationForm.prototype.onHide = function( event ) {
 		event.preventDefault();
-		event.data.variationForm.$form.find( '.single_add_to_cart_button' ).removeClass( 'wc-variation-is-unavailable' ).addClass( 'disabled wc-variation-selection-needed' );
+		event.data.variationForm.$form.find( '.paypal_here_add_to_cart_button' ).removeClass( 'wc-variation-is-unavailable' ).addClass( 'disabled wc-variation-selection-needed' );
 		event.data.variationForm.$form.find( '.woocommerce-variation-add-to-cart' ).removeClass( 'woocommerce-variation-add-to-cart-enabled' ).addClass( 'woocommerce-variation-add-to-cart-disabled' );
 	};
 
@@ -80,10 +80,10 @@
 	VariationForm.prototype.onShow = function( event, variation, purchasable ) {
 		event.preventDefault();
 		if ( purchasable ) {
-			event.data.variationForm.$form.find( '.single_add_to_cart_button' ).removeClass( 'disabled wc-variation-selection-needed wc-variation-is-unavailable' );
+			event.data.variationForm.$form.find( '.paypal_here_add_to_cart_button' ).removeClass( 'disabled wc-variation-selection-needed wc-variation-is-unavailable' );
 			event.data.variationForm.$form.find( '.woocommerce-variation-add-to-cart' ).removeClass( 'woocommerce-variation-add-to-cart-disabled' ).addClass( 'woocommerce-variation-add-to-cart-enabled' );
 		} else {
-			event.data.variationForm.$form.find( '.single_add_to_cart_button' ).removeClass( 'wc-variation-selection-needed' ).addClass( 'disabled wc-variation-is-unavailable' );
+			event.data.variationForm.$form.find( '.paypal_here_add_to_cart_button' ).removeClass( 'wc-variation-selection-needed' ).addClass( 'disabled wc-variation-is-unavailable' );
 			event.data.variationForm.$form.find( '.woocommerce-variation-add-to-cart' ).removeClass( 'woocommerce-variation-add-to-cart-enabled' ).addClass( 'woocommerce-variation-add-to-cart-disabled' );
 		}
 	};
@@ -309,9 +309,13 @@
 			checkAttributes[ current_attr_name ] = '';
 
 			var variations = form.findMatchingVariations( form.variationData, checkAttributes );
-                        $fields.find('button').addClass('disabled');
+                        
 			$fields.attr( 'disabled', 'disabled' );
-                        console.log($fields);
+                        $fields.parent('label').addClass( 'disabled' );
+                        
+                        
+                        
+                        
 
 			// Loop through variations.
 			for ( var num in variations ) {
@@ -325,18 +329,26 @@
 							if ( attr_val ) {
 								// Remove disabled.
 								$fields.filter( '[value="' + form.addSlashes( attr_val ) + '"]' ).removeAttr( 'disabled' );
+                                                                $fields.filter( '[value="' + form.addSlashes( attr_val ) + '"]' ).parent('label').removeClass( 'disabled' );
+                                                                $fields.filter( '[value="' + form.addSlashes( attr_val ) + '"]' ).parent('label').removeClass( 'active' );
 							} else {
 								// Enable all radio buttons of attribute.
 								$fields.removeAttr( 'disabled' );
-                                                                $('button').removeClass('disabled');
+                                                                $fields.parent('label').removeClass( 'disabled' );
+                                                                $fields.parent('label').removeClass( 'active' );
 							}
 						}
 					}
 				}
 			}
 		});
-
-		// Custom event for when variations have been updated.
+                $("input:radio[class=paypal_here_variation_radio]").each(function(){
+                        var name = $(this).attr("name");
+                        var value = $(this).attr("value");
+                            if($("input:radio[class=paypal_here_variation_radio][name="+name+"][value="+value+"]:checked").length == 1) {
+                                $("input:radio[class=paypal_here_variation_radio][name="+name+"][value="+value+"]").parent('label').addClass(  'active' );                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                        });
 		form.$form.trigger( 'woocommerce_update_variation_values' );
 	};
 
