@@ -42,10 +42,10 @@
         </div>
         <?php
     } else {
-        echo '<div class="default-ceneter-button">'. __('No Pending order found') . '</div>';
         ?>
     
         <div class="default-ceneter-button">
+            <p class="text-secondary"><?php echo __('No Pending order found'); ?> </p>
             <br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'order_billing')); ?>" role="button"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a></div><br>
         </div>
