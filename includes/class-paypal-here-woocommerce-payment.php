@@ -112,22 +112,22 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'default' => 'no'
         );
         $this->form_fields['email'] = array(
-            'title' => __('PayPal email', 'paypal-here-woocommerce'),
+            'title' => __('PayPal Email', 'paypal-here-woocommerce'),
             'type' => 'email',
-            'description' => __('Please enter your PayPal email address; this is needed in order to take payment.', 'paypal-here-woocommerce'),
+            'description' => __('Enter your PayPal account email address that will be used with the PayPal Here app.', 'paypal-here-woocommerce'),
             'default' => get_option('admin_email'),
             'desc_tip' => true,
-            'placeholder' => 'you@youremail.com',
+            'placeholder' => 'email@domain.com',
         );
         $this->form_fields['accepted_payment_methods'] = array(
-            'title' => __('Accepted payment methods', 'paypal-here-woocommerce'),
+            'title' => __('Accepted Payment Methods', 'paypal-here-woocommerce'),
             'type' => 'multiselect',
             'class' => 'chosen_select',
             'css' => 'width: 350px;',
-            'desc_tip' => __('Select accepted payment methods.', 'paypal-here-woocommerce'),
+            'desc_tip' => __('Choose the payment methods you would like to make available in the Here app for WooCommerce orders.', 'paypal-here-woocommerce'),
             'options' => array(
                 'cash' => 'Cash',
-                'card' => 'Card',
+                'card' => 'Credit Card',
                 'invoice' => 'Invoice',
                 'check' => 'Check',
                 'paypal' => 'PayPal'
@@ -139,19 +139,19 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'type' => 'text',
             'description' => __('Add a prefix to the invoice ID sent to PayPal. This can resolve duplicate invoice problems when working with multiple websites on the same PayPal account.', 'paypal-here-woocommerce'),
             'desc_tip' => true,
-            'default' => 'WC-PH'
+            'default' => 'WC-PH-'
         );
         if (empty($this->generate_woocommerce_rest_api_key_value)) {
             $this->form_fields['generate_woocommerce_rest_api_push_button'] = array(
                 'title' => __('WooCommerce REST API', 'paypal-here-woocommerce'),
                 'type' => 'button',
                 'description' => __('', ''),
-                'default' => 'Generate WooCommerce REST API key',
+                'default' => 'Generate WooCommerce API Key',
                 'class' => "button button-primary"
             );
         }
         $this->form_fields['generate_woocommerce_rest_api_key_value'] = array(
-            'title' => __('Consumer key ending in', 'paypal-here-woocommerce'),
+            'title' => __('API Key (Ending With)', 'paypal-here-woocommerce'),
             'type' => 'text',
             'description' => '<div id="rest_api_key_value_description"><a style="color: #a00; text-decoration: none;" href="">Revoke key</a></div>',
             'disabled' => true
@@ -160,7 +160,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'title' => __('View Products', 'paypal-here-woocommerce'),
             'type' => 'select',
             'class' => 'wc-enhanced-select',
-            'description' => __('Choose whether you wish to how to display the "View Products" screen in the web app.', 'paypal-here-woocommerce'),
+            'description' => __('Choose which products you would like to display by default in the web app when creating new orders.', 'paypal-here-woocommerce'),
             'default' => 'featured_products',
             'desc_tip' => true,
             'options' => array(
@@ -169,20 +169,21 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 'top_selling_products' => __('Top Selling Products', 'paypal-here-woocommerce')
             ),
         );
-        $this->form_fields['paypla_here_endpoint'] = array('title' => __('PayPal Here endpoint', 'paypal-here-woocommerce'), 'type' => 'title', 'description' => __('Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.', 'paypal-here-woocommerce'));
+        $this->form_fields['paypal_here_endpoint'] = array('title' => __('PayPal Here Endpoint', 'paypal-here-woocommerce'), 'type' => 'title', 'description' => __('Set the endpoint value you would like to use for the PayPal Here web app.  This will be appended to your site URL to build the full URL for the web app portion of the PayPal Here for WooCommerce solution.', 'paypal-here-woocommerce'));
         $this->form_fields['paypal_here_endpoint_url'] = array(
-            'title' => __('PayPal Here URL', 'paypal-here-woocommerce'),
+            'title' => __('PayPal Here Endpoint', 'paypal-here-woocommerce'),
             'id' => 'paypal_here_endpoint_url',
             'type' => 'text',
-            'description' => sprintf(__('Endpoint for PayPal Here e.g %s/%s', 'paypal-here-woocommerce'), site_url(), 'paypal-here'),
+            'description' => sprintf(__('URL for PayPal Here web app using your endpoint: %s/%s', 'paypal-here-woocommerce'), site_url(), 'paypal-here'),
             'default' => 'paypal-here',
         );
         $this->form_fields['paypal_here_endpoint_title'] = array(
             'title' => __('PayPal Here Page Title', 'paypal-here-woocommerce'),
             'id' => 'paypal_here_endpoint_title',
             'type' => 'text',
-            'description' => '',
+            'description' => 'This value will be used as the page title for the PayPal Here web app.',
             'default' => 'PayPal Here',
+            'desc_tip' => true,
         );
     }
 
