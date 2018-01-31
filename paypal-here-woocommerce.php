@@ -32,6 +32,9 @@ if (!defined('PAYPAL_HERE_ASSET_URL')) {
 if (!defined('PAYPAL_HERE_PLUGIN_FILE')) {
     define('PAYPAL_HERE_PLUGIN_FILE', __FILE__);
 }
+if (!defined('PAYPAL_HERE_PLUGIN_BASENAME')) {
+    define('PAYPAL_HERE_PLUGIN_BASENAME', plugin_basename(__FILE__));
+}
 
 /**
  * The code that runs during plugin activation.

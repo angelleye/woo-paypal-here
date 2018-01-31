@@ -148,6 +148,9 @@ class Paypal_Here_Woocommerce {
         if (is_admin() && !defined('DOING_AJAX')) {
             $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_paypal_here_add_meta_box', 10);
         }
+        $basename = PAYPAL_HERE_PLUGIN_BASENAME;
+        $prefix = is_network_admin() ? 'network_admin_' : '';
+        $this->loader->add_filter("{$prefix}plugin_action_links_$basename", $plugin_admin, 'paypal_here_action_links', 10, 4);
     }
 
     /**

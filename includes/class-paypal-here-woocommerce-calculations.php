@@ -91,7 +91,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     }
                 }
                 $item = array(
-                    'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
+                    'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-here-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'quantity' => $values['qty'],
                     'unitPrice' => $this->number_format($amount)
                 );
@@ -105,7 +105,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $fee_item_name = version_compare(WC_VERSION, '3.0', '<') ? $fee_values['name'] : $fee_values->get_name();
                 $amount = $order->get_line_total($fee_values);
                 $fee_item = array(
-                    'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
+                    'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-here-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'quantity' => 1,
                     'unitPrice' => $this->number_format($amount)
                 );

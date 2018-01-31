@@ -24,6 +24,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         $this->accepted_payment_methods = $this->get_option('accepted_payment_methods', array('cash', 'card', 'paypal'));
         $this->return_url = '';
         $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', '');
+        $this->debug = 'yes' === $this->get_option('paypal_here_debug', 'no');
         $this->paypal_here_payment_url = 'paypalhere://takePayment?returnUrl=';
     }
 
@@ -185,6 +186,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'default' => 'PayPal Here',
             'desc_tip' => true,
         );
+        $this->form_fields['paypal_here_debug'] = array(
+            'title' => __('Debug Log', 'paypal-here-woocommerce'),
+            'type' => 'checkbox',
+            'label' => __('Enable logging', 'paypal-here-woocommerce'),
+            'default' => 'no',
+            'description' => sprintf(__('Log PayPal events, inside <code>%s</code>', 'paypal-here-woocommerce'), wc_get_log_file_path('angelleye_paypal_here'))
+        );
     }
 
     public function process_payment($order_id) {
@@ -199,16 +207,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->order_item = $this->calculation->order_calculation($order_id);
                 if ($this->order_item['taxamt'] > 0) {
                  $tax_item = array(
-                     'name' =>  __('Tax', 'paypal-for-woocommerce'),
+                     'name' =>  __('Tax', 'paypal-here-woocommerce'),
                      'quantity' => 1,
                      'unitPrice' => $this->order_item['taxamt']
                  );
                  $this->order_item['order_items'][] = $tax_item;
                 }
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
-                $log = wc_get_logger();
-			
-                $log->log( 'info' , json_encode($this->invoice), array( 'source' => 'paypal_here' ) );
                 $billingInfo = array();
                 $billing_company = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_company : $order->get_billing_company();
                 $billing_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
@@ -306,7 +311,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 if ($this->order_item['shippingamt'] > 0) {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
-                
+                $this->add_log(json_encode($this->invoice));
                 $this->invoice_encoded = urlencode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
                 $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
@@ -324,7 +329,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                     // $this->paypal_here_payment_url .= "&payerPhone=" . $billing_phone;
                 }
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
-
+                $this->add_log('full_url:->  '.$this->paypal_here_payment_url);
 
                 return array(
                     'result' => 'success',
@@ -354,6 +359,22 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             $string = substr($string, 0, $limit - 3) . '...';
         }
         return $string;
+    }
+    
+    public function add_log($message, $level = 'info') {
+        if ($this->debug) {
+            if (version_compare(WC_VERSION, '3.0', '<')) {
+                if (empty($this->log)) {
+                    $this->log = new WC_Logger();
+                }
+                $this->log->add('angelleye_paypal_here', $message);
+            } else {
+                if (empty($this->log)) {
+                    $this->log = wc_get_logger();
+                }
+                $this->log->log($level, $message, array('source' => 'angelleye_paypal_here'));
+            }
+        }
     }
 
 }
