@@ -197,7 +197,18 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $billing_email = $order->get_billing_email();
                 $this->calculation = new Paypal_Here_Woocommerce_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
+                if ($this->order_item['taxamt'] > 0) {
+                 $tax_item = array(
+                     'name' =>  __('Tax', 'paypal-for-woocommerce'),
+                     'quantity' => 1,
+                     'unitPrice' => $this->order_item['taxamt']
+                 );
+                 $this->order_item['order_items'][] = $tax_item;
+                }
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
+                $log = wc_get_logger();
+			
+                $log->log( 'info' , json_encode($this->invoice), array( 'source' => 'paypal_here' ) );
                 $billingInfo = array();
                 $billing_company = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_company : $order->get_billing_company();
                 $billing_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
@@ -295,6 +306,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 if ($this->order_item['shippingamt'] > 0) {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
+                
                 $this->invoice_encoded = urlencode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
                 $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
