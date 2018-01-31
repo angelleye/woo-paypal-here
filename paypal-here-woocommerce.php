@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       PayPal Here for WooCommerce
  * Plugin URI:        https://www.angelleye.com/paypal-here-woocommerce
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Process WooCommerce orders with PayPal Here, or create new orders from the mobile app using WooCommerce data and sync the order back to WooCommerce.
  * Version:           1.0.0
  * Author:            Angell EYE
  * Author URI:        https://www.angelleye.com
