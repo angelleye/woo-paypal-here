@@ -6,19 +6,17 @@
         height: 100%;
         margin-top: 0px !important;
     }
-    body {
-  background: #012269;
-  
-}
+    
 .angelleye_paypal_here_default_main {
-    position: fixed;
-  top: 15px;
-  right: 15px;
-  left: 15px;
-  bottom: 15px;
-  background: white;
- 
- 
+  
+ position: absolute;
+      overflow: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      border: 15px solid #012269;
+
 
 }
 
