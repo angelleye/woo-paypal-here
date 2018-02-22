@@ -3,14 +3,11 @@
  * included in this file.
  */
 html { margin-top: 32px !important; }
-	* html body { margin-top: 32px !important; }
-	@media screen and ( max-width: 782px ) {
-		html { margin-top: 46px !important; }
-		* html body { margin-top: 46px !important; }
-	}
-        
+* html body { margin-top: 32px !important; }
+
+
 .pt50 {
-     padding-top: 50px;
+    padding-top: 50px;
 }  
 .pt30 {
     padding-top: 25px;
@@ -43,13 +40,13 @@ html { margin-top: 32px !important; }
 }
 
 .modal-content  {
-   
+
     border-radius: 15px;
 }
 .modal-header {
     padding: 5px 16px 7px 10px;
 }
- 
+
 .mtonerem {
     margin-top: 1rem;
 }
@@ -59,107 +56,6 @@ html { margin-top: 32px !important; }
 .tar {
     text-align: right;
 }
-
-
-.funkyradio div {
-  clear: both;
-  overflow: hidden;
-}
-
-.funkyradio label {
-  width: 100%;
-  border-radius: 3px;
-  border: 1px solid #D1D3D4;
-  font-weight: normal;
-  padding: 0px 10px 0px 0px;
-}
-
-.funkyradio input[type="radio"]:empty,
-.funkyradio input[type="checkbox"]:empty {
-  display: none;
-}
-
-.funkyradio input[type="radio"]:empty ~ label,
-.funkyradio input[type="checkbox"]:empty ~ label {
-  position: relative;
-  line-height: 2.5em;
-  text-indent: 3.25em;
-  
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-.funkyradio input[type="radio"]:empty ~ label:before,
-.funkyradio input[type="checkbox"]:empty ~ label:before {
-  position: absolute;
-  display: block;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  content: '';
-  width: 2.5em;
-  background: #D1D3D4;
-  border-radius: 3px 0 0 3px;
-}
-
-
-
-.funkyradio input[type="radio"]:checked ~ label,
-.funkyradio input[type="checkbox"]:checked ~ label {
-  color: #777;
-}
-
-.funkyradio input[type="radio"]:checked ~ label:before,
-.funkyradio input[type="checkbox"]:checked ~ label:before {
-  content: '\2714';
-  text-indent: .9em;
-  color: #333;
-  background-color: #ccc;
-}
-
-.funkyradio input[type="radio"]:focus ~ label:before,
-.funkyradio input[type="checkbox"]:focus ~ label:before {
-  box-shadow: 0 0 0 3px #999;
-}
-
-.funkyradio-default input[type="radio"]:checked ~ label:before,
-.funkyradio-default input[type="checkbox"]:checked ~ label:before {
-  color: #333;
-  background-color: #ccc;
-}
-
-.funkyradio-primary input[type="radio"]:checked ~ label:before,
-.funkyradio-primary input[type="checkbox"]:checked ~ label:before {
-  color: #fff;
-  background-color: #337ab7;
-}
-
-.funkyradio-success input[type="radio"]:checked ~ label:before{
-  color: #fff;
-  background-color: #5cb85c;
-}
-
-.funkyradio-danger input[type="radio"]:checked ~ label:before,
-.funkyradio-danger input[type="checkbox"]:checked ~ label:before {
-  color: #fff;
-  background-color: #d9534f;
-}
-
-.funkyradio-warning input[type="radio"]:checked ~ label:before,
-.funkyradio-warning input[type="checkbox"]:checked ~ label:before {
-  color: #fff;
-  background-color: #f0ad4e;
-}
-
-.funkyradio-info input[type="radio"]:checked ~ label:before,
-.funkyradio-info input[type="checkbox"]:checked ~ label:before {
-  color: #fff;
-  background-color: #5bc0de;
-}
-
 .paypal_here_discount, .paypal_here_shipping {
     cursor: pointer;
 }
@@ -169,46 +65,28 @@ html { margin-top: 32px !important; }
 .angelleye_paypal_here_shop_thumbnail { 
     width: 50px;
 }
-
 .open-modal {
     cursor: pointer;
 }
-
 .here_header_img {
     width: 87px;
     display: inline-block;
-padding-top: .3125rem;
-padding-bottom: .3125rem;
-margin-right: 1rem;
-font-size: 1.25rem;
-line-height: inherit;
-white-space: nowrap;
-}
-@media (min-width: 992px) { 
-    .pt30 {
-        padding-top: 50px;
-    }
-}
-
-
-@media (min-width: 1200px) { 
-    .pt30 {
-        padding-top: 50px;
-    }
-}
-
-.min-content-ht {
-    min-height: 339px;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
 }
 
 .send_to_paypal_here {
     color: #fff;
-background-color: #0069d9;
-border-color: #0062cc;
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 .table tr:last-child
 {
-  border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
 }
 .paypal_here_clickable_row, .paypal_here_clickable_row label {
     cursor: pointer;
@@ -216,12 +94,11 @@ border-color: #0062cc;
 .large-text-size {
     font-size: 45px;
 }
-
 .discount-img, .shipping-img
 {
     opacity:0.3;
     color:#996;
-	
+
 }
 .discount-img.checked , .shipping-img.checked {
     opacity:0.9;
@@ -233,35 +110,56 @@ tr.paypal_here_shipping td small.shipped_via, #paypal_here_modal_shipping small.
     display: none;
 }
 .hr-text {
-  line-height: 1em;
-  position: relative;
-  outline: 0;
-  border: 0;
-  color: black;
-  text-align: center;
-  height: 1.5em;
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: black;
+    text-align: center;
+    height: 1.5em;
 }
 .hr-text:before {
-  content: '';
-  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#818078), to(transparent));
-  background: linear-gradient(to right, transparent, #818078, transparent);
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  height: 1px;
+    content: '';
+    background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#818078), to(transparent));
+    background: linear-gradient(to right, transparent, #818078, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
 }
 .hr-text:after {
-  content: attr(data-content);
-  position: relative;
-  display: inline-block;
-  color: black;
-  padding: 0 .5em;
-  line-height: 1.5em;
-  color: black;
-  background-color: #fcfcfa;
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: black;
+    padding: 0 .5em;
+    line-height: 1.5em;
+    color: black;
+    background-color: #fcfcfa;
 }
 
 div label.btn input[type="radio"] {
     display: none;
+}
+.img-fluid-default {
+    width: 70%;
+    margin-bottom: 15px;
+}
+.text-secondary {
+    font-size: 14px;
+}
+@media (min-width: 992px) { 
+    .pt30 {
+        padding-top: 50px;
+    }
+}
+@media (min-width: 1200px) { 
+    .pt30 {
+        padding-top: 50px;
+    }
+}
+@media screen and ( max-width: 782px ) {
+    html { margin-top: 46px !important; }
+    * html body { margin-top: 46px !important; }
 }

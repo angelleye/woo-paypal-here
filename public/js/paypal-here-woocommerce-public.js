@@ -1,48 +1,44 @@
 (function ($) {
     'use strict';
-       $(document).ready(function () {
+    $(document).ready(function () {
         $('.discount_field').hide();
         $('.shipping_field').hide();
         $('#paypal_here_coupon_code').show();
         $('#paypal_here_shipping_postal_code').show();
-        $(".discount-img").click(function(){
+        $(".discount-img").click(function () {
             $(".discount-img").removeClass('checked');
             $(this).addClass("checked");
-            
+
         });
-        $(".shipping-img").click(function(){
+        $(".shipping-img").click(function () {
             $(".shipping-img").removeClass('checked');
             $(this).addClass("checked");
-            
+
         });
-        if(typeof AutoNumeric != 'undefined') {
+        if (typeof AutoNumeric != 'undefined') {
             new AutoNumeric('#paypal_here_percentage', 'percentageUS2dec');
             new AutoNumeric('#paypal_here_dollar', 'dollarPos');
         }
-        $('input[type=radio][name=discount_amount]').change(function() {
+        $('input[type=radio][name=discount_amount]').change(function () {
             $('.discount_field').hide();
             var discount_amount = $('[name=discount_amount]:checked').val();
             if (discount_amount == 'coupon') {
                 $('#paypal_here_coupon_code').show();
-            }
-            else if (discount_amount == 'percentage') {
+            } else if (discount_amount == 'percentage') {
                 $('#paypal_here_percentage').show();
-            }
-            else if (discount_amount == 'amount') {
+            } else if (discount_amount == 'amount') {
                 $('#paypal_here_dollar').show();
             }
         });
-        $('input[type=radio][name=shipping_amount]').change(function() {
+        $('input[type=radio][name=shipping_amount]').change(function () {
             $('.shipping_field').hide();
             var shipping_amount = $('[name=shipping_amount]:checked').val();
             console.log(shipping_amount)
             if (shipping_amount == 'postal_code') {
                 $('#paypal_here_shipping_postal_code').show();
-            }
-            else if (shipping_amount == 'percentage') {
+            } else if (shipping_amount == 'percentage') {
                 $('#paypal_here_shipping_percentage').show();
-            }
-            else if (shipping_amount == 'amount') {
+            } else if (shipping_amount == 'amount') {
                 $('#paypal_here_shipping_dollar').show();
             }
         });
@@ -54,11 +50,11 @@
                         chosen = 0;
                 select.each(function () {
                     var attribute_name = $(this).data('attribute_name') || $(this).attr('name');
-                    
-                        var value = $(this).val() || '';
+
+                    var value = $(this).val() || '';
                     console.log(value);
-                   
-                    
+
+
                     if (value.length > 0) {
                         chosen++;
                     }
@@ -112,8 +108,8 @@
                     product_id: $(this).attr("id")
                 },
                 success: function (response) {
-                   
-                    
+
+
                     var data = response.data;
                     if (response.success) {
                         $('.modal-body').html('');
@@ -164,16 +160,14 @@
                     'coupon_code': $("input[name=coupon_code]").val(),
                     'order_id': $("input[name=order_id]").val()
                 };
-            }
-            else if (discount_amount == 'percentage') {
+            } else if (discount_amount == 'percentage') {
                 var data = {
                     action: 'paypal_here_apply_coupon',
                     'security': paypal_here_ajax_param.paypal_here_nonce,
                     'paypal_here_percentage': $("input[name=paypal_here_percentage]").val(),
                     'order_id': $("input[name=order_id]").val()
                 };
-            }
-            else if (discount_amount == 'amount') {
+            } else if (discount_amount == 'amount') {
                 var data = {
                     action: 'paypal_here_apply_coupon',
                     'security': paypal_here_ajax_param.paypal_here_nonce,
@@ -204,7 +198,7 @@
                     }
                 },
                 error: function (e) {
-                    
+
                 }
             });
         });
@@ -218,16 +212,14 @@
                     'paypal_here_shipping_postal_code': $("input[name=paypal_here_shipping_postal_code]").val(),
                     'order_id': $("input[name=order_id]").val()
                 };
-            }
-            else if (shipping_amount == 'percentage') {
+            } else if (shipping_amount == 'percentage') {
                 var data = {
                     action: 'paypal_here_apply_shipping',
                     'security': paypal_here_ajax_param.paypal_here_nonce,
                     'paypal_here_shipping_percentage': $("input[name=paypal_here_shipping_percentage]").val(),
                     'order_id': $("input[name=order_id]").val()
                 };
-            }
-            else if (shipping_amount == 'amount') {
+            } else if (shipping_amount == 'amount') {
                 var data = {
                     action: 'paypal_here_apply_shipping',
                     'security': paypal_here_ajax_param.paypal_here_nonce,
@@ -258,7 +250,7 @@
                     }
                 },
                 error: function (e) {
-                    
+
                 }
             });
         });
@@ -272,7 +264,7 @@
                     searchRequest.abort();
                 } catch (e) {
                 }
-                if( $('#paypal_here_coupon_code').attr("placeholder") == 'Coupon code') {
+                if ($('#paypal_here_coupon_code').attr("placeholder") == 'Coupon code') {
                     searchRequest = $.post(paypal_here_ajax_param.ajax_url, {search: term, action: 'paypal_here_get_copon_code'}, function (res) {
                         suggest(res.data);
                     });
@@ -285,10 +277,8 @@
         $(".paypal_here_shipping").click(function () {
             $('#paypal_here_modal_shipping').modal({show: true});
         });
-        $(".paypal_here_clickable_row").click(function() {
+        $(".paypal_here_clickable_row").click(function () {
             window.document.location = $(this).data("href");
         });
-        
-        
     });
 })(jQuery);
