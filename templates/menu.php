@@ -8,13 +8,13 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <?php
-        wp_nav_menu(array(
+        /* wp_nav_menu(array(
             'menu' => 'top_menu',
             'depth' => 2,
             'container' => false,
             'menu_class' => 'navbar-nav mr-auto',
             'walker' => new Paypal_Here_Woocommerce_Rest_API_Navwalker())
-        );
+        ); */
         ?>
     </div>
 </nav>
