@@ -312,11 +312,12 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
                 $this->add_log(json_encode($this->invoice));
-                $this->invoice_encoded = urlencode(json_encode($this->invoice));
+                $this->invoice_encoded = base64_encode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
                 $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
                 $this->retUrl = urlencode($this->return_url . "{result}&Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}");
                 $this->paypal_here_payment_url .= $this->retUrl;
+                $this->paypal_here_payment_url .= "&as=b64";
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
                 $this->paypal_here_payment_url .= "&InvoiceId=" . $this->invoice_id_prefix . preg_replace("/[^a-zA-Z0-9]/", "", str_replace("#", "", $order->get_order_number()));
                 $this->paypal_here_payment_url .= "&step=choosePayment";
