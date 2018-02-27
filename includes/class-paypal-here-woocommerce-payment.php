@@ -26,6 +26,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', '');
         $this->debug = 'yes' === $this->get_option('paypal_here_debug', 'no');
         $this->paypal_here_payment_url = 'paypalhere://takePayment?returnUrl=';
+        $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
     }
 
     public function is_available() {
@@ -311,7 +312,12 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 if ($this->order_item['shippingamt'] > 0) {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
-                $this->add_log(json_encode($this->invoice));
+                
+                $this->add_log('WooCommerce Version: ' . print_r(WC_VERSION, true));
+                $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(PAYPAL_HERE_VERSION, true));  
+                $this->add_log('Order ID: ' . print_r($order_id, true));
+                $this->add_log('Endpoint: ' . print_r($this->paypal_here_payment_url, true));
+                $this->add_log('Request: ' . print_r($this->invoice, true));
                 $this->invoice_encoded = base64_encode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
                 $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
@@ -330,8 +336,6 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                     // $this->paypal_here_payment_url .= "&payerPhone=" . $billing_phone;
                 }
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
-                $this->add_log('full_url:->  '.$this->paypal_here_payment_url);
-
                 return array(
                     'result' => 'success',
                     'redirect' => $this->paypal_here_payment_url,
@@ -374,6 +378,27 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                     $this->log = wc_get_logger();
                 }
                 $this->log->log($level, $message, array('source' => 'angelleye_paypal_here'));
+            }
+        }
+    }
+    
+    public function paypal_here_call_back_handler() {
+        if (!empty($_GET['Type']) && !empty($_GET['InvoiceId']) && !empty($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+            $transaction_id = $_GET['InvoiceId'];
+            $type = $_GET['Type'];
+            try {
+                $order = wc_get_order($order_id);
+                $order->payment_complete($transaction_id);
+                update_post_meta($order_id, 'Type', $type);
+                update_post_meta($order_id, 'InvoiceId', $transaction_id);
+                $this->add_log('Type: ' . print_r($type, true));
+                $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
+                wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
+                exit();
+            } catch (Exception $ex) {
+                wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
+                exit();
             }
         }
     }
