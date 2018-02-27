@@ -58,10 +58,7 @@ class Paypal_Here_Woocommerce_Public {
         global $wp_query, $wp, $wp_styles;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-            foreach ($wp_styles->registered as $handle => $data) {
-                wp_deregister_style($handle);
-                wp_dequeue_style($handle);
-            }
+            $wp_styles->queue = array();
             wp_register_style('jquery-ui-styles', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
