@@ -206,14 +206,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $billing_email = $order->get_billing_email();
                 $this->calculation = new Paypal_Here_Woocommerce_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
-                if ($this->order_item['taxamt'] > 0) {
-                 $tax_item = array(
-                     'name' =>  __('Tax', 'paypal-here-woocommerce'),
-                     'quantity' => 1,
-                     'unitPrice' => $this->order_item['taxamt']
-                 );
-                 $this->order_item['order_items'][] = $tax_item;
-                }
+                
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
                 $billingInfo = array();
                 $billing_company = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_company : $order->get_billing_company();
