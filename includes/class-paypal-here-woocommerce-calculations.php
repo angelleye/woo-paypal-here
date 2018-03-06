@@ -68,21 +68,10 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 } else {
                     $name = $values['name'];
                 }
-                
-                $tax_rates = WC_Tax::get_rates( $product->get_tax_class() );
-                
-                
-                
-                
-                
-                
-                
-                if ( wc_tax_enabled() ) {
-                    
-                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal( $values->get_total_tax(), $this->decimals );
+                $tax_rates = WC_Tax::get_rates($product->get_tax_class());
+                if (wc_tax_enabled()) {
+                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal($values->get_total_tax(), $this->decimals);
                 }
-                
-                
                 $name = $this->clean_product_title($name);
                 $amount = version_compare(WC_VERSION, '3.0', '<') ? $product->wc_get_price_excluding_tax() : wc_get_price_excluding_tax($product);
                 if (is_object($product)) {
@@ -112,14 +101,10 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     'quantity' => $values['qty'],
                     'unitPrice' => $this->number_format($amount)
                 );
-                
-                if( !empty($tax_rates[1]['rate'])) {
+                if (!empty($tax_rates[1]['rate'])) {
                     $item['taxRate'] = $this->number_format($tax_rates[1]['rate']);
                     $item['taxName'] = $tax_rates[1]['label'];
-                   
                 }
-                
-                
                 if (!empty($desc)) {
                     $item['description'] = html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8');
                 }
@@ -134,16 +119,14 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     'quantity' => 1,
                     'unitPrice' => $this->number_format($amount)
                 );
-                $tax_rates = WC_Tax::get_rates( $fee_values->get_tax_class() );
-                if ( wc_tax_enabled() ) {
-                    
-                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal( $order->get_line_tax( $fee_values ), $this->decimals );
+                $tax_rates = WC_Tax::get_rates($fee_values->get_tax_class());
+                if (wc_tax_enabled()) {
+
+                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal($order->get_line_tax($fee_values), $this->decimals);
                 }
-                
-                if( !empty($tax_rates[1]['rate'])) {
+                if (!empty($tax_rates[1]['rate'])) {
                     $fee_item['taxRate'] = $this->number_format($tax_rates[1]['rate']);
                     $fee_item['taxName'] = $this->number_format($tax_rates[1]['label']);
-                   
                 }
                 $this->order_items[] = $fee_item;
                 $roundedPayPalTotal += round($amount * 1, $this->decimals);
@@ -165,12 +148,11 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                             'quantity' => 1,
                             'unitPrice' => '-' . $this->number_format($this->discount_amount)
                         );
-                        foreach ( $order->get_items( 'coupon' ) as $coupon_item_id => $coupon_item ) {
-                            $tax_rates = WC_Tax::get_rates( $coupon_item->get_tax_class() );
-                            if( !empty($tax_rates[1]['rate'])) {
+                        foreach ($order->get_items('coupon') as $coupon_item_id => $coupon_item) {
+                            $tax_rates = WC_Tax::get_rates($coupon_item->get_tax_class());
+                            if (!empty($tax_rates[1]['rate'])) {
                                 $discLineItem['taxRate'] = $this->number_format($tax_rates[1]['rate']);
                                 $discLineItem['taxName'] = $this->number_format($tax_rates[1]['label']);
-
                             }
                         }
                         $this->order_items[] = $discLineItem;
@@ -183,9 +165,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->shippingamt = 0;
             }
             $this->order_re_calculate($order);
-            
-            
-            
             $this->payment['itemamt'] = $this->number_format(round($this->itemamt, $this->decimals));
             $this->payment['taxamt'] = $this->number_format(round($this->taxamt, $this->decimals));
             $this->payment['shippingamt'] = $this->number_format(round($this->shippingamt, $this->decimals));
@@ -240,22 +219,22 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     }
                 }
             }
-            if ( wc_tax_enabled() ) {
-                if( $this->total_tax_item_total != $this->taxamt ) {
-                    if($this->taxamt > $this->total_tax_item_total) {
+            if (wc_tax_enabled()) {
+                if ($this->total_tax_item_total != $this->taxamt) {
+                    if ($this->taxamt > $this->total_tax_item_total) {
                         $taxAmountDifference = round($this->taxamt, $this->decimals) - $this->total_tax_item_total;
-                            $this->order_item['order_items'][] =  array(
-                                 'name' => __('Tax', 'paypal-for-woocommerce'),
-                                 'quantity' => 1,
-                                 'unitPrice' => $taxAmountDifference
-                             );
-                    } elseif($this->taxamt < $this->total_tax_item_total) {
+                        $this->order_item['order_items'][] = array(
+                            'name' => __('Tax', 'paypal-for-woocommerce'),
+                            'quantity' => 1,
+                            'unitPrice' => $taxAmountDifference
+                        );
+                    } elseif ($this->taxamt < $this->total_tax_item_total) {
                         $taxAmountDifference = round($this->total_tax_item_total, $this->decimals) - $this->taxamt;
-                        $this->order_item['order_items'][] =  array(
-                                 'name' => __('Tax', 'paypal-for-woocommerce'),
-                                 'quantity' => 1,
-                                 'unitPrice' => '-' . $taxAmountDifference
-                             );
+                        $this->order_item['order_items'][] = array(
+                            'name' => __('Tax', 'paypal-for-woocommerce'),
+                            'quantity' => 1,
+                            'unitPrice' => '-' . $taxAmountDifference
+                        );
                     }
                 }
             }
@@ -317,6 +296,4 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
         }
 
     }
-
-
 endif;
