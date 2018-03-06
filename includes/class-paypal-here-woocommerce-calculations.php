@@ -167,7 +167,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             $this->order_re_calculate($order);
             $this->payment['itemamt'] = $this->number_format(round($this->itemamt, $this->decimals));
             $this->payment['taxamt'] = $this->number_format(round($this->taxamt, $this->decimals));
-            $this->payment['shippingamt'] = $this->number_format(round($this->shippingamt, $this->decimals));
+            $this->payment['shippingamt'] = $this->number_format(round($this->shippingamt + $order->get_shipping_tax(), $this->decimals));
             $this->payment['order_items'] = $this->order_items;
             $this->payment['discount_amount'] = $this->number_format(round($this->discount_amount, $this->decimals));
             if ($this->taxamt < 0 || $this->shippingamt < 0) {
@@ -220,6 +220,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 }
             }
             if (wc_tax_enabled()) {
+                $this->total_tax_item_total = $this->number_format($this->total_tax_item_total + $order->get_shipping_tax());
                 if ($this->total_tax_item_total != $this->taxamt) {
                     if ($this->taxamt > $this->total_tax_item_total) {
                         $taxAmountDifference = round($this->taxamt, $this->decimals) - $this->total_tax_item_total;

@@ -305,7 +305,15 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 if ($this->order_item['shippingamt'] > 0) {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
+                if ($this->order_item['shippingTaxRate'] > 0) {
+                    $this->invoice['shippingTaxRate'] = $this->order_item['shippingTaxRate'];
+                    $this->invoice['shippingTaxName'] = $this->order_item['shippingTaxName'];
+                }
                 
+               
+                    
+                    
+                    
                 $this->add_log('WooCommerce Version: ' . print_r(WC_VERSION, true));
                 $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(PAYPAL_HERE_VERSION, true));  
                 $this->add_log('Order ID: ' . print_r($order_id, true));
