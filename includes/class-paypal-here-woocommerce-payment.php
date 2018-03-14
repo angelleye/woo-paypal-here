@@ -305,6 +305,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 if ($this->order_item['shippingamt'] > 0) {
                     $this->invoice['shippingAmount'] = $this->order_item['shippingamt'];
                 }
+                $this->invoice['referrerCode'] = 'AngellEYE_SP_WooCommerce';
                 $this->add_log('WooCommerce Version: ' . print_r(WC_VERSION, true));
                 $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(PAYPAL_HERE_VERSION, true));  
                 $this->add_log('Order ID: ' . print_r($order_id, true));
