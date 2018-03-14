@@ -1,13 +1,9 @@
 <?php
-
 if (!defined('ABSPATH')) {
     exit;
 }
-
 if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
-
     class Paypal_Here_Woocommerce_Calculation {
-
         public $order_total;
         public $taxamt;
         public $shippingamt;
@@ -21,8 +17,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
         public $payment_method;
         public $temp_total;
         public $is_separate_discount;
-        public $total_tax_item_total;
-
         public function __construct($payment_method = null) {
             $this->order_items = array();
             $this->is_adjust = false;
@@ -37,7 +31,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->decimals = 2;
             }
         }
-
         public function order_calculation($order_id) {
             $this->payment = array();
             $order = wc_get_order($order_id);
@@ -56,7 +49,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->discount_amount = round($this->discount_amount + $this->yith_get_giftcard_amount(), $this->decimals);
             }
             $desc = '';
-            $this->total_tax_item_total = 0;
             foreach ($order->get_items() as $cart_item_key => $values) {
                 $product = $order->get_product_from_item($values);
                 $product_sku = null;
@@ -68,12 +60,8 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 } else {
                     $name = $values['name'];
                 }
-                $tax_rates = WC_Tax::get_rates($product->get_tax_class());
-                if (wc_tax_enabled()) {
-                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal($values->get_total_tax(), $this->decimals);
-                }
                 $name = $this->clean_product_title($name);
-                $amount = version_compare(WC_VERSION, '3.0', '<') ? $product->wc_get_price_excluding_tax() : wc_get_price_excluding_tax($product);
+                $amount = round($values['line_subtotal'] / $values['qty'], $this->decimals);
                 if (is_object($product)) {
                     if ($product->is_type('variation')) {
                         if (version_compare(WC_VERSION, '3.0', '<')) {
@@ -97,14 +85,10 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     }
                 }
                 $item = array(
-                    'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-here-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
+                    'name' => html_entity_decode(wc_trim_string($name ? $name : __('Item', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'quantity' => $values['qty'],
                     'unitPrice' => $this->number_format($amount)
                 );
-                if (!empty($tax_rates[1]['rate'])) {
-                    $item['taxRate'] = $this->number_format($tax_rates[1]['rate']);
-                    $item['taxName'] = $tax_rates[1]['label'];
-                }
                 if (!empty($desc)) {
                     $item['description'] = html_entity_decode(wc_trim_string($desc, 127), ENT_NOQUOTES, 'UTF-8');
                 }
@@ -115,19 +99,10 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $fee_item_name = version_compare(WC_VERSION, '3.0', '<') ? $fee_values['name'] : $fee_values->get_name();
                 $amount = $order->get_line_total($fee_values);
                 $fee_item = array(
-                    'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-here-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
+                    'name' => html_entity_decode(wc_trim_string($fee_item_name ? $fee_item_name : __('Fee', 'paypal-for-woocommerce'), 127), ENT_NOQUOTES, 'UTF-8'),
                     'quantity' => 1,
                     'unitPrice' => $this->number_format($amount)
                 );
-                $tax_rates = WC_Tax::get_rates($fee_values->get_tax_class());
-                if (wc_tax_enabled()) {
-
-                    $this->total_tax_item_total = $this->total_tax_item_total + wc_format_decimal($order->get_line_tax($fee_values), $this->decimals);
-                }
-                if (!empty($tax_rates[1]['rate'])) {
-                    $fee_item['taxRate'] = $this->number_format($tax_rates[1]['rate']);
-                    $fee_item['taxName'] = $this->number_format($tax_rates[1]['label']);
-                }
                 $this->order_items[] = $fee_item;
                 $roundedPayPalTotal += round($amount * 1, $this->decimals);
             }
@@ -148,13 +123,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                             'quantity' => 1,
                             'unitPrice' => '-' . $this->number_format($this->discount_amount)
                         );
-                        foreach ($order->get_items('coupon') as $coupon_item_id => $coupon_item) {
-                            $tax_rates = WC_Tax::get_rates($coupon_item->get_tax_class());
-                            if (!empty($tax_rates[1]['rate'])) {
-                                $discLineItem['taxRate'] = $this->number_format($tax_rates[1]['rate']);
-                                $discLineItem['taxName'] = $this->number_format($tax_rates[1]['label']);
-                            }
-                        }
                         $this->order_items[] = $discLineItem;
                         $this->itemamt -= $this->discount_amount;
                         $this->order_total -= $this->discount_amount;
@@ -165,9 +133,18 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->shippingamt = 0;
             }
             $this->order_re_calculate($order);
+            if($this->itemamt > 0) {
+                 $taxLineItem = array(
+                            'name' => 'Tax',
+                            'description' => 'Tax Amount',
+                            'quantity' => 1,
+                            'unitPrice' => $this->number_format(round($this->taxamt, $this->decimals))
+                        );
+                        $this->order_items[] = $taxLineItem;
+            }
             $this->payment['itemamt'] = $this->number_format(round($this->itemamt, $this->decimals));
             $this->payment['taxamt'] = $this->number_format(round($this->taxamt, $this->decimals));
-            $this->payment['shippingamt'] = $this->number_format(round($this->shippingamt + $order->get_shipping_tax(), $this->decimals));
+            $this->payment['shippingamt'] = $this->number_format(round($this->shippingamt, $this->decimals));
             $this->payment['order_items'] = $this->order_items;
             $this->payment['discount_amount'] = $this->number_format(round($this->discount_amount, $this->decimals));
             if ($this->taxamt < 0 || $this->shippingamt < 0) {
@@ -177,7 +154,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             }
             return $this->payment;
         }
-
         public function order_re_calculate($order) {
             $temp_roundedPayPalTotal = 0;
             if (!empty($this->order_items) && is_array($this->order_items)) {
@@ -219,28 +195,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                     }
                 }
             }
-            if (wc_tax_enabled()) {
-                $this->total_tax_item_total = $this->number_format($this->total_tax_item_total + $order->get_shipping_tax());
-                if ($this->total_tax_item_total != $this->taxamt) {
-                    if ($this->taxamt > $this->total_tax_item_total) {
-                        $taxAmountDifference = round($this->taxamt, $this->decimals) - $this->total_tax_item_total;
-                        $this->order_item['order_items'][] = array(
-                            'name' => __('Tax', 'paypal-for-woocommerce'),
-                            'quantity' => 1,
-                            'unitPrice' => $taxAmountDifference
-                        );
-                    } elseif ($this->taxamt < $this->total_tax_item_total) {
-                        $taxAmountDifference = round($this->total_tax_item_total, $this->decimals) - $this->taxamt;
-                        $this->order_item['order_items'][] = array(
-                            'name' => __('Tax', 'paypal-for-woocommerce'),
-                            'quantity' => 1,
-                            'unitPrice' => '-' . $taxAmountDifference
-                        );
-                    }
-                }
-            }
         }
-
         public function get_giftcard_amount($order_id = null) {
             if (class_exists('WPR_Giftcard')) {
                 if (!empty(WC()->session->giftcard_post)) {
@@ -259,7 +214,6 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 return false;
             }
         }
-
         public function yith_get_giftcard_amount() {
             if (class_exists('YITH_YWGC_Cart_Checkout')) {
                 $amount = 0;
@@ -273,14 +227,12 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 return false;
             }
         }
-
         public function clean_product_title($product_title) {
             $product_title = strip_tags($product_title);
             $product_title = str_replace(array("&#8211;", "&#8211"), array("-"), $product_title);
             $product_title = str_replace('&', '-', $product_title);
             return $product_title;
         }
-
         public function number_format($price) {
             $decimals = 2;
             if (!$this->currency_has_decimals(get_woocommerce_currency())) {
@@ -288,13 +240,11 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             }
             return number_format($price, $decimals, '.', '');
         }
-
         public function currency_has_decimals($currency) {
             if (in_array($currency, array('HUF', 'JPY', 'TWD'))) {
                 return false;
             }
             return true;
         }
-
     }
 endif;
