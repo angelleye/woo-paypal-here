@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 if (!function_exists('paypal_here_set_session')) {
 
     function paypal_here_set_session($key, $value) {
-        if (sizeof(WC()->session) == 0) {
+        if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
             return false;
         }
         $paypal_here_session = WC()->session->get('paypal_here_session');
@@ -19,7 +19,7 @@ if (!function_exists('paypal_here_set_session')) {
 if (!function_exists('paypal_here_get_session')) {
 
     function paypal_here_get_session($key) {
-        if (sizeof(WC()->session) == 0) {
+        if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
             return false;
         }
         $paypal_here_session = WC()->session->get('paypal_here_session');
@@ -33,7 +33,7 @@ if (!function_exists('paypal_here_get_session')) {
 if (!function_exists('paypal_here_unset_session')) {
 
     function paypal_here_unset_session($key) {
-        if (sizeof(WC()->session) == 0) {
+        if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
             return false;
         }
         $paypal_here_session = WC()->session->get('paypal_here_session');
