@@ -358,6 +358,11 @@ class Paypal_Here_Woocommerce_End_Point {
 
     public function angelleye_paypal_here_view_pending_orders_details_body_content() {
         if (!empty($_GET['order_id'])) {
+            if ( class_exists( 'WooCommerce' ) ) {
+                if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                    WC()->cart->empty_cart();
+                }
+            }
             $order_id = $_GET['order_id'];
             WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
             $this->order = wc_get_order($order_id);

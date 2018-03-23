@@ -297,7 +297,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 }
                 $this->invoice['paymentTerms'] = 'DueOnReceipt';
                 $this->invoice['currencyCode'] = $order->get_currency();
-                $this->invoice['number'] = str_replace("#", "", $order->get_order_number());
+                $this->invoice['number'] = $this->invoice_id_prefix . preg_replace("/[^a-zA-Z0-9]/", "", str_replace("#", "", $order->get_order_number()));
                 if (!empty($billing_email)) {
                     $this->invoice['payerEmail'] = $billing_email;
                 }
@@ -318,7 +318,6 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->paypal_here_payment_url .= $this->retUrl;
                 $this->paypal_here_payment_url .= "&as=b64";
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
-                $this->paypal_here_payment_url .= "&InvoiceId=" . $this->invoice_id_prefix . preg_replace("/[^a-zA-Z0-9]/", "", str_replace("#", "", $order->get_order_number()));
                 $this->paypal_here_payment_url .= "&step=choosePayment";
 
                 if (!empty($billing_phone)) {
@@ -383,6 +382,11 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             try {
                 $order = wc_get_order($order_id);
                 $order->payment_complete($transaction_id);
+                if ( class_exists( 'WooCommerce' ) ) {
+                    if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                        WC()->cart->empty_cart();
+                    }
+                }
                 update_post_meta($order_id, 'Type', $type);
                 update_post_meta($order_id, 'InvoiceId', $transaction_id);
                 $this->add_log('Type: ' . print_r($type, true));
