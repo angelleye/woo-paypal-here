@@ -112,6 +112,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             $this->order_total = round($this->itemamt + $this->taxamt + $this->shippingamt, $this->decimals);
             if ($this->itemamt == $this->discount_amount) {
                 unset($this->order_items);
+                $this->order_items = array();
                 $this->itemamt -= $this->discount_amount;
                 $this->order_total -= $this->discount_amount;
             } else {
@@ -133,7 +134,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->shippingamt = 0;
             }
             $this->order_re_calculate($order);
-            if($this->itemamt > 0) {
+            if($this->taxamt > 0) {
                  $taxLineItem = array(
                             'name' => 'Tax',
                             'description' => 'Tax Amount',

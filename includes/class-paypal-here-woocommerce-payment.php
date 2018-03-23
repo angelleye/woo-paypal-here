@@ -382,7 +382,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             try {
                 $order = wc_get_order($order_id);
                 $order->payment_complete($transaction_id);
-                if ( class_exists( 'WooCommerce' ) ) {
+                if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
                     if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
                         WC()->cart->empty_cart();
                     }
