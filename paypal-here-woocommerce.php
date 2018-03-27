@@ -16,6 +16,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       paypal-here-woocommerce
  * Domain Path:       /languages
+ * Tested up to: 4.9.4
+ * WC requires at least: 3.0.0
+ * WC tested up to: 3.3.2
  */
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
