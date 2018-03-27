@@ -241,6 +241,13 @@ class Paypal_Here_Woocommerce_End_Point {
     }
 
     public function angelleye_paypal_here_dashboard_body_content() {
+        if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
+            if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                WC()->cart->empty_cart();
+                unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
+            }
+        }
+        unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
         include $this->plugin_path() . '/templates/' . 'default.php';
     }
 
@@ -361,6 +368,7 @@ class Paypal_Here_Woocommerce_End_Point {
             if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
                 if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
                     WC()->cart->empty_cart();
+                    unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
                 }
             }
             $order_id = $_GET['order_id'];

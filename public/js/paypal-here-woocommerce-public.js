@@ -271,6 +271,9 @@
                 }
             }
         });
+        $('#move_back').click(function () {
+          alert('hi');
+        });
         $(".paypal_here_discount").click(function () {
             $('#paypal_here_modal_discount').modal({show: true});
         });
