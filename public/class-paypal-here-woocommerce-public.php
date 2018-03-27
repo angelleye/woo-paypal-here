@@ -321,6 +321,17 @@ class Paypal_Here_Woocommerce_Public {
             }
         }
     }
+    
+    public function paypal_here_paypal_here_delete_order_item() {
+        check_ajax_referer('paypal_here_nonce', 'security');
+        try {
+            $item_id  = absint( $_POST['item_id'] );
+            wc_delete_order_item( $item_id );
+            $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
+        } catch (Exception $ex) {
+
+        }
+    }
 
     public function paypal_here_set_address($order_id, $address) {
         foreach ($address as $key => $value) {

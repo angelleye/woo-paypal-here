@@ -2,6 +2,7 @@
     <?php
     wp_enqueue_script('paypal_here_autoNumeric', PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
     wp_enqueue_style('jquery-ui-styles');
+    wp_enqueue_style( 'dashicons' );
     if (!empty($this->order)) {
         $order_items = $this->order->get_items(apply_filters('woocommerce_purchase_order_item_types', 'line_item'));
         ?>
@@ -21,7 +22,7 @@
                         $product = apply_filters('woocommerce_order_item_product', $item->get_product(), $item);
                         echo '<tr>';
                         
-                        echo '<td>' . $item->get_name() . ' &times <span class="badge badge-primary">' . $item->get_quantity() . '</span>' . '</td>';
+                        echo '<td>' . $item->get_name() . ' &times <span class="badge badge-primary">' . $item->get_quantity() . '</span><span title="Delete Product" data-item_id="'. $item_id .'"  class="angelleye_delete_button_paypal_here dashicons dashicons-trash"></span>' . '</td>';
                         echo '<td>' . $this->order->get_formatted_line_subtotal($item) . '</td>';
                         echo '</tr>';
                     endforeach;
