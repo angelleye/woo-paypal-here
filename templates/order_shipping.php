@@ -57,7 +57,7 @@
             <br>
             <div class="form-row btn-group-vertical text-center float-right">
                 <div class="form-group col-md-12 ">
-                    <button type="submit" class="btn btn-primary" name="continue_to_add_items"><?php echo __('Continue to Add Items', 'paypal-here-woocommerce'); ?></button>
+                    <button type="submit" class="btn btn-primary" name="continue_to_add_items"><?php echo __('Continue to Order', 'paypal-here-woocommerce'); ?></button>
                 </div>
             </div>
     </div>

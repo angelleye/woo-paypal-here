@@ -30,7 +30,7 @@
             <img src="https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png" class="img-fluid img-fluid-default" alt="PayPal Here" >
             <br>
             <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'paypal-here-woocommerce'); ?></p><br>
-            <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'order_billing')); ?>" role="button"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a></div><br>
+            <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a></div><br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>" role="button"><?php echo __('View Pending Orders', 'paypal-here-woocommerce'); ?></a></div>
         </div>
     </div>  

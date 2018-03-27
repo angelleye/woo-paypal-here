@@ -45,6 +45,12 @@
                 </tbody>
             </table>
             </div>
+            <div class="form-row btn-group-vertical text-center float-right">
+                <div class="form-group col-md-12 ">
+                    <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'order_billing')); ?>" role="button"><?php echo __('Continue to Billing Address', 'paypal-here-woocommerce'); ?></a></div><br>
+                </div>
+               
+            </div>
         </div>
         <div class="modal fade" id="paypal_here_modal_discount" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">

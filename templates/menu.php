@@ -14,9 +14,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>"> <?php echo __('View Pending Orders', 'paypal-here-woocommerce'); ?></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="<?php echo esc_url(add_query_arg('actions', 'order_billing')); ?>"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a>
-            </li>
         </ul>
         <?php
         /* wp_nav_menu(array(
