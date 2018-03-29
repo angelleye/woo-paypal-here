@@ -30,8 +30,12 @@
             <img src="https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png" class="img-fluid img-fluid-default" alt="PayPal Here" >
             <br>
             <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'paypal-here-woocommerce'); ?></p><br>
+            <?php if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) { ?>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a></div><br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>" role="button"><?php echo __('View Pending Orders', 'paypal-here-woocommerce'); ?></a></div>
+            <?php } else { 
+                echo __('Consumer key and Consumer secret not available'); 
+            } ?>
         </div>
     </div>  
     <?php include_once 'footer.php'; ?>

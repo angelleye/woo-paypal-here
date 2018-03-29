@@ -34,6 +34,8 @@ class Paypal_Here_Woocommerce_Rest_API {
             } catch (Exception $ex) {
                 
             }
+        } else {
+            wc_add_notice('Consumer key and Consumer secret not available', 'error');
         }
     }
 
