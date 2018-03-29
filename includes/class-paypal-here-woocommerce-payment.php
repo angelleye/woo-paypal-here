@@ -319,6 +319,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
                 $this->paypal_here_payment_url .= "&step=choosePayment";
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
+                $this->add_log('Full Request URL for PayPal Here ' . print_r($this->paypal_here_payment_url, true));
                 return array(
                     'result' => 'success',
                     'redirect' => $this->paypal_here_payment_url,

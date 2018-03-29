@@ -484,4 +484,9 @@ class Paypal_Here_Woocommerce_Public {
         $order->calculate_totals(true);
         $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order->get_id()), $this->home_url . $this->paypal_here_endpoint_url));
     }
+    
+    public function paypal_here_woocommerce_available_payment_gateways($available_payment_gateways) {
+        unset($available_payment_gateways['angelleye_paypal_here']);
+        return $available_payment_gateways;
+    }
 }

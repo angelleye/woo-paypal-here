@@ -177,6 +177,7 @@ class Paypal_Here_Woocommerce {
         $this->loader->add_action('wp_ajax_paypal_here_apply_shipping', $plugin_public, 'paypal_here_apply_shipping', 10);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_delete_order_item', $plugin_public, 'paypal_here_paypal_here_delete_order_item', 10);
         $this->loader->add_action('wp_ajax_paypal_here_delete_order_item', $plugin_public, 'paypal_here_paypal_here_delete_order_item', 10);
+        $this->loader->add_filter('woocommerce_available_payment_gateways', $plugin_public , 'paypal_here_woocommerce_available_payment_gateways', 10, 1);
         
         $payment_object = new Paypal_Here_Woocommerce_Payment();
         
