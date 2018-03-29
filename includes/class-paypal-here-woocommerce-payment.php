@@ -311,22 +311,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->add_log('Order ID: ' . print_r($order_id, true));
                 $this->add_log('Endpoint: ' . print_r($this->paypal_here_payment_url, true));
                 $this->add_log('Request: ' . print_r($this->invoice, true));
-                $this->invoice_encoded = base64_encode(json_encode($this->invoice));
+                $this->invoice_encoded = rawurlencode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
-                $this->return_url = $this->angelleye_paypal_here_return_url($order_id);
-                $this->retUrl = urlencode($this->return_url . "{result}&Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}");
+                $this->return_url = $this->angelleye_paypal_here_return_url();
+                $this->retUrl = urlencode($this->return_url . "{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}&wc_order_id=$order_id");
                 $this->paypal_here_payment_url .= $this->retUrl;
-                $this->paypal_here_payment_url .= "&as=b64";
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
                 $this->paypal_here_payment_url .= "&step=choosePayment";
-
-                if (!empty($billing_phone)) {
-                    if (in_array($order->get_billing_country(), array('US', 'CA'))) {
-                        $billing_phone = str_replace(array('(', '-', ' ', ')', '.'), '', $billing_phone);
-                        $billing_phone = ltrim($billing_phone, '+1');
-                    }
-                    // $this->paypal_here_payment_url .= "&payerPhone=" . $billing_phone;
-                }
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
                 return array(
                     'result' => 'success',
@@ -338,11 +329,11 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         }
     }
 
-    public function angelleye_paypal_here_return_url($order_id) {
+    public function angelleye_paypal_here_return_url() {
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
-        return add_query_arg('order_id', $order_id, $this->home_url . $this->paypal_here_endpoint_url);
+        return $this->home_url . $this->paypal_here_endpoint_url;
     }
 
     public function angelleye_paypal_here_process_payment() {
@@ -375,10 +366,10 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
     
     public function paypal_here_call_back_handler() {
-        if (!empty($_GET['Type']) && !empty($_GET['InvoiceId']) && !empty($_GET['order_id'])) {
-            $order_id = $_GET['order_id'];
-            $transaction_id = $_GET['InvoiceId'];
-            $type = $_GET['Type'];
+        if (!empty($_GET['InvoiceId'])) {
+            $order_id = !empty($_GET['wc_order_id']) ? $_GET['wc_order_id'] : '';
+            $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
+            $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
             try {
                 $order = wc_get_order($order_id);
                 $order->payment_complete($transaction_id);
