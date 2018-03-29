@@ -35,7 +35,11 @@ class Paypal_Here_Woocommerce_Rest_API {
                 
             }
         } else {
-            wc_add_notice('Consumer key and Consumer secret not available', 'error');
+            if(function_exists('wc_add_notice')) {
+                wc_add_notice(__('Consumer key and Consumer secret not available', 'paypal-here-woocommerce'), 'error');   
+            } else {
+                echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
+            }
         }
     }
 
