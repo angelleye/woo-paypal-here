@@ -244,10 +244,9 @@ class Paypal_Here_Woocommerce_End_Point {
         if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
             if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
                 WC()->cart->empty_cart();
-                unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
             }
         }
-        unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
+        paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
         include $this->plugin_path() . '/templates/' . 'default.php';
     }
 
@@ -340,7 +339,7 @@ class Paypal_Here_Woocommerce_End_Point {
                     'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
                 ));
                 WC()->customer->save();
-                $order_id = absint(WC()->session->get('angelleye_paypal_here_order_awaiting_payment'));
+                $order_id = absint(paypal_here_get_session('angelleye_paypal_here_order_awaiting_payment'));
                 $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
                 wp_redirect($qrcode_order_url);
                 exit();
@@ -360,7 +359,7 @@ class Paypal_Here_Woocommerce_End_Point {
             ));
             WC()->customer->save();
             paypal_here_set_session('shipping_address', $_POST);
-            $order_id = absint(WC()->session->get('angelleye_paypal_here_order_awaiting_payment'));
+            $order_id = absint(paypal_here_get_session('angelleye_paypal_here_order_awaiting_payment'));
             $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
             wp_redirect($qrcode_order_url);
             exit();
@@ -371,12 +370,12 @@ class Paypal_Here_Woocommerce_End_Point {
         if (!empty($_GET['order_id'])) {
             if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
                 if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
-                    WC()->cart->empty_cart();
-                    unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
+                   WC()->cart->empty_cart();
                 }
             }
             $order_id = $_GET['order_id'];
-            WC()->session->set('angelleye_paypal_here_order_awaiting_payment', $order_id);
+            paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
+            paypal_here_set_session('angelleye_paypal_here_order_awaiting_payment', $order_id);
             $this->order = wc_get_order($order_id);
             include $this->plugin_path() . '/templates/' . 'orders-details.php';
         }

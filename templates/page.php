@@ -21,7 +21,7 @@ switch ($action) {
         if(!empty($_GET['order_id'])) {
             $order_id = absint( $_GET['order_id'] );
             $order = wc_get_order($order_id);
-            $order->calculate_totals( false );
+            $order->calculate_totals( true );
             include_once 'order_menu.php';
             do_action('angelleye_paypal_here_view_pending_orders_details_body_content');
         } else {

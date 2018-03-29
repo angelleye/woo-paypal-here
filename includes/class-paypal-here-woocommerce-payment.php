@@ -198,7 +198,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
 
     public function process_payment($order_id) {
         try {
-            unset(WC()->session->angelleye_paypal_here_order_awaiting_payment);
+            paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
             require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-calculations.php';
             if (class_exists('Paypal_Here_Woocommerce_Calculation')) {
                 $order = wc_get_order($order_id);
@@ -320,6 +320,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->paypal_here_payment_url .= "&step=choosePayment";
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
                 $this->add_log('Full Request URL for PayPal Here ' . print_r($this->paypal_here_payment_url, true));
+                unset(WC()->session->paypal_here_session);
                 return array(
                     'result' => 'success',
                     'redirect' => $this->paypal_here_payment_url,
@@ -376,7 +377,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $order->payment_complete($transaction_id);
                 if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
                     if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
-                        WC()->cart->empty_cart();
+                       WC()->cart->empty_cart();
                     }
                 }
                 update_post_meta($order_id, 'Type', $type);

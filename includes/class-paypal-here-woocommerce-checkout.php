@@ -264,7 +264,7 @@ class Paypal_Here_Woocommerce_Checkout {
         }
 
         try {
-            $order_id = absint(WC()->session->get('angelleye_paypal_here_order_awaiting_payment'));
+            $order_id = absint(paypal_here_get_session('angelleye_paypal_here_order_awaiting_payment'));
             $cart_hash = md5(json_encode(wc_clean(WC()->cart->get_cart_for_session())) . WC()->cart->total);
             $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 

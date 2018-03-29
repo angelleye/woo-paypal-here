@@ -11,8 +11,12 @@ if (!function_exists('paypal_here_set_session')) {
             return false;
         }
         $paypal_here_session = WC()->session->get('paypal_here_session');
+        if(empty($paypal_here_session)) {
+            $paypal_here_session = array();
+        }
         $paypal_here_session[$key] = $value;
         WC()->session->set('paypal_here_session', $paypal_here_session);
+        $_SESSION['paypal_here_session'] = $paypal_here_session;
     }
 
 }
@@ -22,11 +26,29 @@ if (!function_exists('paypal_here_get_session')) {
         if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
             return false;
         }
-        $paypal_here_session = WC()->session->get('paypal_here_session');
-        if (!empty($paypal_here_session[$key])) {
-            return $paypal_here_session[$key];
+        if ( WC()->session->paypal_here_session > 0 ) {
+            $paypal_here_session = WC()->session->paypal_here_session;
+            if (!empty($paypal_here_session[$key])) {
+                return $paypal_here_session[$key];
+            } else {
+                return false;
+            }
+        } else {
+            if( !empty($_SESSION['paypal_here_session'])) {
+                WC()->session->set('paypal_here_session', $_SESSION['paypal_here_session']);
+                $paypal_here_session = WC()->session->paypal_here_session;
+                if (!empty($paypal_here_session[$key])) {
+                    return $paypal_here_session[$key];
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+            
+            
         }
-        return false;
+        
     }
 
 }
@@ -40,6 +62,7 @@ if (!function_exists('paypal_here_unset_session')) {
         if (!empty($paypal_here_session[$key])) {
             unset($paypal_here_session[$key]);
             WC()->session->set('paypal_here_session', $paypal_here_session);
+            $_SESSION['paypal_here_session'] = $paypal_here_session;
         }
     }
 

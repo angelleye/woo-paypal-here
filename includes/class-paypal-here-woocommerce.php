@@ -162,6 +162,7 @@ class Paypal_Here_Woocommerce {
      */
     private function define_public_hooks() {
         $plugin_public = new Paypal_Here_Woocommerce_Public($this->get_plugin_name(), $this->get_version());
+        $this->loader->add_action('init', $plugin_public, 'paypal_here_register_session', 1);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles', 99999);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
         $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3);
