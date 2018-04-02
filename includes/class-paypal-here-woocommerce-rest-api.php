@@ -36,7 +36,7 @@ class Paypal_Here_Woocommerce_Rest_API {
             }
         } else {
             if(function_exists('wc_add_notice')) {
-                wc_add_notice(__('Consumer key and Consumer secret not available', 'paypal-here-woocommerce'), 'error');   
+                echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
             } else {
                 echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
             }

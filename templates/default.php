@@ -34,11 +34,7 @@
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'paypal-here-woocommerce'); ?></a></div><br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>" role="button"><?php echo __('View Pending Orders', 'paypal-here-woocommerce'); ?></a></div>
             <?php } else { 
-                if(function_exists('wc_add_notice')) {
-                wc_print_notices();
-            } else {
-                echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
-            }
+                echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
             } ?>
         </div>
     </div>  
