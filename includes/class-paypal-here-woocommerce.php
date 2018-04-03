@@ -57,7 +57,7 @@ class Paypal_Here_Woocommerce {
         if (defined('PAYPAL_HERE_VERSION')) {
             $this->version = PAYPAL_HERE_VERSION;
         } else {
-            $this->version = '1.0.0';
+            $this->version = '0.1.0';
         }
         $this->plugin_name = 'paypal-here-woocommerce';
 

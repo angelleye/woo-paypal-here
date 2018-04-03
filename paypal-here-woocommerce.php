@@ -2,30 +2,30 @@
 
 /**
  * @link              https://www.angelleye.com
- * @since             1.0.0
+ * @since             0.1.0
  * @package           Paypal_Here_Woocommerce
  *
  * @wordpress-plugin
  * Plugin Name:       PayPal Here for WooCommerce
  * Plugin URI:        https://www.angelleye.com/paypal-here-woocommerce
  * Description:       Process WooCommerce orders with PayPal Here, or create new orders from the mobile app using WooCommerce data and sync the order back to WooCommerce.
- * Version:           1.0.0
+ * Version:           0.1.0
  * Author:            Angell EYE
  * Author URI:        https://www.angelleye.com
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPL-3.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       paypal-here-woocommerce
  * Domain Path:       /languages
  * Tested up to: 4.9.4
  * WC requires at least: 3.0.0
- * WC tested up to: 3.3.2
+ * WC tested up to: 3.3.4
  */
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
     die;
 }
 
-define('PAYPAL_HERE_VERSION', '1.0.0');
+define('PAYPAL_HERE_VERSION', '0.1.0');
 if (!defined('PAYPAL_HERE_PLUGIN_DIR')) {
     define('PAYPAL_HERE_PLUGIN_DIR', dirname(__FILE__));
 }
