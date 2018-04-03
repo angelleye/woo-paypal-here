@@ -368,23 +368,26 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     }
     
     public function paypal_here_call_back_handler() {
+        $this->add_log('Call Back Parameter: ' . print_r($_REQUEST, true));
         if (!empty($_GET['InvoiceId'])) {
             $order_id = !empty($_GET['wc_order_id']) ? $_GET['wc_order_id'] : '';
-            $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
-            $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
             try {
-                $order = wc_get_order($order_id);
-                $order->payment_complete($transaction_id);
-                if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
-                    if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
-                       WC()->cart->empty_cart();
+                if( !empty($order_id) ) {
+                    $order = wc_get_order($order_id);
+                    $order->payment_complete($transaction_id);
+                    if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
+                        if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                           WC()->cart->empty_cart();
+                        }
                     }
+                    $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
+                    $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
+                    update_post_meta($order_id, 'Type', $type);
+                    update_post_meta($order_id, 'InvoiceId', $transaction_id);
+                    $this->add_log('Type: ' . print_r($type, true));
+                    $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
+                    wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                 }
-                update_post_meta($order_id, 'Type', $type);
-                update_post_meta($order_id, 'InvoiceId', $transaction_id);
-                $this->add_log('Type: ' . print_r($type, true));
-                $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
-                wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                 exit();
             } catch (Exception $ex) {
                 wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
