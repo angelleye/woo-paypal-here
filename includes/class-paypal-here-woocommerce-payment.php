@@ -374,24 +374,44 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             try {
                 if( !empty($order_id) ) {
                     $order = wc_get_order($order_id);
-                    $order->payment_complete($transaction_id);
-                    if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
-                        if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
-                           WC()->cart->empty_cart();
+                    if(is_object($order)) {
+                        $order->payment_complete($transaction_id);
+                        if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
+                            if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                               WC()->cart->empty_cart();
+                            }
                         }
+                        $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
+                        $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
+                        update_post_meta($order_id, 'Type', $type);
+                        update_post_meta($order_id, 'InvoiceId', $transaction_id);
+                        $this->add_log('Type: ' . print_r($type, true));
+                        $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
+                        wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                     }
-                    $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
-                    $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
-                    update_post_meta($order_id, 'Type', $type);
-                    update_post_meta($order_id, 'InvoiceId', $transaction_id);
-                    $this->add_log('Type: ' . print_r($type, true));
-                    $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
-                    wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                 }
                 exit();
             } catch (Exception $ex) {
                 wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                 exit();
+            }
+        } elseif( !empty ($_GET['Type']) && !empty ($_GET['Number']) ) {
+            $order_id = str_replace($this->invoice_id_prefix, '', $_GET['Number']);
+            try {
+                $order = wc_get_order($order_id);
+                if(is_object($order)) {
+                    if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
+                        if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
+                           WC()->cart->empty_cart();
+                        }
+                    }
+                    $order->update_status('on-hold');
+                    $this->add_log('Type: ' . print_r($_GET['Type'], true));
+                    $this->add_log('Number: ' . print_r($_GET['Number'], true));
+                    
+                }
+            } catch (Exception $ex) {
+
             }
         }
     }
