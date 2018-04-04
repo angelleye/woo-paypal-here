@@ -215,8 +215,8 @@ class Paypal_Here_Woocommerce_End_Point {
                     $this->paypal_here_settings['enabled'] = 'yes';
                 }
                 $this->paypal_here_settings['key_id'] = $wpdb->insert_id;
-                $this->paypal_here_settings['paypal_here_endpoint_url'] = !empty($_POST['paypal_here_endpoint_url']) ? $_POST['paypal_here_endpoint_url'] : 'paypal-here';
-                $this->paypal_here_settings['paypal_here_endpoint_title'] = !empty($_POST['paypal_here_endpoint_title']) ? $_POST['paypal_here_endpoint_title'] : 'PayPal Here';
+                $this->paypal_here_settings['paypal_here_endpoint_url'] = !empty($_POST['paypal_here_endpoint_url']) ? sanitize_text_field($_POST['paypal_here_endpoint_url']) : 'paypal-here';
+                $this->paypal_here_settings['paypal_here_endpoint_title'] = !empty($_POST['paypal_here_endpoint_title']) ? sanitize_text_field($_POST['paypal_here_endpoint_title']) : 'PayPal Here';
                 update_option('woocommerce_angelleye_paypal_here_settings', $this->paypal_here_settings);
                 $key_id = $wpdb->insert_id;
                 $data['consumer_key'] = $consumer_key;
