@@ -25,7 +25,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         $this->return_url = '';
         $this->invoice_id_prefix = $this->get_option('invoice_id_prefix', '');
         $this->debug = 'yes' === $this->get_option('paypal_here_debug', 'no');
-        $this->paypal_here_payment_url = 'paypalhere://takePayment?returnUrl=';
+        $this->paypal_here_payment_url = 'paypalhere://takePayment/?returnUrl=';
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
     }
 
@@ -311,13 +311,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 $this->add_log('Order ID: ' . print_r($order_id, true));
                 $this->add_log('Endpoint: ' . print_r($this->paypal_here_payment_url, true));
                 $this->add_log('Request: ' . print_r($this->invoice, true));
-                $this->invoice_encoded = rawurlencode(json_encode($this->invoice));
+                $this->invoice_encoded = base64_encode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
                 $this->return_url = $this->angelleye_paypal_here_return_url();
-                $this->retUrl = urlencode($this->return_url . "{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}&wc_order_id=$order_id");
+                $this->retUrl = urlencode($this->return_url . "/{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}&wc_order_id=$order_id");
                 $this->paypal_here_payment_url .= $this->retUrl;
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
-                $this->paypal_here_payment_url .= "&step=choosePayment";
+                $this->paypal_here_payment_url .= "&as=b64&step=choosePayment";
                 $this->paypal_here_payment_url .= "&invoice=" . $this->invoice_encoded;
                 $this->add_log('Full Request URL for PayPal Here ' . print_r($this->paypal_here_payment_url, true));
                 unset(WC()->session->paypal_here_session);
@@ -369,6 +369,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     
     public function paypal_here_call_back_handler() {
         if (!empty($_GET['Type'])) {
+            $this->add_log('call back response: ' . print_r($_SERVER, true));
             $order_id = !empty($_GET['wc_order_id']) ? $_GET['wc_order_id'] : '';
             if(empty($order_id)) {
                 $order_id = str_replace($this->invoice_id_prefix, '', $_GET['Number']);

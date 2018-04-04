@@ -24,6 +24,7 @@
 <div class="angelleye_paypal_here_default_main">
     
     <div class="container-fluid pt30">  
+        <?php echo wc_print_notices(); ?>
     <div class="row">
         <div class="default-ceneter-button">
             <img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/pp_here_flat.png'; ?>" class="img-fluid img-fluid-default ">
