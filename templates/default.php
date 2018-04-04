@@ -26,8 +26,8 @@
     <div class="container-fluid pt30">  
     <div class="row">
         <div class="default-ceneter-button">
-            <img src="https://www.paypalobjects.com/webstatic/mobile/hob/web/pp_here_flat.png" class="img-fluid img-fluid-default ">
-            <img src="https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png" class="img-fluid img-fluid-default" alt="PayPal Here" >
+            <img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/pp_here_flat.png'; ?>" class="img-fluid img-fluid-default ">
+            <img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/logo-woocommerce@2x.png'; ?>" class="img-fluid img-fluid-default" alt="PayPal Here" >
             <br>
             <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'paypal-here-woocommerce'); ?></p><br>
             <?php if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) { ?>

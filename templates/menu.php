@@ -3,8 +3,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="text-center float-right">
-        <img src="https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom-white.svg" class="img-fluid here_header_img">
-        <img src="https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png" class="img-fluid here_header_img" alt="PayPal Here" >
+        <img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/ppcom-white.svg'; ?>" class="img-fluid here_header_img">
+        <img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/logo-woocommerce@2x.png'; ?>" class="img-fluid here_header_img" alt="PayPal Here" >
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
