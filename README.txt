@@ -26,7 +26,7 @@ Payment processing can't go wrong.  It's as simple as that.  Our certified PayPa
 All WooCommerce data is available within the web-based PayPal Here provided by the plugin.  Orders can be created fresh and processed from within the PayPal Here app, or pending WooCommerce orders can be loaded and processed in the PayPal Here app.
 
 = Get Involved =
-Developers can contribute to the source code on the [PayPal Here for WooCommerce GitHub repository](https://github.com/angelleye/paypal-here-woocommerce).
+Developers can contribute to the source code on the [PayPal Here for WooCommerce GitHub repository](https://github.com/angelleye/woo-paypal-here).
 
 == Installation ==
 
