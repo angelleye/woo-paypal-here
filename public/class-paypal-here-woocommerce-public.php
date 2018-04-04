@@ -55,12 +55,12 @@ class Paypal_Here_Woocommerce_Public {
      * @since    1.0.0
      */
     public function enqueue_styles() {
-        global $wp_query, $wp, $wp_styles;
+        global $wp_query, $wp, $wp_styles, $wp_scripts;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-            $wp_styles->queue = array();
-            wp_register_style('jquery-ui-styles', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
-            wp_enqueue_style($this->plugin_name . 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css', array(), $this->version, 'all');
+            wp_register_style('jquery-ui-styles', plugin_dir_url(__FILE__) . 'css/jquery-ui.min.css', array(), $this->version, 'all');
+            wp_enqueue_style($this->plugin_name . 'bootstrap_css', plugin_dir_url(__FILE__) . 'css/bootstrap.min.css', array(), $this->version, 'all');
+            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
         }
     }
@@ -74,8 +74,8 @@ class Paypal_Here_Woocommerce_Public {
         global $wp_query, $wp;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-            wp_enqueue_script($this->plugin_name . 'popper', '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name . 'bootstrap_js', '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name . 'popper', plugin_dir_url(__FILE__) .'js/popper.min.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name . 'bootstrap_js', plugin_dir_url(__FILE__) .'js/bootstrap.min.js', array('jquery'), $this->version, false);
             wp_enqueue_script('jquery-ui-autocomplete');
             wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, false);
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
@@ -462,8 +462,11 @@ class Paypal_Here_Woocommerce_Public {
     public function paypal_here_apply_shipping() {
         $shipping['method_title'] = 'Others';
         $shipping['method_id'] = 'paypal_here';
-        $order = wc_get_order($_POST['order_id']);
+        $order_id = $_POST['order_id'];
+        $order = wc_get_order($order_id);
         if (!empty($_POST['paypal_here_shipping_postal_code'])) {
+            update_post_meta($order_id, '_shipping_postcode', $_POST['paypal_here_shipping_postal_code']);
+            update_post_meta($order_id, '_billing_postcode', $_POST['paypal_here_shipping_postal_code']);
             $order->calculate_totals(true);
         } elseif (!empty($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', $_POST['paypal_here_shipping_percentage']);
