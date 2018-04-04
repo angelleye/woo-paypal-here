@@ -133,6 +133,17 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             if (!is_numeric($this->shippingamt)) {
                 $this->shippingamt = 0;
             }
+            if($this->shippingamt > 0) {
+                 $shipLineItem = array(
+                        'name' => 'Shipping',
+                        'description' => 'Shipping Amount',
+                        'quantity' => 1,
+                        'unitPrice' => $this->number_format($this->shippingamt)
+                );
+                $this->order_items[] = $shipLineItem;
+                $this->itemamt += $this->shippingamt;
+                $this->order_total += $this->shippingamt;
+            }
             $this->order_re_calculate($order);
             if($this->taxamt > 0) {
                  $taxLineItem = array(
@@ -164,9 +175,9 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             }
             $this->itemamt = $temp_roundedPayPalTotal;
             if ($this->is_separate_discount == true) {
-                $this->temp_total = round($this->itemamt + $this->taxamt + $this->shippingamt - $this->discount_amount, $this->decimals);
+                $this->temp_total = round($this->itemamt + $this->taxamt - $this->discount_amount, $this->decimals);
             } else {
-                $this->temp_total = round($this->itemamt + $this->taxamt + $this->shippingamt, $this->decimals);
+                $this->temp_total = round($this->itemamt + $this->taxamt, $this->decimals);
             }
             if (round($order->get_total(), $this->decimals) != $this->temp_total) {
                 $cartItemAmountDifference = round($order->get_total(), $this->decimals) - $this->temp_total;
