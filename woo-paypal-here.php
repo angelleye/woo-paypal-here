@@ -43,7 +43,7 @@ if (!defined('WOO_PAYPAL_HERE_PLUGIN_BASENAME')) {
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woo-paypal-here-activator.php
  */
-function activate_paypal_here_woocommerce() {
+function activate_woo_paypal_here() {
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-activator.php';
     Woo_PayPal_Here_Activator::activate();
 }
@@ -52,13 +52,13 @@ function activate_paypal_here_woocommerce() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-woo-paypal-here-deactivator.php
  */
-function deactivate_paypal_here_woocommerce() {
+function deactivate_woo_paypal_here() {
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-deactivator.php';
     Woo_PayPal_Here_Deactivator::deactivate();
 }
 
-register_activation_hook(__FILE__, 'activate_paypal_here_woocommerce');
-register_deactivation_hook(__FILE__, 'deactivate_paypal_here_woocommerce');
+register_activation_hook(__FILE__, 'activate_woo_paypal_here');
+register_deactivation_hook(__FILE__, 'deactivate_woo_paypal_here');
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -75,7 +75,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here.php';
  *
  * @since    1.0.0
  */
-function run_paypal_here_woocommerce() {
+function run_woo_paypal_here() {
 
     $plugin = new Woo_PayPal_Here();
     $plugin->run();
@@ -86,22 +86,22 @@ add_action('init', 'angelleye_load_end_point');
 
 function load_angelleye_woo_paypal_here() {
     if (class_exists('WC_Payment_Gateway')) {
-        run_paypal_here_woocommerce();
+        run_woo_paypal_here();
     }
 }
 
 function angelleye_load_end_point() {
     require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-end-point.php';
-    run_paypal_here_woocommerce_end_point();
+    run_woo_paypal_here_end_point();
 }
 
-function run_paypal_here_woocommerce_end_point() {
+function run_woo_paypal_here_end_point() {
     if (class_exists('Woo_PayPal_Here_End_Point')) {
         $end_point = new Woo_PayPal_Here_End_Point();
         $end_point->angelleye_woo_paypal_here_add_endpoints();
     }
 }
 
-function run_paypal_here_woocommerce_rest_api() {
+function run_woo_paypal_here_rest_api() {
     
 }

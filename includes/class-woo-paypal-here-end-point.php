@@ -21,7 +21,7 @@ class Woo_PayPal_Here_End_Point {
         add_filter('template_include', array($this, 'template_loader'), 0, 1);
         add_filter('the_title', array($this, 'angelleye_woo_paypal_here_page_endpoint_title'), 10, 1);
         add_filter('wp_title', array($this, 'angelleye_woo_paypal_here_page_endpoint_wp_title'), 0, 1);
-        add_action('wp_ajax_angelleye_woo_paypal_here_woocommerce_update_api_key', array($this, 'angelleye_woo_paypal_here_update_api_key'));
+        add_action('wp_ajax_angelleye_woo_woo_paypal_here_update_api_key', array($this, 'angelleye_woo_paypal_here_update_api_key'));
         add_action('wp_ajax_angelleye_woo_paypal_here_revoke_key', array($this, 'angelleye_woo_paypal_here_revoke_key'));
         add_action('angelleye_woo_paypal_here_before_body_content', array($this, 'angelleye_woo_paypal_here_before_body_content'), 5);
         add_action('angelleye_woo_paypal_here_dashboard_body_content', array($this, 'angelleye_woo_paypal_here_dashboard_body_content'), 5);
