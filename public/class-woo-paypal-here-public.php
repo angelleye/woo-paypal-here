@@ -462,24 +462,26 @@ class Woo_PayPal_Here_Public {
         $shipping['method_id'] = 'paypal_here';
         $order_id = absint($_POST['order_id']);
         $order = wc_get_order($order_id);
-        if (!empty($_POST['paypal_here_shipping_postal_code'])) {
+        if (isset($_POST['paypal_here_shipping_postal_code'])) {
             update_post_meta($order_id, '_shipping_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
             update_post_meta($order_id, '_billing_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
             $order->calculate_totals(true);
-        } elseif (!empty($_POST['paypal_here_shipping_percentage'])) {
+        } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
             $shipping['total'] = round($order->get_total() * ( $paypal_here_shipping_percentage / 100 ), 2);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
-        } elseif (!empty($_POST['paypal_here_shipping_dollar'])) {
+        } elseif (isset($_POST['paypal_here_shipping_dollar'])) {
             $shipping['total'] = wc_clean($_POST['paypal_here_shipping_dollar']);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
         }
     }
 
     public function paypal_here_apply_shipping_handler($order, $shipping) {
-        if( !empty($shipping['total'])) {
-            
+        if( isset($shipping['total'])) {
             $shipping_total = number_format($shipping['total'], 2, '.', '');
+            if($shipping_total == '0.00') {
+                $shipping['method_title'] = 'Free!';
+            }
         }
         $rate = new WC_Shipping_Rate($shipping['method_id'], isset($shipping['method_title']) ? $shipping['method_title'] : '', isset($shipping['total']) ? $shipping_total : 0, array(), $shipping['method_id']);
         $item = new WC_Order_Item_Shipping();
