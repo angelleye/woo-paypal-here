@@ -409,7 +409,7 @@ class Woo_PayPal_Here_Public {
             $this->paypal_here_apply_coupon_handler($coupon_code, $order_id);
         } elseif (!empty($_POST['paypal_here_percentage']) && !empty($_POST['order_id'])) {
             $arg = array('coupon_code' => 'Discount_PayPal_Here' . wp_rand(1, 10000),
-                'amount' => str_replace('%', '', $_POST['paypal_here_percentage']),
+                'amount' => str_replace('%', '', wc_clean($_POST['paypal_here_percentage'])),
                 'discount_type' => 'percent'
             );
             $order_id = absint($_POST['order_id']);
