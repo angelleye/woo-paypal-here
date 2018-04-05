@@ -1,13 +1,13 @@
 (function ($) {
     'use strict';
     $(function () {
-        $('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button').click(function () {
+        $('#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_push_button').click(function () {
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
                 url: ajaxurl,
                 data: {
-                    action: 'angelleye_paypal_here_woocommerce_update_api_key',
+                    action: 'angelleye_woo_paypal_here_update_api_key',
                     security: woocommerce_admin_api_keys.update_api_nonce,
                     key_id: '',
                     description: 'PayPal Here',
