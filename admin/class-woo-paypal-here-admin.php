@@ -102,7 +102,7 @@ class Woo_PayPal_Here_Admin {
     
     public function angelleye_woo_paypal_here_admin_notice() {
         if (empty($this->paypal_here_settings['generate_woocommerce_rest_api_key_value'])) {
-            echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
+            echo "<div class='notice notice-error'><p>" . __('Your API keys for WooCommerce are not configured. Please click the Generate WooCommerce REST API Key button in the PayPal Here settings to fix this.', 'woo-paypal-here') . "</p></div>";
         }
     }
     

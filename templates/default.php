@@ -19,7 +19,9 @@
 
 
 }
-
+.alert {
+    margin-bottom: 0px;
+}
 </style>
 <div class="angelleye_woo_paypal_here_default_main">
     
@@ -30,12 +32,12 @@
             <img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/pp_here_flat.png'; ?>" class="img-fluid img-fluid-default ">
             <img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/logo-woocommerce@2x.png'; ?>" class="img-fluid img-fluid-default" alt="PayPal Here" >
             <br>
-            <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'woo-paypal-here'); ?></p><br>
+            <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'woo-paypal-here'); ?></p>
             <?php if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) { ?>
-            <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
+            <br><div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>" role="button"><?php echo __('View Pending Orders', 'woo-paypal-here'); ?></a></div>
             <?php } else { 
-                echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
+                echo "<div class='alert alert-warning mtonerem' role='alert' >" . __('Your API keys for WooCommerce are not configured. Please click the Generate WooCommerce REST API Key button in the PayPal Here settings to fix this.', 'woo-paypal-here') . "</div>";
             } ?>
         </div>
     </div>  
