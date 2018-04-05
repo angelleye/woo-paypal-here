@@ -93,8 +93,8 @@ class Paypal_Here_Woocommerce_Admin {
         $custom_actions = array(
                 'configure' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wc-settings&tab=checkout&section=angelleye_paypal_here' ), __( 'Configure', 'paypal-here-woocommerce' ) ),
                 'docs'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/paypal-here-woocommerce/?utm_source=paypal_here_woocommerce&utm_medium=docs_link&utm_campaign=paypal_here_woocommerce', __( 'Docs', 'paypal-here-woocommerce' ) ),
-                'support'   => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/paypal-here-woocommerce/', __( 'Support', 'paypal-here-woocommerce' ) ),
-                'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/paypal-here-woocommerce', __( 'Write a Review', 'paypal-here-woocommerce' ) ),
+                'support'   => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __( 'Support', 'paypal-here-woocommerce' ) ),
+                'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __( 'Write a Review', 'paypal-here-woocommerce' ) ),
             );
         return array_merge( $custom_actions, $actions );
     }
