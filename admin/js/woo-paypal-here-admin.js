@@ -23,6 +23,7 @@
                         if (0 < data.consumer_key.length && 0 < data.consumer_secret.length) {
                             $('#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_key_value').val('...' + data.truncated_key);
                         }
+                        $('.angelleye_paypal_here_notice').hide();
                         $('h1').append('<div class="wc-api-message updated"><p>' + 'API Key generated successfully.' + '</p></div>');
                         $('#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_push_button').closest('tr').hide();
                         $('#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_key_value').closest('tr').show();

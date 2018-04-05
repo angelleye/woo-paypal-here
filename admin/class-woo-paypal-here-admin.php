@@ -102,7 +102,7 @@ class Woo_PayPal_Here_Admin {
     
     public function angelleye_woo_paypal_here_admin_notice() {
         if (empty($this->paypal_here_settings['generate_woocommerce_rest_api_key_value'])) {
-            echo "<div class='notice notice-error'><p>" . __('Your API keys for WooCommerce are not configured. Please click the Generate WooCommerce REST API Key button in the PayPal Here settings to fix this.', 'woo-paypal-here') . "</p></div>";
+            echo "<div class='notice notice-error angelleye_paypal_here_notice'><p>" . sprintf(__('Your API keys for WooCommerce are not configured. Please click the %s button in the PayPal Here settings to fix this.', 'woo-paypal-here'), '<a target="_self" href="'.get_admin_url().'admin.php?page=wc-settings&tab=checkout&section=angelleye_woo_paypal_here#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_push_button">Generate WooCommerce REST API Key</a>') . "</p></div>";
         }
     }
     
