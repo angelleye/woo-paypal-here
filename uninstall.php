@@ -5,7 +5,7 @@
  * @link       https://www.angelleye.com
  * @since      1.0.0
  *
- * @package    Paypal_Here_Woocommerce
+ * @package    Woo_PayPal_Here
  */
 
 // If uninstall not called from WordPress, then exit.

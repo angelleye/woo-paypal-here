@@ -6,14 +6,14 @@
  * @package WP-Bootstrap-Navwalker
  */
 /* Check if Class Exists. */
-if (!class_exists('Paypal_Here_Woocommerce_Rest_API_Navwalker')) {
+if (!class_exists('Woo_PayPal_Here_Rest_API_Navwalker')) {
 
     /**
-     * Paypal_Here_Woocommerce_Rest_API_Navwalker class.
+     * Woo_PayPal_Here_Rest_API_Navwalker class.
      *
      * @extends Walker_Nav_Menu
      */
-    class Paypal_Here_Woocommerce_Rest_API_Navwalker extends Walker_Nav_Menu {
+    class Woo_PayPal_Here_Rest_API_Navwalker extends Walker_Nav_Menu {
 
         /**
          * Start Level.

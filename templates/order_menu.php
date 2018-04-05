@@ -6,10 +6,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="<?php echo $paypal_here_endpoint_url; ?>"><?php echo __('Dashboard', 'paypal-here-woocommerce'); ?></a>
+                <a class="nav-link" href="<?php echo $paypal_here_endpoint_url; ?>"><?php echo __('Dashboard', 'woo-paypal-here'); ?></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>"> <?php echo __('View Pending Orders', 'paypal-here-woocommerce'); ?></a>
+                <a class="nav-link" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>"> <?php echo __('View Pending Orders', 'woo-paypal-here'); ?></a>
             </li>
         </ul>
         <?php
@@ -20,7 +20,7 @@
             'container' => false,
             'menu_class' => 'navbar-nav mr-auto',
             //Process nav menu using our custom nav walker
-            'walker' => new Paypal_Here_Woocommerce_Rest_API_Navwalker())
+            'walker' => new Woo_PayPal_Here_Rest_API_Navwalker())
         ); */
         ?>
     </div>

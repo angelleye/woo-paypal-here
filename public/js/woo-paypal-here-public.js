@@ -272,7 +272,7 @@
             }
         });
         $('.angelleye_delete_button_paypal_here').click(function () {
-          var data = {
+            var data = {
                 action: 'paypal_here_delete_order_item',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
                 'item_id': $(this).data("item_id")

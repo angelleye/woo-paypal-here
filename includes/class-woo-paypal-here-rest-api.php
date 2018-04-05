@@ -2,14 +2,14 @@
 
 /**
  * @since      1.0.0
- * @package    Paypal_Here_Woocommerce_Rest_API
- * @subpackage Paypal_Here_Woocommerce_Rest_API/includes
+ * @package    Woo_PayPal_Here_Rest_API
+ * @subpackage Woo_PayPal_Here_Rest_API/includes
  * @author     Angell EYE <service@angelleye.com>
  */
 use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
 
-class Paypal_Here_Woocommerce_Rest_API {
+class Woo_PayPal_Here_Rest_API {
 
     public $paypal_here_settings = array();
     public $result;
@@ -17,14 +17,14 @@ class Paypal_Here_Woocommerce_Rest_API {
     public $product_filter_settings;
 
     public function __construct() {
-        $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         $this->site_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) {
             $this->cs = 'cs_' . $this->paypal_here_settings['uniq_cs'];
             $this->ck = 'ck_' . $this->paypal_here_settings['uniq_ck'];
             $this->product_filter_settings = !empty($this->paypal_here_settings['product_filter_settings']) ? $this->paypal_here_settings['product_filter_settings'] : 'featured_products';
             try {
-                include_once PAYPAL_HERE_PLUGIN_DIR . '/includes/lib/api/vendor/autoload.php';
+                include_once WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/lib/api/vendor/autoload.php';
                 $this->woocommerce = new Client(
                         $this->site_url, $this->ck, $this->cs, [
                     'wp_api' => true,
@@ -35,20 +35,14 @@ class Paypal_Here_Woocommerce_Rest_API {
                 
             }
         } else {
-            if(is_admin()) {
-                if(function_exists('wc_add_notice')) {
-                    echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
-                } else {
-                    echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
-                }
-            }
+            
         }
     }
 
-    public function angelleye_paypal_here_get_product() {
+    public function angelleye_woo_paypal_here_get_product() {
         $request_param = array();
         if (!empty($_GET['search'])) {
-            $request_param['search'] = $_GET['search'];
+            $request_param['search'] = wc_clean($_GET['search']);
         }
         switch ($this->product_filter_settings) {
             case 'featured_products':
@@ -73,20 +67,20 @@ class Paypal_Here_Woocommerce_Rest_API {
         return $this->result;
     }
 
-    public function angelleye_paypal_here_get_pending_order() {
+    public function angelleye_woo_paypal_here_get_pending_order() {
         $this->customer_id = get_current_user_id();
         $request_param = array('status' => 'pending');
         if (!empty($_GET['search'])) {
-            $request_param['search'] = $_GET['search'];
+            $request_param['search'] = wc_clean($_GET['search']);
         }
         return $this->result = $this->woocommerce->get('orders', $request_param);
     }
 
-    public function angelleye_paypal_here_get_shipping_methods() {
+    public function angelleye_woo_paypal_here_get_shipping_methods() {
         
     }
 
-    public function angelleye_paypal_here_get_coupons() {
+    public function angelleye_woo_paypal_here_get_coupons() {
         if (!empty($_POST['search']['term'])) {
             $request_param['search'] = $_POST['search']['term'];
             $this->result = $this->woocommerce->get('coupons', $request_param);

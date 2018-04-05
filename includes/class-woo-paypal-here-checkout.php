@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Paypal_Here_Woocommerce_Checkout {
+class Woo_PayPal_Here_Checkout {
 
     /**
      * The single instance of the class.
@@ -64,7 +64,7 @@ class Paypal_Here_Woocommerce_Checkout {
             'payment_method',
             'customer_id',
             'shipping_methods',
-                ));
+        ));
     }
 
     /**
@@ -264,7 +264,7 @@ class Paypal_Here_Woocommerce_Checkout {
         }
 
         try {
-            $order_id = absint(paypal_here_get_session('angelleye_paypal_here_order_awaiting_payment'));
+            $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
             $cart_hash = md5(json_encode(wc_clean(WC()->cart->get_cart_for_session())) . WC()->cart->total);
             $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
@@ -297,7 +297,7 @@ class Paypal_Here_Woocommerce_Checkout {
                     $order->update_meta_data('_' . $key, $value);
                 }
             }
-            $data['payment_method'] = 'angelleye_paypal_here';
+            $data['payment_method'] = 'angelleye_woo_paypal_here';
             $order->set_created_via('checkout');
             $order->set_cart_hash($cart_hash);
             $order->set_customer_id(apply_filters('woocommerce_checkout_customer_id', get_current_user_id()));
@@ -554,7 +554,7 @@ class Paypal_Here_Woocommerce_Checkout {
                 continue;
             }
             foreach ($fieldset as $key => $field) {
-                $type = sanitize_title(isset($field['type']) ? $field['type'] : 'text' );
+                $type = sanitize_title(isset($field['type']) ? $field['type'] : 'text');
 
                 switch ($type) {
                     case 'checkbox' :
@@ -604,7 +604,7 @@ class Paypal_Here_Woocommerce_Checkout {
                     continue;
                 }
                 $required = !empty($field['required']);
-                $format = array_filter(isset($field['validate']) ? (array) $field['validate'] : array() );
+                $format = array_filter(isset($field['validate']) ? (array) $field['validate'] : array());
                 $field_label = isset($field['label']) ? $field['label'] : '';
 
                 switch ($fieldset_key) {

@@ -3,15 +3,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
+class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
 
     public $order_item;
 
     public function __construct() {
-        $this->id = 'angelleye_paypal_here';
+        $this->id = 'angelleye_woo_paypal_here';
         $this->has_fields = true;
-        $this->method_title = __('PayPal Here', 'paypal-here-woocommerce');
-        $this->method_description = __('', 'paypal-here-woocommerce');
+        $this->method_title = __('PayPal Here', 'woo-paypal-here');
+        $this->method_description = __('', 'woo-paypal-here');
         $this->description = $this->get_option('description', 'PayPal Here');
         $this->title = $this->get_option('title', 'PayPal Here');
         $this->init_form_fields();
@@ -48,14 +48,14 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     public function process_admin_options() {
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
         if (!empty($this->generate_woocommerce_rest_api_key_value)) {
-            $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value'] = $this->generate_woocommerce_rest_api_key_value;
+            $_POST['woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_key_value'] = $this->generate_woocommerce_rest_api_key_value;
         }
-        $_POST['woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button'] = 'Generate WooCommerce REST API key';
+        $_POST['woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_push_button'] = 'Generate WooCommerce REST API key';
         parent::process_admin_options();
     }
 
     public function admin_options() {
-        echo '<div id="angelleye_paypal_here_right_sidebar_main" class="wrap">';
+        echo '<div id="angelleye_woo_paypal_here_right_sidebar_main" class="wrap">';
         echo '<div id="poststuff">';
         echo '<div id="post-body" class="metabox-holder columns-2">';
         echo '<div id="post-body-content" style="position: relative;">';
@@ -65,7 +65,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         ?>
         <p class="submit_button">
             <?php if (empty($GLOBALS['hide_save_button'])) : ?>
-                <input name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e('Save changes', 'paypal-here-woocommerce'); ?>" />
+                <input name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e('Save changes', 'woo-paypal-here'); ?>" />
             <?php endif; ?>
             <?php wp_nonce_field('woocommerce-settings'); ?>
         </p>
@@ -74,7 +74,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         echo '<div id="postbox-container-1" class="postbox-container">
                 <div id="side-sortables" class="meta-box-sortables ui-sortable" style="">
                 <div id="postimagediv" class="postbox ">
-                    <h2 class="hndle ui-sortable-handle" style="text-align: center;"><span>' . __('Load PayPal Here Web App', 'paypal-here-woocommerce') . '</span></h2>
+                    <h2 class="hndle ui-sortable-handle" style="text-align: center;"><span>' . __('Load PayPal Here Web App', 'woo-paypal-here') . '</span></h2>
                     <div class="inside">
                     <div style="text-align:center;"><img src="" class="paypal_here_endpoint_url_qrcode"/></div>
                     </div>
@@ -88,13 +88,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         if (empty($this->generate_woocommerce_rest_api_key_value)) {
             ?>
             <script type="text/javascript">
-                jQuery('#woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_key_value').closest('tr').hide();
+                jQuery('#woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_key_value').closest('tr').hide();
             </script>
             <?php
         }
         ?>
         <style type="text/css">
-            #woocommerce_angelleye_paypal_here_generate_woocommerce_rest_api_push_button {
+            #woocommerce_angelleye_woo_paypal_here_generate_woocommerce_rest_api_push_button {
                 padding: 0px;
                 width: 251px;
             }
@@ -108,25 +108,25 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
     public function init_form_fields() {
         $this->generate_woocommerce_rest_api_key_value = $this->get_option('generate_woocommerce_rest_api_key_value');
         $this->form_fields['enabled'] = array(
-            'title' => __('Enable/Disable', 'paypal-here-woocommerce'),
+            'title' => __('Enable/Disable', 'woo-paypal-here'),
             'type' => 'checkbox',
-            'label' => __('Enable PayPal Here', 'paypal-here-woocommerce'),
+            'label' => __('Enable PayPal Here', 'woo-paypal-here'),
             'default' => 'no'
         );
         $this->form_fields['email'] = array(
-            'title' => __('PayPal Email', 'paypal-here-woocommerce'),
+            'title' => __('PayPal Email', 'woo-paypal-here'),
             'type' => 'email',
-            'description' => __('Enter your PayPal account email address that will be used with the PayPal Here app.', 'paypal-here-woocommerce'),
+            'description' => __('Enter your PayPal account email address that will be used with the PayPal Here app.', 'woo-paypal-here'),
             'default' => get_option('admin_email'),
             'desc_tip' => true,
             'placeholder' => 'email@domain.com',
         );
         $this->form_fields['accepted_payment_methods'] = array(
-            'title' => __('Accepted Payment Methods', 'paypal-here-woocommerce'),
+            'title' => __('Accepted Payment Methods', 'woo-paypal-here'),
             'type' => 'multiselect',
             'class' => 'chosen_select',
             'css' => 'width: 350px;',
-            'desc_tip' => __('Choose the payment methods you would like to make available in the Here app for WooCommerce orders.', 'paypal-here-woocommerce'),
+            'desc_tip' => __('Choose the payment methods you would like to make available in the Here app for WooCommerce orders.', 'woo-paypal-here'),
             'options' => array(
                 'cash' => 'Cash',
                 'card' => 'Credit Card',
@@ -137,15 +137,15 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'default' => array('cash', 'card', 'paypal'),
         );
         $this->form_fields['invoice_id_prefix'] = array(
-            'title' => __('Invoice ID Prefix', 'paypal-here-woocommerce'),
+            'title' => __('Invoice ID Prefix', 'woo-paypal-here'),
             'type' => 'text',
-            'description' => __('Add a prefix to the invoice ID sent to PayPal. This can resolve duplicate invoice problems when working with multiple websites on the same PayPal account.', 'paypal-here-woocommerce'),
+            'description' => __('Add a prefix to the invoice ID sent to PayPal. This can resolve duplicate invoice problems when working with multiple websites on the same PayPal account.', 'woo-paypal-here'),
             'desc_tip' => true,
             'default' => 'WC-PH-'
         );
         if (empty($this->generate_woocommerce_rest_api_key_value)) {
             $this->form_fields['generate_woocommerce_rest_api_push_button'] = array(
-                'title' => __('WooCommerce REST API', 'paypal-here-woocommerce'),
+                'title' => __('WooCommerce REST API', 'woo-paypal-here'),
                 'type' => 'button',
                 'description' => __('', ''),
                 'default' => 'Generate WooCommerce API Key',
@@ -153,34 +153,34 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             );
         }
         $this->form_fields['generate_woocommerce_rest_api_key_value'] = array(
-            'title' => __('API Key (Ending With)', 'paypal-here-woocommerce'),
+            'title' => __('API Key (Ending With)', 'woo-paypal-here'),
             'type' => 'text',
             'description' => '<div id="rest_api_key_value_description"><a style="color: #a00; text-decoration: none;" href="">Revoke key</a></div>',
             'disabled' => true
         );
         $this->form_fields['product_filter_settings'] = array(
-            'title' => __('View Products', 'paypal-here-woocommerce'),
+            'title' => __('View Products', 'woo-paypal-here'),
             'type' => 'select',
             'class' => 'wc-enhanced-select',
-            'description' => __('Choose which products you would like to display by default in the web app when creating new orders.', 'paypal-here-woocommerce'),
+            'description' => __('Choose which products you would like to display by default in the web app when creating new orders.', 'woo-paypal-here'),
             'default' => 'featured_products',
             'desc_tip' => true,
             'options' => array(
-                'featured_products' => __('Featured Products', 'paypal-here-woocommerce'),
-                'new_products' => __('New Products', 'paypal-here-woocommerce'),
-                'top_selling_products' => __('Top Selling Products', 'paypal-here-woocommerce')
+                'featured_products' => __('Featured Products', 'woo-paypal-here'),
+                'new_products' => __('New Products', 'woo-paypal-here'),
+                'top_selling_products' => __('Top Selling Products', 'woo-paypal-here')
             ),
         );
-        $this->form_fields['paypal_here_endpoint'] = array('title' => __('PayPal Here Endpoint', 'paypal-here-woocommerce'), 'type' => 'title', 'description' => __('Set the endpoint value you would like to use for the PayPal Here web app.  This will be appended to your site URL to build the full URL for the web app portion of the PayPal Here for WooCommerce solution.', 'paypal-here-woocommerce'));
+        $this->form_fields['paypal_here_endpoint'] = array('title' => __('PayPal Here Endpoint', 'woo-paypal-here'), 'type' => 'title', 'description' => __('Set the endpoint value you would like to use for the PayPal Here web app.  This will be appended to your site URL to build the full URL for the web app portion of the PayPal Here for WooCommerce solution.', 'woo-paypal-here'));
         $this->form_fields['paypal_here_endpoint_url'] = array(
-            'title' => __('PayPal Here Endpoint', 'paypal-here-woocommerce'),
+            'title' => __('PayPal Here Endpoint', 'woo-paypal-here'),
             'id' => 'paypal_here_endpoint_url',
             'type' => 'text',
-            'description' => sprintf(__('URL for PayPal Here web app using your endpoint: %s/%s', 'paypal-here-woocommerce'), site_url(), 'paypal-here'),
+            'description' => sprintf(__('URL for PayPal Here web app using your endpoint: %s/%s', 'woo-paypal-here'), site_url(), 'paypal-here'),
             'default' => 'paypal-here',
         );
         $this->form_fields['paypal_here_endpoint_title'] = array(
-            'title' => __('PayPal Here Page Title', 'paypal-here-woocommerce'),
+            'title' => __('PayPal Here Page Title', 'woo-paypal-here'),
             'id' => 'paypal_here_endpoint_title',
             'type' => 'text',
             'description' => 'This value will be used as the page title for the PayPal Here web app.',
@@ -188,25 +188,25 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
             'desc_tip' => true,
         );
         $this->form_fields['paypal_here_debug'] = array(
-            'title' => __('Debug Log', 'paypal-here-woocommerce'),
+            'title' => __('Debug Log', 'woo-paypal-here'),
             'type' => 'checkbox',
-            'label' => __('Enable logging', 'paypal-here-woocommerce'),
+            'label' => __('Enable logging', 'woo-paypal-here'),
             'default' => 'no',
-            'description' => sprintf(__('Log PayPal events, inside <code>%s</code>', 'paypal-here-woocommerce'), wc_get_log_file_path('angelleye_paypal_here'))
+            'description' => sprintf(__('Log PayPal events, inside <code>%s</code>', 'woo-paypal-here'), wc_get_log_file_path('angelleye_woo_paypal_here'))
         );
     }
 
     public function process_payment($order_id) {
         try {
-            paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
-            require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-paypal-here-woocommerce-calculations.php';
-            if (class_exists('Paypal_Here_Woocommerce_Calculation')) {
+            paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment');
+            require WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-calculations.php';
+            if (class_exists('Woo_PayPal_Here_Calculation')) {
                 $order = wc_get_order($order_id);
                 $billing_phone = $order->get_billing_phone();
                 $billing_email = $order->get_billing_email();
-                $this->calculation = new Paypal_Here_Woocommerce_Calculation();
+                $this->calculation = new Woo_PayPal_Here_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
-                
+
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);
                 $billingInfo = array();
                 $billing_company = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_company : $order->get_billing_company();
@@ -307,13 +307,13 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 }
                 $this->invoice['referrerCode'] = 'AngellEye_SP_PPH';
                 $this->add_log('WooCommerce Version: ' . print_r(WC_VERSION, true));
-                $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(PAYPAL_HERE_VERSION, true));  
+                $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(WOO_PAYPAL_HERE_VERSION, true));
                 $this->add_log('Order ID: ' . print_r($order_id, true));
                 $this->add_log('Endpoint: ' . print_r($this->paypal_here_payment_url, true));
                 $this->add_log('Request: ' . print_r(json_encode($this->invoice), true));
                 $this->invoice_encoded = rawurlencode(json_encode($this->invoice));
                 $accepted_payment_methods_string = implode(",", $this->accepted_payment_methods);
-                $this->return_url = $this->angelleye_paypal_here_return_url();
+                $this->return_url = $this->angelleye_woo_paypal_here_return_url();
                 $this->retUrl = urlencode($this->return_url . "/{result}?Type={Type}&InvoiceId={InvoiceId}&Tip={Tip}&Email={Email}&TxId={TxId}&wc_order_id=$order_id");
                 $this->paypal_here_payment_url .= $this->retUrl;
                 $this->paypal_here_payment_url .= "&accepted=" . $accepted_payment_methods_string;
@@ -331,15 +331,15 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         }
     }
 
-    public function angelleye_paypal_here_return_url() {
+    public function angelleye_woo_paypal_here_return_url() {
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
-        $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
+        $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
         return $this->home_url . $this->paypal_here_endpoint_url;
     }
 
-    public function angelleye_paypal_here_process_payment() {
-        $order_id = $_POST['order_id'];
+    public function angelleye_woo_paypal_here_process_payment() {
+        $order_id = absint($_POST['order_id']);
         $location = $this->process_payment($order_id);
         wp_send_json($location);
     }
@@ -350,49 +350,49 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         }
         return $string;
     }
-    
+
     public function add_log($message, $level = 'info') {
         if ($this->debug) {
             if (version_compare(WC_VERSION, '3.0', '<')) {
                 if (empty($this->log)) {
                     $this->log = new WC_Logger();
                 }
-                $this->log->add('angelleye_paypal_here', $message);
+                $this->log->add('angelleye_woo_paypal_here', $message);
             } else {
                 if (empty($this->log)) {
                     $this->log = wc_get_logger();
                 }
-                $this->log->log($level, $message, array('source' => 'angelleye_paypal_here'));
+                $this->log->log($level, $message, array('source' => 'angelleye_woo_paypal_here'));
             }
         }
     }
-    
+
     public function paypal_here_call_back_handler() {
         if (!empty($_GET['Type'])) {
             //$this->add_log('call back response: ' . print_r($_SERVER, true));
-            $order_id = !empty($_GET['wc_order_id']) ? $_GET['wc_order_id'] : '';
-            if(empty($order_id)) {
-                $order_id = str_replace($this->invoice_id_prefix, '', $_GET['Number']);
+            $order_id = !empty($_GET['wc_order_id']) ? absint($_GET['wc_order_id']) : '';
+            if (empty($order_id)) {
+                $order_id = str_replace($this->invoice_id_prefix, '', wc_clean($_GET['Number']));
             }
             try {
-                if( !empty($order_id) ) {
+                if (!empty($order_id)) {
                     $order = wc_get_order($order_id);
-                    if(is_object($order)) {
-                        if ( class_exists( 'WooCommerce' ) && did_action('wp_loaded') ) {
+                    if (is_object($order)) {
+                        if (class_exists('WooCommerce') && did_action('wp_loaded')) {
                             if (isset(WC()->cart) && sizeof(WC()->cart->get_cart()) > 0) {
-                               WC()->cart->empty_cart();
+                                WC()->cart->empty_cart();
                             }
                         }
-                        $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
-                        $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
+                        $transaction_id = !empty($_GET['InvoiceId']) ? wc_clean($_GET['InvoiceId']) : '';
+                        $type = !empty($_GET['Type']) ? wc_clean($_GET['Type']) : '';
                         update_post_meta($order_id, 'Type', $type);
                         update_post_meta($order_id, 'InvoiceId', $transaction_id);
                         $this->add_log('Type: ' . print_r($type, true));
                         $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
-                        if($type == 'UNKNOWN') {
-                            $order->update_status('failed', __('transaction declined', 'paypal-here-woocommerce'));
+                        if ($type == 'UNKNOWN') {
+                            $order->update_status('failed', __('transaction declined', 'woo-paypal-here'));
                         } else {
-                            wc_add_notice(apply_filters( 'woocommerce_thankyou_order_received_text', __( 'Thank you. Your order has been received.', 'woocommerce' ), $order ), 'success');
+                            wc_add_notice(apply_filters('woocommerce_thankyou_order_received_text', __('Thank you. Your order has been received.', 'woocommerce'), $order), 'success');
                             $order->payment_complete($transaction_id);
                         }
                         wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
@@ -403,7 +403,7 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
                 wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
                 exit();
             }
-        } 
+        }
     }
 
 }

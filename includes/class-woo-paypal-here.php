@@ -10,11 +10,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Paypal_Here_Woocommerce
- * @subpackage Paypal_Here_Woocommerce/includes
+ * @package    Woo_PayPal_Here
+ * @subpackage Woo_PayPal_Here/includes
  * @author     Angell EYE <service@angelleye.com>
  */
-class Paypal_Here_Woocommerce {
+class Woo_PayPal_Here {
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -22,7 +22,7 @@ class Paypal_Here_Woocommerce {
      *
      * @since    1.0.0
      * @access   protected
-     * @var      Paypal_Here_Woocommerce_Loader    $loader    Maintains and registers all hooks for the plugin.
+     * @var      Woo_PayPal_Here_Loader    $loader    Maintains and registers all hooks for the plugin.
      */
     protected $loader;
 
@@ -54,13 +54,12 @@ class Paypal_Here_Woocommerce {
      * @since    1.0.0
      */
     public function __construct() {
-        if (defined('PAYPAL_HERE_VERSION')) {
-            $this->version = PAYPAL_HERE_VERSION;
+        if (defined('WOO_PAYPAL_HERE_VERSION')) {
+            $this->version = WOO_PAYPAL_HERE_VERSION;
         } else {
             $this->version = '0.1.0';
         }
-        $this->plugin_name = 'paypal-here-woocommerce';
-
+        $this->plugin_name = 'woo-paypal-here';
         $this->load_dependencies();
         $this->set_locale();
         $this->define_admin_hooks();
@@ -72,10 +71,10 @@ class Paypal_Here_Woocommerce {
      *
      * Include the following files that make up the plugin:
      *
-     * - Paypal_Here_Woocommerce_Loader. Orchestrates the hooks of the plugin.
-     * - Paypal_Here_Woocommerce_i18n. Defines internationalization functionality.
-     * - Paypal_Here_Woocommerce_Admin. Defines all hooks for the admin area.
-     * - Paypal_Here_Woocommerce_Public. Defines all hooks for the public side of the site.
+     * - Woo_PayPal_Here_Loader. Orchestrates the hooks of the plugin.
+     * - Woo_PayPal_Here_i18n. Defines internationalization functionality.
+     * - Woo_PayPal_Here_Admin. Defines all hooks for the admin area.
+     * - Woo_PayPal_Here_Public. Defines all hooks for the public side of the site.
      *
      * Create an instance of the loader which will be used to register the hooks
      * with WordPress.
@@ -89,38 +88,38 @@ class Paypal_Here_Woocommerce {
          * The class responsible for orchestrating the actions and filters of the
          * core plugin.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-loader.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-loader.php';
 
         /**
          * The class responsible for defining internationalization functionality
          * of the plugin.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-i18n.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-i18n.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-paypal-here-woocommerce-admin.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-woo-paypal-here-admin.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
          * side of the site.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-functions.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-checkout.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-functions.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-woo-paypal-here-public.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-payment.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-navwalker.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-checkout.php';
 
 
 
-        $this->loader = new Paypal_Here_Woocommerce_Loader();
+        $this->loader = new Woo_PayPal_Here_Loader();
     }
 
     /**
      * Define the locale for this plugin for internationalization.
      *
-     * Uses the Paypal_Here_Woocommerce_i18n class in order to set the domain and to register the hook
+     * Uses the Woo_PayPal_Here_i18n class in order to set the domain and to register the hook
      * with WordPress.
      *
      * @since    1.0.0
@@ -128,7 +127,7 @@ class Paypal_Here_Woocommerce {
      */
     private function set_locale() {
 
-        $plugin_i18n = new Paypal_Here_Woocommerce_i18n();
+        $plugin_i18n = new Woo_PayPal_Here_i18n();
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
     }
@@ -141,14 +140,14 @@ class Paypal_Here_Woocommerce {
      * @access   private
      */
     private function define_admin_hooks() {
-        $plugin_admin = new Paypal_Here_Woocommerce_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_admin = new Woo_PayPal_Here_Admin($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_paypal_here_add_payment_method');
+        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_woo_paypal_here_add_payment_method');
         if (is_admin() && !defined('DOING_AJAX')) {
-            $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_paypal_here_add_meta_box', 10);
+            $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_woo_paypal_here_add_meta_box', 10);
         }
-        $basename = PAYPAL_HERE_PLUGIN_BASENAME;
+        $basename = WOO_PAYPAL_HERE_PLUGIN_BASENAME;
         $prefix = is_network_admin() ? 'network_admin_' : '';
         $this->loader->add_filter("{$prefix}plugin_action_links_$basename", $plugin_admin, 'paypal_here_action_links', 10, 4);
     }
@@ -161,11 +160,11 @@ class Paypal_Here_Woocommerce {
      * @access   private
      */
     private function define_public_hooks() {
-        $plugin_public = new Paypal_Here_Woocommerce_Public($this->get_plugin_name(), $this->get_version());
+        $plugin_public = new Woo_PayPal_Here_Public($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('init', $plugin_public, 'paypal_here_register_session', 1);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles', 99999);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3);
+        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_woo_paypal_here_locate_template', 10, 3);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);
@@ -178,10 +177,10 @@ class Paypal_Here_Woocommerce {
         $this->loader->add_action('wp_ajax_paypal_here_apply_shipping', $plugin_public, 'paypal_here_apply_shipping', 10);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_delete_order_item', $plugin_public, 'paypal_here_paypal_here_delete_order_item', 10);
         $this->loader->add_action('wp_ajax_paypal_here_delete_order_item', $plugin_public, 'paypal_here_paypal_here_delete_order_item', 10);
-        $this->loader->add_filter('woocommerce_available_payment_gateways', $plugin_public , 'paypal_here_woocommerce_available_payment_gateways', 10, 1);
-        
-        $payment_object = new Paypal_Here_Woocommerce_Payment();
-        
+        $this->loader->add_filter('woocommerce_available_payment_gateways', $plugin_public, 'woo_paypal_here_available_payment_gateways', 10, 1);
+
+        $payment_object = new Woo_PayPal_Here_Payment();
+
         $this->loader->add_action('init', $payment_object, 'paypal_here_call_back_handler', 10);
     }
 
@@ -211,7 +210,7 @@ class Paypal_Here_Woocommerce {
      * The reference to the class that orchestrates the hooks with the plugin.
      *
      * @since     1.0.0
-     * @return    Paypal_Here_Woocommerce_Loader    Orchestrates the hooks of the plugin.
+     * @return    Woo_PayPal_Here_Loader    Orchestrates the hooks of the plugin.
      */
     public function get_loader() {
         return $this->loader;
@@ -226,5 +225,4 @@ class Paypal_Here_Woocommerce {
     public function get_version() {
         return $this->version;
     }
-
 }

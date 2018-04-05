@@ -7,11 +7,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Paypal_Here_Woocommerce
- * @subpackage Paypal_Here_Woocommerce/includes
+ * @package    Woo_PayPal_Here
+ * @subpackage Woo_PayPal_Here/includes
  * @author     Angell EYE <service@angelleye.com>
  */
-class Paypal_Here_Woocommerce_Loader {
+class Woo_PayPal_Here_Loader {
 
     /**
      * The array of actions registered with WordPress.
