@@ -101,7 +101,3 @@ function run_woo_paypal_here_end_point() {
         $end_point->angelleye_woo_paypal_here_add_endpoints();
     }
 }
-
-function run_woo_paypal_here_rest_api() {
-    
-}
