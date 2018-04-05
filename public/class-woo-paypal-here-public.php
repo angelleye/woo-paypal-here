@@ -468,7 +468,7 @@ class Woo_PayPal_Here_Public {
             $order->calculate_totals(true);
         } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
-            $shipping['total'] = round($order->get_total() * ( $paypal_here_shipping_percentage / 100 ), 2);
+            $shipping['total'] = number_format(( $order->get_total() * ( $paypal_here_shipping_percentage / 100 ) ), 2);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
         } elseif (isset($_POST['paypal_here_shipping_dollar'])) {
             $shipping['total'] = wc_clean($_POST['paypal_here_shipping_dollar']);
