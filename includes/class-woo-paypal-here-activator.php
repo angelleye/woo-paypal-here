@@ -16,7 +16,7 @@ class Paypal_Here_Woocommerce_Activator {
      * @since    1.0.0
      */
     public static function activate() {
-        
+
     }
 
 }

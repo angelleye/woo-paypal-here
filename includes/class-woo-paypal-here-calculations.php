@@ -1,9 +1,12 @@
 <?php
+
 if (!defined('ABSPATH')) {
     exit;
 }
 if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
+
     class Paypal_Here_Woocommerce_Calculation {
+
         public $order_total;
         public $taxamt;
         public $shippingamt;
@@ -17,6 +20,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
         public $payment_method;
         public $temp_total;
         public $is_separate_discount;
+
         public function __construct($payment_method = null) {
             $this->order_items = array();
             $this->is_adjust = false;
@@ -31,6 +35,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->decimals = 2;
             }
         }
+
         public function order_calculation($order_id) {
             $this->payment = array();
             $order = wc_get_order($order_id);
@@ -134,8 +139,8 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 $this->shippingamt = 0;
             }
             $this->order_re_calculate($order);
-            if($this->taxamt > 0) {
-                 $taxLineItem = array(
+            if ($this->taxamt > 0) {
+                $taxLineItem = array(
                     'name' => 'Tax',
                     'description' => 'Tax Amount',
                     'quantity' => 1,
@@ -155,6 +160,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             }
             return $this->payment;
         }
+
         public function order_re_calculate($order) {
             $temp_roundedPayPalTotal = 0;
             if (!empty($this->order_items) && is_array($this->order_items)) {
@@ -195,6 +201,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 }
             }
         }
+
         public function get_giftcard_amount($order_id = null) {
             if (class_exists('WPR_Giftcard')) {
                 if (!empty(WC()->session->giftcard_post)) {
@@ -213,6 +220,7 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 return false;
             }
         }
+
         public function yith_get_giftcard_amount() {
             if (class_exists('YITH_YWGC_Cart_Checkout')) {
                 $amount = 0;
@@ -226,12 +234,14 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
                 return false;
             }
         }
+
         public function clean_product_title($product_title) {
             $product_title = strip_tags($product_title);
             $product_title = str_replace(array("&#8211;", "&#8211"), array("-"), $product_title);
             $product_title = str_replace('&', '-', $product_title);
             return $product_title;
         }
+
         public function number_format($price) {
             $decimals = 2;
             if (!$this->currency_has_decimals(get_woocommerce_currency())) {
@@ -239,11 +249,15 @@ if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
             }
             return number_format($price, $decimals, '.', '');
         }
+
         public function currency_has_decimals($currency) {
             if (in_array($currency, array('HUF', 'JPY', 'TWD'))) {
                 return false;
             }
             return true;
         }
+
     }
+
+    
 endif;

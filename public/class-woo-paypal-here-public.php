@@ -74,8 +74,8 @@ class Paypal_Here_Woocommerce_Public {
         global $wp_query, $wp;
         $wp->query_vars;
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
-            wp_enqueue_script($this->plugin_name . 'popper', plugin_dir_url(__FILE__) .'js/popper.min.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name . 'bootstrap_js', plugin_dir_url(__FILE__) .'js/bootstrap.min.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name . 'popper', plugin_dir_url(__FILE__) . 'js/popper.min.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name . 'bootstrap_js', plugin_dir_url(__FILE__) . 'js/bootstrap.min.js', array('jquery'), $this->version, false);
             wp_enqueue_script('jquery-ui-autocomplete');
             wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, false);
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/woo-paypal-here-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
@@ -131,21 +131,20 @@ class Paypal_Here_Woocommerce_Public {
     public function paypal_here_get_modal_body() {
         ob_start();
         global $wpdb, $woocommerce, $post;
-        
+
         $product_id = absint($_POST['product_id']);
         check_ajax_referer('paypal_here_nonce', 'security');
         $product = wc_get_product($product_id);
         setup_postdata($product);
         $GLOBALS['post'] = $product;
         $GLOBALS['product'] = $product;
-        wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array( 'jquery', 'wp-util' ), '10', true);
+        wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array('jquery', 'wp-util'), '10', true);
         ?>
         <script>
-		 	   
-		 	    var wc_add_to_cart_variation_params = {"ajax_url":"\/wp-admin\/admin-ajax.php"};     
-	            jQuery.getScript("<?php echo PAYPAL_HERE_ASSET_URL; ?>public/js/add-to-cart-variation.js");
-	 	    </script>
-                    <?php 
+            var wc_add_to_cart_variation_params = {"ajax_url": "\/wp-admin\/admin-ajax.php"};
+            jQuery.getScript("<?php echo PAYPAL_HERE_ASSET_URL; ?>public/js/add-to-cart-variation.js");
+        </script>
+        <?php
         $input_id = uniqid('quantity_');
         $input_name = 'quantity';
         $input_value = '1';
@@ -172,7 +171,7 @@ class Paypal_Here_Woocommerce_Public {
                 <?php } else { ?>
                     <form class="variations_form cart">
                     <?php } ?> 
-                        
+
                     <div class="row form-group  variations">
                         <div class="col-9 col-sm-9">
                             <input name="variation_id" class="variation_id" value="" type="hidden">
@@ -214,54 +213,54 @@ class Paypal_Here_Woocommerce_Public {
                         <?php } else { ?>
 
                             <div class="variations" cellspacing="0">
-                               
-                                    <?php foreach ($attributes as $name => $options) : ?>
-                                        <div class=" clearfix attribute-<?php echo sanitize_title($name); ?>">
-                                            <div class="label">
-                                                
-                                                <hr class="hr-text" data-content="<?php echo wc_attribute_label($name); ?>">
-                                                </div>
-                                            <?php
-                                            $sanitized_name = sanitize_title($name);
-                                            if (isset($_REQUEST['attribute_' . $sanitized_name])) {
-                                                $checked_value = $_REQUEST['attribute_' . $sanitized_name];
-                                            } elseif (isset($selected_attributes[$sanitized_name])) {
-                                                $checked_value = $selected_attributes[$sanitized_name];
-                                            } else {
-                                                $checked_value = '';
-                                            }
-                                            ?>
-                                            <div class="value default-ceneter-button">
-                                                <?php
-                                                if (!empty($options)) {
-                                                    if (taxonomy_exists($name)) {
-                                                        // Get terms if this is a taxonomy - ordered. We need the names too.
-                                                        $terms = wc_get_product_terms($product->get_id(), $name, array('fields' => 'all'));
 
-                                                        foreach ($terms as $term) {
-                                                            if (!in_array($term->slug, $options)) {
-                                                                continue;
-                                                            }
-                                                             print_attribute_radio($checked_value, $term->slug, $term->name, $sanitized_name);
-                                                            
+                                <?php foreach ($attributes as $name => $options) : ?>
+                                    <div class=" clearfix attribute-<?php echo sanitize_title($name); ?>">
+                                        <div class="label">
+
+                                            <hr class="hr-text" data-content="<?php echo wc_attribute_label($name); ?>">
+                                        </div>
+                                        <?php
+                                        $sanitized_name = sanitize_title($name);
+                                        if (isset($_REQUEST['attribute_' . $sanitized_name])) {
+                                            $checked_value = $_REQUEST['attribute_' . $sanitized_name];
+                                        } elseif (isset($selected_attributes[$sanitized_name])) {
+                                            $checked_value = $selected_attributes[$sanitized_name];
+                                        } else {
+                                            $checked_value = '';
+                                        }
+                                        ?>
+                                        <div class="value default-ceneter-button">
+                                            <?php
+                                            if (!empty($options)) {
+                                                if (taxonomy_exists($name)) {
+                                                    // Get terms if this is a taxonomy - ordered. We need the names too.
+                                                    $terms = wc_get_product_terms($product->get_id(), $name, array('fields' => 'all'));
+
+                                                    foreach ($terms as $term) {
+                                                        if (!in_array($term->slug, $options)) {
+                                                            continue;
                                                         }
-                                                    } else {
-                                                        foreach ($options as $option) {
-                                                            print_attribute_radio($checked_value, $option, $option, $sanitized_name);
-                                                        }
+                                                        print_attribute_radio($checked_value, $term->slug, $term->name, $sanitized_name);
+                                                    }
+                                                } else {
+                                                    foreach ($options as $option) {
+                                                        print_attribute_radio($checked_value, $option, $option, $sanitized_name);
                                                     }
                                                 }
+                                            }
 
-                                                echo end($attribute_keys) === $name ? apply_filters('woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . __('Clear', 'woocommerce') . '</a>') : '';
-                                                ?>
-                                            </div>
+                                            echo end($attribute_keys) === $name ? apply_filters('woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . __('Clear', 'woocommerce') . '</a>') : '';
+                                            ?>
                                         </div>
-                                    <?php endforeach; ?>
-                                
-                        <?php }
-                    } ?>
+                                    </div>
+                                <?php endforeach; ?>
+
+                                <?php
+                            }
+                        }
+                        ?>
                 </form>
-                  
         </div>
         <?php
         $data['html'] = ob_get_clean();
@@ -277,7 +276,7 @@ class Paypal_Here_Woocommerce_Public {
         check_ajax_referer('paypal_here_nonce', 'security');
         WC()->shipping->reset_shipping();
         if (empty($post->ID)) {
-            $product_id = $_POST['product_id'];
+            $product_id = absint($_POST['product_id']);
         } else {
             $product_id = $post->ID;
         }
@@ -321,15 +320,15 @@ class Paypal_Here_Woocommerce_Public {
             }
         }
     }
-    
+
     public function paypal_here_paypal_here_delete_order_item() {
         check_ajax_referer('paypal_here_nonce', 'security');
         try {
-            $item_id  = absint( $_POST['item_id'] );
-            wc_delete_order_item( $item_id );
+            $item_id = absint($_POST['item_id']);
+            wc_delete_order_item($item_id);
             $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
         } catch (Exception $ex) {
-
+            
         }
     }
 
@@ -372,7 +371,6 @@ class Paypal_Here_Woocommerce_Public {
                             $coupon->delete(true);
                         }
                     }
-
                     $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
                 }
             } else {
@@ -487,15 +485,16 @@ class Paypal_Here_Woocommerce_Public {
         $order->calculate_totals(true);
         $this->angelleye_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order->get_id()), $this->home_url . $this->paypal_here_endpoint_url));
     }
-    
+
     public function paypal_here_woocommerce_available_payment_gateways($available_payment_gateways) {
         unset($available_payment_gateways['angelleye_paypal_here']);
         return $available_payment_gateways;
     }
-    
+
     public function paypal_here_register_session() {
-        if( !session_id() ) {
+        if (!session_id()) {
             session_start();
         }
     }
+
 }

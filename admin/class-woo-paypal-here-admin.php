@@ -88,15 +88,15 @@ class Paypal_Here_Woocommerce_Admin {
         $url = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=" . urlencode($qrcode_order_url) . "&chld=H|O";
         echo "<div style='text-align:center;'><img src='$url'></div>";
     }
-    
+
     public function paypal_here_action_links($actions, $plugin_file, $plugin_data, $context) {
         $custom_actions = array(
-                'configure' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wc-settings&tab=checkout&section=angelleye_paypal_here' ), __( 'Configure', 'woo-paypal-here' ) ),
-                'docs'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/woo-paypal-here/?utm_source=paypal_here_woocommerce&utm_medium=docs_link&utm_campaign=paypal_here_woocommerce', __( 'Docs', 'woo-paypal-here' ) ),
-                'support'   => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __( 'Support', 'woo-paypal-here' ) ),
-                'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __( 'Write a Review', 'woo-paypal-here' ) ),
-            );
-        return array_merge( $custom_actions, $actions );
+            'configure' => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-settings&tab=checkout&section=angelleye_paypal_here'), __('Configure', 'woo-paypal-here')),
+            'docs' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/woo-paypal-here/?utm_source=paypal_here_woocommerce&utm_medium=docs_link&utm_campaign=paypal_here_woocommerce', __('Docs', 'woo-paypal-here')),
+            'support' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __('Support', 'woo-paypal-here')),
+            'review' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __('Write a Review', 'woo-paypal-here')),
+        );
+        return array_merge($custom_actions, $actions);
     }
 
 }

@@ -64,7 +64,7 @@ class Paypal_Here_Woocommerce_Checkout {
             'payment_method',
             'customer_id',
             'shipping_methods',
-                ));
+        ));
     }
 
     /**
@@ -554,7 +554,7 @@ class Paypal_Here_Woocommerce_Checkout {
                 continue;
             }
             foreach ($fieldset as $key => $field) {
-                $type = sanitize_title(isset($field['type']) ? $field['type'] : 'text' );
+                $type = sanitize_title(isset($field['type']) ? $field['type'] : 'text');
 
                 switch ($type) {
                     case 'checkbox' :
@@ -604,7 +604,7 @@ class Paypal_Here_Woocommerce_Checkout {
                     continue;
                 }
                 $required = !empty($field['required']);
-                $format = array_filter(isset($field['validate']) ? (array) $field['validate'] : array() );
+                $format = array_filter(isset($field['validate']) ? (array) $field['validate'] : array());
                 $field_label = isset($field['label']) ? $field['label'] : '';
 
                 switch ($fieldset_key) {

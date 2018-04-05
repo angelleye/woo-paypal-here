@@ -96,11 +96,10 @@ function angelleye_load_end_point() {
 }
 
 function run_paypal_here_woocommerce_end_point() {
-    if( class_exists('Paypal_Here_Woocommerce_End_Point') ) {
+    if (class_exists('Paypal_Here_Woocommerce_End_Point')) {
         $end_point = new Paypal_Here_Woocommerce_End_Point();
         $end_point->angelleye_paypal_here_add_endpoints();
     }
-    
 }
 
 function run_paypal_here_woocommerce_rest_api() {
