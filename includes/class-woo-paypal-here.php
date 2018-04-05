@@ -59,7 +59,7 @@ class Paypal_Here_Woocommerce {
         } else {
             $this->version = '0.1.0';
         }
-        $this->plugin_name = 'paypal-here-woocommerce';
+        $this->plugin_name = 'woo-paypal-here';
 
         $this->load_dependencies();
         $this->set_locale();
@@ -89,28 +89,28 @@ class Paypal_Here_Woocommerce {
          * The class responsible for orchestrating the actions and filters of the
          * core plugin.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-loader.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-loader.php';
 
         /**
          * The class responsible for defining internationalization functionality
          * of the plugin.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-i18n.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-i18n.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-paypal-here-woocommerce-admin.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-woo-paypal-here-admin.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
          * side of the site.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-functions.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-paypal-here-woocommerce-public.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-payment.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-navwalker.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-paypal-here-woocommerce-checkout.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-functions.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-woo-paypal-here-public.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-payment.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-navwalker.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-checkout.php';
 
 
 

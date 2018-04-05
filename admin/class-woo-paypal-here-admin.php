@@ -54,7 +54,7 @@ class Paypal_Here_Woocommerce_Admin {
      * @since    1.0.0
      */
     public function enqueue_styles() {
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/woo-paypal-here-admin.css', array(), $this->version, 'all');
     }
 
     /**
@@ -63,7 +63,7 @@ class Paypal_Here_Woocommerce_Admin {
      * @since    1.0.0
      */
     public function enqueue_scripts() {
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-admin.js', array('jquery'), $this->version, false);
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/woo-paypal-here-admin.js', array('jquery'), $this->version, false);
         wp_localize_script($this->plugin_name, 'woocommerce_admin_api_keys', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'update_api_nonce' => wp_create_nonce('update-api-key'),
@@ -79,7 +79,7 @@ class Paypal_Here_Woocommerce_Admin {
     }
 
     public function angelleye_paypal_here_add_meta_box() {
-        add_meta_box('angelleye_admin_paypal_here_metabox', __('PayPal Here', 'paypal-here-woocommerce'), array($this, 'angelleye_paypal_here_metabox'), 'shop_order', 'side', 'default');
+        add_meta_box('angelleye_admin_paypal_here_metabox', __('PayPal Here', 'woo-paypal-here'), array($this, 'angelleye_paypal_here_metabox'), 'shop_order', 'side', 'default');
     }
 
     public function angelleye_paypal_here_metabox($post) {
@@ -91,10 +91,10 @@ class Paypal_Here_Woocommerce_Admin {
     
     public function paypal_here_action_links($actions, $plugin_file, $plugin_data, $context) {
         $custom_actions = array(
-                'configure' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wc-settings&tab=checkout&section=angelleye_paypal_here' ), __( 'Configure', 'paypal-here-woocommerce' ) ),
-                'docs'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/paypal-here-woocommerce/?utm_source=paypal_here_woocommerce&utm_medium=docs_link&utm_campaign=paypal_here_woocommerce', __( 'Docs', 'paypal-here-woocommerce' ) ),
-                'support'   => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __( 'Support', 'paypal-here-woocommerce' ) ),
-                'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __( 'Write a Review', 'paypal-here-woocommerce' ) ),
+                'configure' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wc-settings&tab=checkout&section=angelleye_paypal_here' ), __( 'Configure', 'woo-paypal-here' ) ),
+                'docs'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/woo-paypal-here/?utm_source=paypal_here_woocommerce&utm_medium=docs_link&utm_campaign=paypal_here_woocommerce', __( 'Docs', 'woo-paypal-here' ) ),
+                'support'   => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __( 'Support', 'woo-paypal-here' ) ),
+                'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __( 'Write a Review', 'woo-paypal-here' ) ),
             );
         return array_merge( $custom_actions, $actions );
     }

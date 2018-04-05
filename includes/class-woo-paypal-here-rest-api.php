@@ -37,9 +37,9 @@ class Paypal_Here_Woocommerce_Rest_API {
         } else {
             if(is_admin()) {
                 if(function_exists('wc_add_notice')) {
-                    echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
+                    echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
                 } else {
-                    echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'paypal-here-woocommerce') . "</p></div>";
+                    echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
                 }
             }
         }

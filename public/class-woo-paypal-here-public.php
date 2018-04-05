@@ -60,8 +60,8 @@ class Paypal_Here_Woocommerce_Public {
         if (!is_null($wp_query) && !is_admin() && is_main_query() && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == 'paypal-here') {
             wp_register_style('jquery-ui-styles', plugin_dir_url(__FILE__) . 'css/jquery-ui.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', plugin_dir_url(__FILE__) . 'css/bootstrap.min.css', array(), $this->version, 'all');
-            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
-            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/paypal-here-woocommerce-public.css', array(), $this->version, 'all');
+            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/woo-paypal-here-public.css', array(), $this->version, 'all');
+            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/woo-paypal-here-public.css', array(), $this->version, 'all');
         }
     }
 
@@ -78,7 +78,7 @@ class Paypal_Here_Woocommerce_Public {
             wp_enqueue_script($this->plugin_name . 'bootstrap_js', plugin_dir_url(__FILE__) .'js/bootstrap.min.js', array('jquery'), $this->version, false);
             wp_enqueue_script('jquery-ui-autocomplete');
             wp_enqueue_script($this->plugin_name . 'input_button', plugin_dir_url(__FILE__) . 'js/bootstrap-number-input.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/paypal-here-woocommerce-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
+            wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/woo-paypal-here-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
             wp_localize_script($this->plugin_name, 'paypal_here_ajax_param', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'paypal_here_nonce' => wp_create_nonce('paypal_here_nonce')
@@ -453,7 +453,7 @@ class Paypal_Here_Woocommerce_Public {
 
     public function send_to_paypal_here_action() {
         if (!class_exists('Paypal_Here_Woocommerce_Payment')) {
-            require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-paypal-here-woocommerce-payment.php';
+            require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-woo-paypal-here-payment.php';
         }
         $payment_gateway = new Paypal_Here_Woocommerce_Payment();
         $payment_gateway->angelleye_paypal_here_process_payment();

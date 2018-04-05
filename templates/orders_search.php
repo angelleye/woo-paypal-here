@@ -8,9 +8,9 @@
             <form class="form-inline fr" method="GET" action="<?php echo esc_url(add_query_arg(array())); ?>">
                 <div class="input-group mb-3">
                     <input type="hidden" name="actions" value="view_pending_orders">
-                    <input name="search" type="text" class="form-control" placeholder="<?php echo __('Order Number / Name', 'paypal-here-woocommerce'); ?>" aria-label="Order Number / Name" aria-describedby="basic-addon2">
+                    <input name="search" type="text" class="form-control" placeholder="<?php echo __('Order Number / Name', 'woo-paypal-here'); ?>" aria-label="Order Number / Name" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="submit"><?php echo __('Search', 'paypal-here-woocommerce'); ?></button>
+                        <button class="btn btn-outline-success" type="submit"><?php echo __('Search', 'woo-paypal-here'); ?></button>
                     </div>
                 </div>
             </form>

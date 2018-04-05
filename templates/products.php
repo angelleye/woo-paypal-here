@@ -47,7 +47,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <button type="button" class="btn btn-light paypal_here_add_to_cart_button"><?php echo __('ADD ITEM', 'paypal-here-woocommerce'); ?></button>
+                        <button type="button" class="btn btn-light paypal_here_add_to_cart_button"><?php echo __('ADD ITEM', 'woo-paypal-here'); ?></button>
                     </div>
                     <div class="modal-body">
                     <?php 
@@ -60,7 +60,7 @@
         </div>
         <?php
     } else {
-        echo '<div class="default-ceneter-button">'. __('No products found', 'paypal-here-woocommerce') . '</div>';
+        echo '<div class="default-ceneter-button">'. __('No products found', 'woo-paypal-here') . '</div>';
     }
     ?>
 </div>

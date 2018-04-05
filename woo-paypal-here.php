@@ -7,14 +7,14 @@
  *
  * @wordpress-plugin
  * Plugin Name:       PayPal Here for WooCommerce
- * Plugin URI:        https://www.angelleye.com/paypal-here-woocommerce
+ * Plugin URI:        https://www.angelleye.com/woo-paypal-here
  * Description:       Process WooCommerce orders with PayPal Here, or create new orders from the mobile app using WooCommerce data and sync the order back to WooCommerce.
  * Version:           0.1.0
  * Author:            Angell EYE
  * Author URI:        https://www.angelleye.com
  * License:           GPL-3.0+
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
- * Text Domain:       paypal-here-woocommerce
+ * Text Domain:       woo-paypal-here
  * Domain Path:       /languages
  * Tested up to: 4.9.4
  * WC requires at least: 3.0.0
@@ -41,19 +41,19 @@ if (!defined('PAYPAL_HERE_PLUGIN_BASENAME')) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-paypal-here-woocommerce-activator.php
+ * This action is documented in includes/class-woo-paypal-here-activator.php
  */
 function activate_paypal_here_woocommerce() {
-    require_once plugin_dir_path(__FILE__) . 'includes/class-paypal-here-woocommerce-activator.php';
+    require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-activator.php';
     Paypal_Here_Woocommerce_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-paypal-here-woocommerce-deactivator.php
+ * This action is documented in includes/class-woo-paypal-here-deactivator.php
  */
 function deactivate_paypal_here_woocommerce() {
-    require_once plugin_dir_path(__FILE__) . 'includes/class-paypal-here-woocommerce-deactivator.php';
+    require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-deactivator.php';
     Paypal_Here_Woocommerce_Deactivator::deactivate();
 }
 
@@ -64,7 +64,7 @@ register_deactivation_hook(__FILE__, 'deactivate_paypal_here_woocommerce');
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'includes/class-paypal-here-woocommerce.php';
+require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here.php';
 
 /**
  * Begins execution of the plugin.
@@ -91,7 +91,7 @@ function load_angelleye_paypal_here() {
 }
 
 function angelleye_load_end_point() {
-    require plugin_dir_path(__FILE__) . 'includes/class-paypal-here-woocommerce-end-point.php';
+    require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-end-point.php';
     run_paypal_here_woocommerce_end_point();
 }
 

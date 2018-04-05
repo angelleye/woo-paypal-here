@@ -21,7 +21,7 @@ class Paypal_Here_Woocommerce_i18n {
     public function load_plugin_textdomain() {
 
         load_plugin_textdomain(
-                'paypal-here-woocommerce', false, dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+                'woo-paypal-here', false, dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );
     }
 
