@@ -314,7 +314,7 @@ class Woo_PayPal_Here_Public {
             WC()->cart->empty_cart();
             paypal_here_set_session('angelleye_woo_paypal_here_order_awaiting_payment', $order_id);
             if (is_wp_error($order_id)) {
-                throw new Exception($order_id->get_error_message());
+                $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
             } else {
                 $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
             }

@@ -43,6 +43,7 @@
             }
         });
         $(".paypal_here_add_to_cart_button").click(function () {
+            $('.paypal_here_add_to_cart_button').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
             var get_attributes = function () {
                 var select = $('.variations_form').find('.variations input[type=radio]:checked'),
                         data = {},
@@ -52,7 +53,6 @@
                     var attribute_name = $(this).data('attribute_name') || $(this).attr('name');
 
                     var value = $(this).val() || '';
-                    console.log(value);
 
 
                     if (value.length > 0) {
@@ -91,7 +91,11 @@
                     }
                 },
                 error: function (e) {
-                    alert("Error in ajax post:" + e.statusText);
+                    if (-1 === result.redirect.indexOf('https://') || -1 === result.redirect.indexOf('http://')) {
+                        window.location.href = result.redirect;
+                    } else {
+                        window.location.href = decodeURI(result.redirect);
+                    }
                 }
             });
         });
