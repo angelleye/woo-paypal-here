@@ -199,7 +199,7 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
     public function process_payment($order_id) {
         try {
             paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
-            require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-calculations.php';
+            require WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-calculations.php';
             if (class_exists('Woo_PayPal_Here_Calculation')) {
                 $order = wc_get_order($order_id);
                 $billing_phone = $order->get_billing_phone();
@@ -307,7 +307,7 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                 }
                 $this->invoice['referrerCode'] = 'AngellEYE_SP_WooCommerce';
                 $this->add_log('WooCommerce Version: ' . print_r(WC_VERSION, true));
-                $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(PAYPAL_HERE_VERSION, true));
+                $this->add_log('PayPal Here for WooCommerce Version: ' . print_r(WOO_PAYPAL_HERE_VERSION, true));
                 $this->add_log('Order ID: ' . print_r($order_id, true));
                 $this->add_log('Endpoint: ' . print_r($this->paypal_here_payment_url, true));
                 $this->add_log('Request: ' . print_r(json_encode($this->invoice), true));

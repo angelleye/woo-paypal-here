@@ -25,18 +25,18 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('PAYPAL_HERE_VERSION', '0.1.0');
-if (!defined('PAYPAL_HERE_PLUGIN_DIR')) {
-    define('PAYPAL_HERE_PLUGIN_DIR', dirname(__FILE__));
+define('WOO_PAYPAL_HERE_VERSION', '0.1.0');
+if (!defined('WOO_PAYPAL_HERE_PLUGIN_DIR')) {
+    define('WOO_PAYPAL_HERE_PLUGIN_DIR', dirname(__FILE__));
 }
-if (!defined('PAYPAL_HERE_ASSET_URL')) {
-    define('PAYPAL_HERE_ASSET_URL', plugin_dir_url(__FILE__));
+if (!defined('WOO_PAYPAL_HERE_ASSET_URL')) {
+    define('WOO_PAYPAL_HERE_ASSET_URL', plugin_dir_url(__FILE__));
 }
-if (!defined('PAYPAL_HERE_PLUGIN_FILE')) {
-    define('PAYPAL_HERE_PLUGIN_FILE', __FILE__);
+if (!defined('WOO_PAYPAL_HERE_PLUGIN_FILE')) {
+    define('WOO_PAYPAL_HERE_PLUGIN_FILE', __FILE__);
 }
-if (!defined('PAYPAL_HERE_PLUGIN_BASENAME')) {
-    define('PAYPAL_HERE_PLUGIN_BASENAME', plugin_basename(__FILE__));
+if (!defined('WOO_PAYPAL_HERE_PLUGIN_BASENAME')) {
+    define('WOO_PAYPAL_HERE_PLUGIN_BASENAME', plugin_basename(__FILE__));
 }
 
 /**

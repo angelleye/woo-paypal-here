@@ -54,8 +54,8 @@ class Woo_PayPal_Here {
      * @since    1.0.0
      */
     public function __construct() {
-        if (defined('PAYPAL_HERE_VERSION')) {
-            $this->version = PAYPAL_HERE_VERSION;
+        if (defined('WOO_PAYPAL_HERE_VERSION')) {
+            $this->version = WOO_PAYPAL_HERE_VERSION;
         } else {
             $this->version = '0.1.0';
         }
@@ -148,7 +148,7 @@ class Woo_PayPal_Here {
         if (is_admin() && !defined('DOING_AJAX')) {
             $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_paypal_here_add_meta_box', 10);
         }
-        $basename = PAYPAL_HERE_PLUGIN_BASENAME;
+        $basename = WOO_PAYPAL_HERE_PLUGIN_BASENAME;
         $prefix = is_network_admin() ? 'network_admin_' : '';
         $this->loader->add_filter("{$prefix}plugin_action_links_$basename", $plugin_admin, 'paypal_here_action_links', 10, 4);
     }

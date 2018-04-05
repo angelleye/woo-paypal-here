@@ -24,7 +24,7 @@ class Woo_PayPal_Here_Rest_API {
             $this->ck = 'ck_' . $this->paypal_here_settings['uniq_ck'];
             $this->product_filter_settings = !empty($this->paypal_here_settings['product_filter_settings']) ? $this->paypal_here_settings['product_filter_settings'] : 'featured_products';
             try {
-                include_once PAYPAL_HERE_PLUGIN_DIR . '/includes/lib/api/vendor/autoload.php';
+                include_once WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/lib/api/vendor/autoload.php';
                 $this->woocommerce = new Client(
                         $this->site_url, $this->ck, $this->cs, [
                     'wp_api' => true,

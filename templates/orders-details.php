@@ -1,6 +1,6 @@
 <div class="row">
     <?php
-    wp_enqueue_script('paypal_here_autoNumeric', PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_script('paypal_here_autoNumeric', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
     wp_enqueue_style('jquery-ui-styles');
     wp_enqueue_style( 'dashicons' );
     if (!empty($this->order)) {
@@ -63,9 +63,9 @@
                         <form method="post" class="form-group">
                             <div class="text-right form-group"> <?php echo $this->order->get_discount_to_display(); ?></div>
                             <div>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/coupon.png'; ?>" width="42" alt="..." class="discount-img checked"><input type="radio" name="discount_amount" value="coupon" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="discount-img"><input type="radio" name="discount_amount" value="percentage" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="discount-img"><input type="radio" name="discount_amount" value="amount" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/coupon.png'; ?>" width="42" alt="..." class="discount-img checked"><input type="radio" name="discount_amount" value="coupon" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="discount-img"><input type="radio" name="discount_amount" value="percentage" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="discount-img"><input type="radio" name="discount_amount" value="amount" class="hidden" autocomplete="off"></label>
                             </div>
                             <div>
                                 <input type="text" class="form-control discount_field" id="paypal_here_coupon_code" placeholder="<?php echo __('Coupon code', 'woo-paypal-here'); ?>" name="coupon_code">
@@ -91,9 +91,9 @@
                         <form method="post" class="form-group">
                             <div class="text-right form-group"> <?php echo $this->order->get_shipping_to_display(); ?></div>
                             <div>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/postal_code.png'; ?>" width="29" alt="..." class="shipping-img checked"><input type="radio" name="shipping_amount" value="postal_code" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="percentage" class="hidden" autocomplete="off"></label>
-                                <label><img src="<?php echo PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="amount" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/postal_code.png'; ?>" width="29" alt="..." class="shipping-img checked"><input type="radio" name="shipping_amount" value="postal_code" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/percentage.png'; ?>" width="29" alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="percentage" class="hidden" autocomplete="off"></label>
+                                <label><img src="<?php echo WOO_PAYPAL_HERE_ASSET_URL .'public/img/dollar.png'; ?>"  alt="..." class="shipping-img"><input type="radio" name="shipping_amount" value="amount" class="hidden" autocomplete="off"></label>
                             </div>
                             <div>
                                 <input type="text" class="form-control shipping_field" id="paypal_here_shipping_postal_code" placeholder="<?php echo __('Postal code', 'woo-paypal-here'); ?>" name="paypal_here_shipping_postal_code">

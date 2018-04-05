@@ -51,7 +51,7 @@
                     </div>
                     <div class="modal-body">
                     <?php 
-                    wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array( 'jquery', 'wp-util' ), '10', true);
+                    wp_enqueue_script('wc-add-to-cart-variation', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array( 'jquery', 'wp-util' ), '10', true);
                     array( 'jquery', 'wp-util' )
                     ?>
                     </div>

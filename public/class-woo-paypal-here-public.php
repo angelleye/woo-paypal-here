@@ -108,7 +108,7 @@ class Woo_PayPal_Here_Public {
             if (!$template_path)
                 $template_path = $woocommerce->template_url;
 
-            $plugin_path = PAYPAL_HERE_PLUGIN_DIR . '/templates/';
+            $plugin_path = WOO_PAYPAL_HERE_PLUGIN_DIR . '/templates/';
             $template = locate_template(
                     array(
                         $template_path . $template_name,
@@ -138,11 +138,11 @@ class Woo_PayPal_Here_Public {
         setup_postdata($product);
         $GLOBALS['post'] = $product;
         $GLOBALS['product'] = $product;
-        wp_enqueue_script('wc-add-to-cart-variation', PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array('jquery', 'wp-util'), '10', true);
+        wp_enqueue_script('wc-add-to-cart-variation', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/add-to-cart-variation.js', array('jquery', 'wp-util'), '10', true);
         ?>
         <script>
             var wc_add_to_cart_variation_params = {"ajax_url": "\/wp-admin\/admin-ajax.php"};
-            jQuery.getScript("<?php echo PAYPAL_HERE_ASSET_URL; ?>public/js/add-to-cart-variation.js");
+            jQuery.getScript("<?php echo WOO_PAYPAL_HERE_ASSET_URL; ?>public/js/add-to-cart-variation.js");
         </script>
         <?php
         $input_id = uniqid('quantity_');
@@ -451,7 +451,7 @@ class Woo_PayPal_Here_Public {
 
     public function send_to_paypal_here_action() {
         if (!class_exists('Woo_PayPal_Here_Payment')) {
-            require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-woo-paypal-here-payment.php';
+            require_once WOO_PAYPAL_HERE_PLUGIN_DIR . 'includes/class-woo-paypal-here-payment.php';
         }
         $payment_gateway = new Woo_PayPal_Here_Payment();
         $payment_gateway->angelleye_paypal_here_process_payment();

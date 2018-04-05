@@ -38,7 +38,7 @@ class Woo_PayPal_Here_End_Point {
             add_action('parse_request', array($this, 'angelleye_paypal_here_parse_request'), 0);
         }
         try {
-            require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-rest-api.php';
+            require WOO_WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-rest-api.php';
             if (class_exists('Woo_PayPal_Here_Rest_API')) {
                 $this->here_rest_api = new Woo_PayPal_Here_Rest_API();
             }
@@ -125,7 +125,7 @@ class Woo_PayPal_Here_End_Point {
     }
 
     public function plugin_path() {
-        return untrailingslashit(plugin_dir_path(PAYPAL_HERE_PLUGIN_FILE));
+        return untrailingslashit(plugin_dir_path(WOO_PAYPAL_HERE_PLUGIN_FILE));
     }
 
     public function angelleye_paypal_here_revoke_key() {
