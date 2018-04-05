@@ -38,7 +38,7 @@ class Woo_PayPal_Here_End_Point {
             add_action('parse_request', array($this, 'angelleye_woo_paypal_here_parse_request'), 0);
         }
         try {
-            require WOO_WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-rest-api.php';
+            require WOO_PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-rest-api.php';
             if (class_exists('Woo_PayPal_Here_Rest_API')) {
                 $this->here_rest_api = new Woo_PayPal_Here_Rest_API();
             }
