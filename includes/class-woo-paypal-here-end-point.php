@@ -55,7 +55,7 @@ class Woo_PayPal_Here_End_Point {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
             if (isset($_GET[$this->paypal_here_settings['paypal_here_endpoint_url']])) {
-                $wp->query_vars[] = $_GET[$this->paypal_here_settings['paypal_here_endpoint_url']];
+                $wp->query_vars[] = wc_clean($_GET[$this->paypal_here_settings['paypal_here_endpoint_url']]);
             }
         }
     }
@@ -373,7 +373,7 @@ class Woo_PayPal_Here_End_Point {
                     WC()->cart->empty_cart();
                 }
             }
-            $order_id = $_GET['order_id'];
+            $order_id = absint($_GET['order_id']);
             paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment');
             paypal_here_set_session('angelleye_woo_paypal_here_order_awaiting_payment', $order_id);
             $this->order = wc_get_order($order_id);

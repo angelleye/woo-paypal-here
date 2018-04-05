@@ -339,7 +339,7 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
     }
 
     public function angelleye_woo_paypal_here_process_payment() {
-        $order_id = $_POST['order_id'];
+        $order_id = absint($_POST['order_id']);
         $location = $this->process_payment($order_id);
         wp_send_json($location);
     }
@@ -370,9 +370,9 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
     public function paypal_here_call_back_handler() {
         if (!empty($_GET['Type'])) {
             //$this->add_log('call back response: ' . print_r($_SERVER, true));
-            $order_id = !empty($_GET['wc_order_id']) ? $_GET['wc_order_id'] : '';
+            $order_id = !empty($_GET['wc_order_id']) ? absint($_GET['wc_order_id']) : '';
             if (empty($order_id)) {
-                $order_id = str_replace($this->invoice_id_prefix, '', $_GET['Number']);
+                $order_id = str_replace($this->invoice_id_prefix, '', wc_clean($_GET['Number']));
             }
             try {
                 if (!empty($order_id)) {
@@ -383,8 +383,8 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                                 WC()->cart->empty_cart();
                             }
                         }
-                        $transaction_id = !empty($_GET['InvoiceId']) ? $_GET['InvoiceId'] : '';
-                        $type = !empty($_GET['Type']) ? $_GET['Type'] : '';
+                        $transaction_id = !empty($_GET['InvoiceId']) ? wc_clean($_GET['InvoiceId']) : '';
+                        $type = !empty($_GET['Type']) ? wc_clean($_GET['Type']) : '';
                         update_post_meta($order_id, 'Type', $type);
                         update_post_meta($order_id, 'InvoiceId', $transaction_id);
                         $this->add_log('Type: ' . print_r($type, true));

@@ -5,7 +5,7 @@ do_action('angelleye_woo_paypal_here_before_body_content');
 $home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
 $paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
 $paypal_here_endpoint_url = !empty($paypal_here_settings['paypal_here_endpoint_url']) ? $paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
-$action = !empty($_GET['actions']) ? $_GET['actions'] : 'dashboard';
+$action = !empty($_GET['actions']) ? wc_clean($_GET['actions']) : 'dashboard';
 switch ($action) {
     case 'dashboard':
         //include_once 'menu.php';

@@ -48,7 +48,7 @@ class Woo_PayPal_Here_Rest_API {
     public function angelleye_woo_paypal_here_get_product() {
         $request_param = array();
         if (!empty($_GET['search'])) {
-            $request_param['search'] = $_GET['search'];
+            $request_param['search'] = wc_clean($_GET['search']);
         }
         switch ($this->product_filter_settings) {
             case 'featured_products':
@@ -77,7 +77,7 @@ class Woo_PayPal_Here_Rest_API {
         $this->customer_id = get_current_user_id();
         $request_param = array('status' => 'pending');
         if (!empty($_GET['search'])) {
-            $request_param['search'] = $_GET['search'];
+            $request_param['search'] = wc_clean($_GET['search']);
         }
         return $this->result = $this->woocommerce->get('orders', $request_param);
     }

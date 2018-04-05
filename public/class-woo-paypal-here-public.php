@@ -404,15 +404,15 @@ class Woo_PayPal_Here_Public {
 
     public function paypal_here_apply_coupon() {
         if (!empty($_POST['coupon_code']) && !empty($_POST['order_id'])) {
-            $coupon_code = $_POST['coupon_code'];
-            $order_id = $_POST['order_id'];
+            $coupon_code = wc_clean($_POST['coupon_code']);
+            $order_id = absint($_POST['order_id']);
             $this->paypal_here_apply_coupon_handler($coupon_code, $order_id);
         } elseif (!empty($_POST['paypal_here_percentage']) && !empty($_POST['order_id'])) {
             $arg = array('coupon_code' => 'Discount_PayPal_Here' . wp_rand(1, 10000),
                 'amount' => str_replace('%', '', $_POST['paypal_here_percentage']),
                 'discount_type' => 'percent'
             );
-            $order_id = $_POST['order_id'];
+            $order_id = absint($_POST['order_id']);
             $this->paypal_here_create_coupon($arg);
             $this->paypal_here_apply_coupon_handler($arg['coupon_code'], $order_id, true);
         } elseif (!empty($_POST['paypal_here_amount']) && !empty($_POST['order_id'])) {
@@ -420,7 +420,7 @@ class Woo_PayPal_Here_Public {
                 'amount' => str_replace('$', '', $_POST['paypal_here_amount']),
                 'discount_type' => 'fixed_cart'
             );
-            $order_id = $_POST['order_id'];
+            $order_id = absint($_POST['order_id']);
             $this->paypal_here_create_coupon($arg);
             $this->paypal_here_apply_coupon_handler($arg['coupon_code'], $order_id, true);
         }
@@ -460,7 +460,7 @@ class Woo_PayPal_Here_Public {
     public function paypal_here_apply_shipping() {
         $shipping['method_title'] = 'Others';
         $shipping['method_id'] = 'paypal_here';
-        $order_id = $_POST['order_id'];
+        $order_id = absint($_POST['order_id']);
         $order = wc_get_order($order_id);
         if (!empty($_POST['paypal_here_shipping_postal_code'])) {
             update_post_meta($order_id, '_shipping_postcode', $_POST['paypal_here_shipping_postal_code']);
