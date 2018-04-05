@@ -3,7 +3,7 @@
 /**
  * @link              https://www.angelleye.com
  * @since             0.1.0
- * @package           Paypal_Here_Woocommerce
+ * @package           Woo_PayPal_Here
  *
  * @wordpress-plugin
  * Plugin Name:       PayPal Here for WooCommerce
@@ -45,7 +45,7 @@ if (!defined('PAYPAL_HERE_PLUGIN_BASENAME')) {
  */
 function activate_paypal_here_woocommerce() {
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-activator.php';
-    Paypal_Here_Woocommerce_Activator::activate();
+    Woo_PayPal_Here_Activator::activate();
 }
 
 /**
@@ -54,7 +54,7 @@ function activate_paypal_here_woocommerce() {
  */
 function deactivate_paypal_here_woocommerce() {
     require_once plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-deactivator.php';
-    Paypal_Here_Woocommerce_Deactivator::deactivate();
+    Woo_PayPal_Here_Deactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_paypal_here_woocommerce');
@@ -77,7 +77,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here.php';
  */
 function run_paypal_here_woocommerce() {
 
-    $plugin = new Paypal_Here_Woocommerce();
+    $plugin = new Woo_PayPal_Here();
     $plugin->run();
 }
 
@@ -96,8 +96,8 @@ function angelleye_load_end_point() {
 }
 
 function run_paypal_here_woocommerce_end_point() {
-    if (class_exists('Paypal_Here_Woocommerce_End_Point')) {
-        $end_point = new Paypal_Here_Woocommerce_End_Point();
+    if (class_exists('Woo_PayPal_Here_End_Point')) {
+        $end_point = new Woo_PayPal_Here_End_Point();
         $end_point->angelleye_paypal_here_add_endpoints();
     }
 }

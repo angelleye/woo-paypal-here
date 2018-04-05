@@ -21,7 +21,7 @@
           'depth' => 2,
           'container' => false,
           'menu_class' => 'navbar-nav mr-auto',
-          'walker' => new Paypal_Here_Woocommerce_Rest_API_Navwalker())
+          'walker' => new Woo_PayPal_Here_Rest_API_Navwalker())
           ); */
         ?>
     </div>

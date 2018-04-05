@@ -6,11 +6,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Paypal_Here_Woocommerce
- * @subpackage Paypal_Here_Woocommerce/admin
+ * @package    Woo_PayPal_Here
+ * @subpackage Woo_PayPal_Here/admin
  * @author     Angell EYE <service@angelleye.com>
  */
-class Paypal_Here_Woocommerce_Admin {
+class Woo_PayPal_Here_Admin {
 
     /**
      * The ID of this plugin.
@@ -74,7 +74,7 @@ class Paypal_Here_Woocommerce_Admin {
     }
 
     public function angelleye_paypal_here_add_payment_method($payment_method) {
-        $payment_method[] = 'Paypal_Here_Woocommerce_Payment';
+        $payment_method[] = 'Woo_PayPal_Here_Payment';
         return $payment_method;
     }
 

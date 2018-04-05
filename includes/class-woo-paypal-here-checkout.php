@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Paypal_Here_Woocommerce_Checkout {
+class Woo_PayPal_Here_Checkout {
 
     /**
      * The single instance of the class.

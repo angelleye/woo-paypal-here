@@ -20,7 +20,7 @@
             'container' => false,
             'menu_class' => 'navbar-nav mr-auto',
             //Process nav menu using our custom nav walker
-            'walker' => new Paypal_Here_Woocommerce_Rest_API_Navwalker())
+            'walker' => new Woo_PayPal_Here_Rest_API_Navwalker())
         ); */
         ?>
     </div>

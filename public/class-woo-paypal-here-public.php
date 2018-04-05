@@ -6,11 +6,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    Paypal_Here_Woocommerce
- * @subpackage Paypal_Here_Woocommerce/public
+ * @package    Woo_PayPal_Here
+ * @subpackage Woo_PayPal_Here/public
  * @author     Angell EYE <service@angelleye.com>
  */
-class Paypal_Here_Woocommerce_Public {
+class Woo_PayPal_Here_Public {
 
     /**
      * The ID of this plugin.
@@ -43,7 +43,7 @@ class Paypal_Here_Woocommerce_Public {
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
-        $this->checkout = new Paypal_Here_Woocommerce_Checkout();
+        $this->checkout = new Woo_PayPal_Here_Checkout();
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
@@ -450,10 +450,10 @@ class Paypal_Here_Woocommerce_Public {
     }
 
     public function send_to_paypal_here_action() {
-        if (!class_exists('Paypal_Here_Woocommerce_Payment')) {
+        if (!class_exists('Woo_PayPal_Here_Payment')) {
             require_once PAYPAL_HERE_PLUGIN_DIR . 'includes/class-woo-paypal-here-payment.php';
         }
-        $payment_gateway = new Paypal_Here_Woocommerce_Payment();
+        $payment_gateway = new Woo_PayPal_Here_Payment();
         $payment_gateway->angelleye_paypal_here_process_payment();
     }
 

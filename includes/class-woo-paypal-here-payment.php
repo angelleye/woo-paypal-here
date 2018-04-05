@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
+class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
 
     public $order_item;
 
@@ -200,11 +200,11 @@ class Paypal_Here_Woocommerce_Payment extends WC_Payment_Gateway {
         try {
             paypal_here_unset_session('angelleye_paypal_here_order_awaiting_payment');
             require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-calculations.php';
-            if (class_exists('Paypal_Here_Woocommerce_Calculation')) {
+            if (class_exists('Woo_PayPal_Here_Calculation')) {
                 $order = wc_get_order($order_id);
                 $billing_phone = $order->get_billing_phone();
                 $billing_email = $order->get_billing_email();
-                $this->calculation = new Paypal_Here_Woocommerce_Calculation();
+                $this->calculation = new Woo_PayPal_Here_Calculation();
                 $this->order_item = $this->calculation->order_calculation($order_id);
 
                 $this->invoice['itemList'] = array('item' => $this->order_item['order_items']);

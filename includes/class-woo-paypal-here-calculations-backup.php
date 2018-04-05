@@ -3,9 +3,9 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-if (!class_exists('Paypal_Here_Woocommerce_Calculation')) :
+if (!class_exists('Woo_PayPal_Here_Calculation')) :
 
-    class Paypal_Here_Woocommerce_Calculation {
+    class Woo_PayPal_Here_Calculation {
 
         public $order_total;
         public $taxamt;

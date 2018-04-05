@@ -2,14 +2,14 @@
 
 /**
  * @since      1.0.0
- * @package    Paypal_Here_Woocommerce_Rest_API
- * @subpackage Paypal_Here_Woocommerce_Rest_API/includes
+ * @package    Woo_PayPal_Here_Rest_API
+ * @subpackage Woo_PayPal_Here_Rest_API/includes
  * @author     Angell EYE <service@angelleye.com>
  */
 use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
 
-class Paypal_Here_Woocommerce_Rest_API {
+class Woo_PayPal_Here_Rest_API {
 
     public $paypal_here_settings = array();
     public $result;

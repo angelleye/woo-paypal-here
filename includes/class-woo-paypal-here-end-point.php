@@ -2,11 +2,11 @@
 
 /**
  * @since      1.0.0
- * @package    Paypal_Here_Woocommerce
- * @subpackage Paypal_Here_Woocommerce/includes
+ * @package    Woo_PayPal_Here
+ * @subpackage Woo_PayPal_Here/includes
  * @author     Angell EYE <service@angelleye.com>
  */
-class Paypal_Here_Woocommerce_End_Point {
+class Woo_PayPal_Here_End_Point {
 
     public $paypal_here_settings = array();
     public $here_rest_api;
@@ -39,8 +39,8 @@ class Paypal_Here_Woocommerce_End_Point {
         }
         try {
             require PAYPAL_HERE_PLUGIN_DIR . '/includes/class-woo-paypal-here-rest-api.php';
-            if (class_exists('Paypal_Here_Woocommerce_Rest_API')) {
-                $this->here_rest_api = new Paypal_Here_Woocommerce_Rest_API();
+            if (class_exists('Woo_PayPal_Here_Rest_API')) {
+                $this->here_rest_api = new Woo_PayPal_Here_Rest_API();
             }
         } catch (HttpClientException $ex) {
             return $ex->getMessage();
