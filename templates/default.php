@@ -7,7 +7,7 @@
         margin-top: 0px !important;
     }
     
-.angelleye_paypal_here_default_main {
+.angelleye_woo_paypal_here_default_main {
   
  position: absolute;
       overflow: auto;
@@ -21,7 +21,7 @@
 }
 
 </style>
-<div class="angelleye_paypal_here_default_main">
+<div class="angelleye_woo_paypal_here_default_main">
     
     <div class="container-fluid pt30">  
         <?php echo wc_print_notices(); ?>

@@ -144,9 +144,9 @@ class Woo_PayPal_Here {
         $plugin_admin = new Woo_PayPal_Here_Admin($this->get_plugin_name(), $this->get_version());
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_paypal_here_add_payment_method');
+        $this->loader->add_filter('woocommerce_payment_gateways', $plugin_admin, 'angelleye_woo_paypal_here_add_payment_method');
         if (is_admin() && !defined('DOING_AJAX')) {
-            $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_paypal_here_add_meta_box', 10);
+            $this->loader->add_action('add_meta_boxes', $plugin_admin, 'angelleye_woo_paypal_here_add_meta_box', 10);
         }
         $basename = WOO_PAYPAL_HERE_PLUGIN_BASENAME;
         $prefix = is_network_admin() ? 'network_admin_' : '';
@@ -165,7 +165,7 @@ class Woo_PayPal_Here {
         $this->loader->add_action('init', $plugin_public, 'paypal_here_register_session', 1);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles', 99999);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_paypal_here_woocommerce_locate_template', 10, 3);
+        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_woo_paypal_here_woocommerce_locate_template', 10, 3);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);

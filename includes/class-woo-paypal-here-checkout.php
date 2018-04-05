@@ -264,7 +264,7 @@ class Woo_PayPal_Here_Checkout {
         }
 
         try {
-            $order_id = absint(paypal_here_get_session('angelleye_paypal_here_order_awaiting_payment'));
+            $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
             $cart_hash = md5(json_encode(wc_clean(WC()->cart->get_cart_for_session())) . WC()->cart->total);
             $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
@@ -297,7 +297,7 @@ class Woo_PayPal_Here_Checkout {
                     $order->update_meta_data('_' . $key, $value);
                 }
             }
-            $data['payment_method'] = 'angelleye_paypal_here';
+            $data['payment_method'] = 'angelleye_woo_paypal_here';
             $order->set_created_via('checkout');
             $order->set_cart_hash($cart_hash);
             $order->set_customer_id(apply_filters('woocommerce_checkout_customer_id', get_current_user_id()));

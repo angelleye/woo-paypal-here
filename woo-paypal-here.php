@@ -81,10 +81,10 @@ function run_paypal_here_woocommerce() {
     $plugin->run();
 }
 
-add_action('plugins_loaded', 'load_angelleye_paypal_here');
+add_action('plugins_loaded', 'load_angelleye_woo_paypal_here');
 add_action('init', 'angelleye_load_end_point');
 
-function load_angelleye_paypal_here() {
+function load_angelleye_woo_paypal_here() {
     if (class_exists('WC_Payment_Gateway')) {
         run_paypal_here_woocommerce();
     }
@@ -98,7 +98,7 @@ function angelleye_load_end_point() {
 function run_paypal_here_woocommerce_end_point() {
     if (class_exists('Woo_PayPal_Here_End_Point')) {
         $end_point = new Woo_PayPal_Here_End_Point();
-        $end_point->angelleye_paypal_here_add_endpoints();
+        $end_point->angelleye_woo_paypal_here_add_endpoints();
     }
 }
 

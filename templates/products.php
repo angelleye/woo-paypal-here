@@ -20,9 +20,9 @@
                     <tr class="open-modal" id="<?php echo $product_obj->get_id(); ?>">
                             <td>
                                 <?php if (has_post_thumbnail($post)) { ?>
-                                    <img class="angelleye_paypal_here_shop_thumbnail" src="<?php echo get_the_post_thumbnail_url($product_id, 'shop_thumbnail'); ?> ">
+                                    <img class="angelleye_woo_paypal_here_shop_thumbnail" src="<?php echo get_the_post_thumbnail_url($product_id, 'shop_thumbnail'); ?> ">
                                 <?php } else { ?>
-                                    <?php echo sprintf('<img src="%s" alt="%s" class="wp-post-image angelleye_paypal_here_shop_thumbnail" />', esc_url(wc_placeholder_img_src()), esc_html__('Awaiting product image', 'woocommerce')) ?>
+                                    <?php echo sprintf('<img src="%s" alt="%s" class="wp-post-image angelleye_woo_paypal_here_shop_thumbnail" />', esc_url(wc_placeholder_img_src()), esc_html__('Awaiting product image', 'woocommerce')) ?>
                                 <?php } ?>
                             </td> 
                             <td colspan="2">
