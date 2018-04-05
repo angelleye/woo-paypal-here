@@ -46,6 +46,7 @@ class Woo_PayPal_Here_Admin {
         $this->home_url = is_ssl() ? home_url('/', 'https') : home_url('/');
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         $this->paypal_here_endpoint_url = !empty($this->paypal_here_settings['paypal_here_endpoint_url']) ? $this->paypal_here_settings['paypal_here_endpoint_url'] : 'paypal-here';
+        add_action('admin_notices', array( $this, 'angelleye_woo_paypal_here_admin_notice'), 10);
     }
 
     /**
@@ -98,5 +99,12 @@ class Woo_PayPal_Here_Admin {
         );
         return array_merge($custom_actions, $actions);
     }
+    
+    public function angelleye_woo_paypal_here_admin_notice() {
+        if (empty($this->paypal_here_settings['generate_woocommerce_rest_api_key_value'])) {
+            echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
+        }
+    }
+    
 
 }

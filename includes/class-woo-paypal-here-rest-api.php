@@ -35,13 +35,7 @@ class Woo_PayPal_Here_Rest_API {
                 
             }
         } else {
-            if (is_admin() && !is_ajax()) {
-                if (function_exists('wc_add_notice')) {
-                    echo "<div class='alert alert-warning alert-dismissible fade show mtonerem' role='alert' ><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
-                } else {
-                    echo "<div class='notice notice-error'><p>" . __('Consumer key and Consumer secret not available', 'woo-paypal-here') . "</p></div>";
-                }
-            }
+            
         }
     }
 

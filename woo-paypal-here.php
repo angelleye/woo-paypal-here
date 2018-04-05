@@ -82,7 +82,8 @@ function run_woo_paypal_here() {
 }
 
 add_action('plugins_loaded', 'load_angelleye_woo_paypal_here');
-add_action('init', 'angelleye_load_end_point');
+add_action('init', 'angelleye_woo_paypal_here_load_end_point', 0);
+
 
 function load_angelleye_woo_paypal_here() {
     if (class_exists('WC_Payment_Gateway')) {
@@ -90,7 +91,7 @@ function load_angelleye_woo_paypal_here() {
     }
 }
 
-function angelleye_load_end_point() {
+function angelleye_woo_paypal_here_load_end_point() {
     require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here-end-point.php';
     run_woo_paypal_here_end_point();
 }

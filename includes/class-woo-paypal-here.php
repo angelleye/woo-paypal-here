@@ -60,7 +60,6 @@ class Woo_PayPal_Here {
             $this->version = '0.1.0';
         }
         $this->plugin_name = 'woo-paypal-here';
-
         $this->load_dependencies();
         $this->set_locale();
         $this->define_admin_hooks();
@@ -165,7 +164,7 @@ class Woo_PayPal_Here {
         $this->loader->add_action('init', $plugin_public, 'paypal_here_register_session', 1);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles', 99999);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_woo_woo_paypal_here_locate_template', 10, 3);
+        $this->loader->add_filter('woocommerce_locate_template', $plugin_public, 'angelleye_woo_paypal_here_locate_template', 10, 3);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_paypal_here_get_modal_body', $plugin_public, 'paypal_here_get_modal_body', 10);
         $this->loader->add_action('wp_ajax_nopriv_paypal_here_add_to_cart', $plugin_public, 'paypal_here_add_to_cart', 10);
@@ -226,5 +225,4 @@ class Woo_PayPal_Here {
     public function get_version() {
         return $this->version;
     }
-
 }

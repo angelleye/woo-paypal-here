@@ -99,7 +99,7 @@ class Woo_PayPal_Here_Public {
         }
     }
 
-    public function angelleye_woo_woo_paypal_here_locate_template($template, $template_name, $template_path) {
+    public function angelleye_woo_paypal_here_locate_template($template, $template_name, $template_path) {
         global $wp_query, $wp;
         $wp->query_vars;
         global $woocommerce;
