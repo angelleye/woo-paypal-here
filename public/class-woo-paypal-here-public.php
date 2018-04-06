@@ -468,8 +468,19 @@ class Woo_PayPal_Here_Public {
         $order_id = absint($_POST['order_id']);
         $order = wc_get_order($order_id);
         if (isset($_POST['paypal_here_shipping_postal_code'])) {
+            $loop = 0;
+            for($loop = 0; $loop < 4; $loop++) {
+                $bool = $this->angelleye_woo_paypal_here_get_country_code(wc_clean($_POST['paypal_here_shipping_postal_code']));
+                if($bool !== false) {
+                    update_post_meta($order_id, '_billing_country', $bool);
+                    update_post_meta($order_id, '_shipping_country', $bool);
+                    break;
+                }
+            }
+            //WC()->cart->add_fee('PayPal Here Temp', $order->get_total());
             update_post_meta($order_id, '_shipping_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
             update_post_meta($order_id, '_billing_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
+            $order->remove_order_items('shipping');
             $order->calculate_totals(true);
         } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
@@ -507,6 +518,31 @@ class Woo_PayPal_Here_Public {
         if (!session_id()) {
             session_start();
         }
+    }
+    
+    public function angelleye_woo_paypal_here_get_country_code($post_code) {
+        $response = wp_remote_get( "http://maps.googleapis.com/maps/api/geocode/json?address=$post_code&sensor=false" );
+        if ( !is_wp_error( $response ) ) {
+            if(!empty($response['body'])) {
+                $output = json_decode($response['body']);
+                if ( isset($output->results) ) {
+                    if ( isset($output->results[0]) ) {
+                        if ( isset($output->results[0]->address_components) ) {
+                            foreach ($output->results[0]->address_components as $key => $value) {   
+                                if ( isset($value->types) ) {
+                                    if ( isset($value->types[0]) ) {
+                                        if($value->types[0] == 'country'){
+                                            return $value->short_name;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
