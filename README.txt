@@ -57,6 +57,22 @@ In the search field type PayPal Here for WooCommerce and click Search Plugins. O
 
 Automatic updates should work great for you.  As always, though, we recommend backing up your site prior to making any updates just to be sure nothing goes wrong.
 
+== Screenshots ==
+
+1. Dashboard for the PayPal Here for WooCommerce web app.
+2. WooCommerce pending orders list displayed in the web app.
+3. Order screen for the web app with total prepared, and button to Send to PayPal Here.
+4. Order details sent to the PayPal Here app with credit card reader available as well as additional payment methods.
+5. PayPal Here successful payment notification and receipt option screen.
+6. Dashboard for the PayPal Here for WooCommerce web app with the successful payment message displayed.
+7. WooCommerce product list displayed in web app for adding items to an order.
+8. Adjust quantity and select attributes from WooCommerce when adding an item to an order using the web app.
+9. Adjust shipping on an order using WooCommerce rules, percentage based, or flat rate options.
+10. Add a coupon code using codes from WooCommerce or percentage / flat-rate options.
+11. PayPal Here for WooCommerce Settings.
+12. WooCommerce order screen with PayPal Here QR code ready to scan, which loads the order in the web app for processing with PayPal Here.
+13. WooCommerce order payment details after payment is processed via PayPal Here.
+
 == Frequently Asked Questions ==
 
 = How does this thing work? =
