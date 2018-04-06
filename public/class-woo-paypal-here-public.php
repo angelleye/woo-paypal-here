@@ -268,56 +268,61 @@ class Woo_PayPal_Here_Public {
     }
 
     public function paypal_here_add_to_cart() {
-        global $wpdb, $post, $product;
-        $product_id = '';
-        if (!defined('WOOCOMMERCE_CART')) {
-            define('WOOCOMMERCE_CART', true);
-        }
-        check_ajax_referer('paypal_here_nonce', 'security');
-        WC()->shipping->reset_shipping();
-        if (empty($post->ID)) {
-            $product_id = absint($_POST['product_id']);
-        } else {
-            $product_id = $post->ID;
-        }
-        $product = wc_get_product($product_id);
-        if (is_object($product)) {
+        try {
+            global $wpdb, $post, $product;
+            $product_id = '';
             if (!defined('WOOCOMMERCE_CART')) {
                 define('WOOCOMMERCE_CART', true);
             }
-            $qty = !isset($_POST['qty']) ? 1 : absint($_POST['qty']);
-            if ($product->is_type('variable')) {
-                $attributes = array_map('wc_clean', $_POST['attributes']);
-                if (version_compare(WC_VERSION, '3.0', '<')) {
-                    $variation_id = $product->get_matching_variation($attributes);
-                } else {
-                    $data_store = WC_Data_Store::load('product');
-                    $variation_id = $data_store->find_matching_product_variation($product, $attributes);
-                }
-                WC()->cart->add_to_cart($product->get_id(), $qty, $variation_id, $attributes);
-            } elseif ($product->is_type('simple')) {
-                WC()->cart->add_to_cart($product->get_id(), $qty);
-            }
+            check_ajax_referer('paypal_here_nonce', 'security');
             WC()->shipping->reset_shipping();
-            WC()->cart->calculate_totals();
-            $order_id = $this->checkout->create_order(array());
-            $order = wc_get_order($order_id);
-            $billing_address = paypal_here_get_session('billing_address');
-            if (!empty($billing_address)) {
-                $this->paypal_here_set_address($order_id, $billing_address);
-            }
-            $shipping_address = paypal_here_get_session('shipping_address');
-            if (!empty($shipping_address)) {
-                $this->paypal_here_set_address($order_id, $shipping_address);
-            }
-            $order->calculate_totals();
-            WC()->cart->empty_cart();
-            paypal_here_set_session('angelleye_woo_paypal_here_order_awaiting_payment', $order_id);
-            if (is_wp_error($order_id)) {
-                $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+            if (empty($post->ID)) {
+                $product_id = absint($_POST['product_id']);
             } else {
-                $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                $product_id = $post->ID;
             }
+            $product = wc_get_product($product_id);
+            if (is_object($product)) {
+                if (!defined('WOOCOMMERCE_CART')) {
+                    define('WOOCOMMERCE_CART', true);
+                }
+                $qty = !isset($_POST['qty']) ? 1 : absint($_POST['qty']);
+                if ($product->is_type('variable')) {
+                    $attributes = array_map('wc_clean', $_POST['attributes']);
+                    if (version_compare(WC_VERSION, '3.0', '<')) {
+                        $variation_id = $product->get_matching_variation($attributes);
+                    } else {
+                        $data_store = WC_Data_Store::load('product');
+                        $variation_id = $data_store->find_matching_product_variation($product, $attributes);
+                    }
+                    WC()->cart->add_to_cart($product->get_id(), $qty, $variation_id, $attributes);
+                } elseif ($product->is_type('simple')) {
+                    WC()->cart->add_to_cart($product->get_id(), $qty);
+                }
+                WC()->shipping->reset_shipping();
+                WC()->cart->calculate_totals();
+                $order_id = $this->checkout->create_order(array());
+                $order = wc_get_order($order_id);
+                $billing_address = paypal_here_get_session('billing_address');
+                if (!empty($billing_address)) {
+                    $this->paypal_here_set_address($order_id, $billing_address);
+                }
+                $shipping_address = paypal_here_get_session('shipping_address');
+                if (!empty($shipping_address)) {
+                    $this->paypal_here_set_address($order_id, $shipping_address);
+                }
+                $order->calculate_totals();
+                WC()->cart->empty_cart();
+                paypal_here_set_session('angelleye_woo_paypal_here_order_awaiting_payment', $order_id);
+                if (is_wp_error($order_id)) {
+                    $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                } else {
+                    $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url));
+                }
+            }
+        } catch (Exception $ex) {
+            wc_add_notice($ex->getMessage(), 'error');
+            $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
         }
     }
 
@@ -468,7 +473,7 @@ class Woo_PayPal_Here_Public {
             $order->calculate_totals(true);
         } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
-            $shipping['total'] = number_format(( $order->get_subtotal() * ( $paypal_here_shipping_percentage / 100 ) ), 2);
+            $shipping['total'] = number_format(( $order->get_subtotal() * ( $paypal_here_shipping_percentage / 100 )), 2);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
         } elseif (isset($_POST['paypal_here_shipping_dollar'])) {
             $shipping['total'] = wc_clean($_POST['paypal_here_shipping_dollar']);
@@ -477,9 +482,9 @@ class Woo_PayPal_Here_Public {
     }
 
     public function paypal_here_apply_shipping_handler($order, $shipping) {
-        if( isset($shipping['total'])) {
+        if (isset($shipping['total'])) {
             $shipping_total = number_format($shipping['total'], 2, '.', '');
-            if($shipping_total == '0.00') {
+            if ($shipping_total == '0.00') {
                 $shipping['method_title'] = 'Free!';
             }
         }
