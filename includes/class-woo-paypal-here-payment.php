@@ -369,7 +369,7 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
 
     public function paypal_here_call_back_handler() {
         if (!empty($_GET['Type'])) {
-            //$this->add_log('call back response: ' . print_r($_SERVER, true));
+            $this->add_log('call back response: ' . print_r($_SERVER, true));
             $order_id = !empty($_GET['wc_order_id']) ? absint($_GET['wc_order_id']) : '';
             if (empty($order_id)) {
                 $order_id = str_replace($this->invoice_id_prefix, '', wc_clean($_GET['Number']));
