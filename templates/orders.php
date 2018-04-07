@@ -12,12 +12,22 @@
                     foreach ($this->order_list as $customer_order) :
                         $order = wc_get_order($customer_order);
                         $item_count = $order->get_item_count();
-                        $billing_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
-                        $billing_last_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_last_name : $order->get_billing_last_name();
-                        if(!empty($billing_first_name) && !empty($billing_last_name) ) {
-                            $billing_first_last_name = $billing_first_name . ' ' . $billing_last_name;
+                        if(version_compare(WC_VERSION, '3.0', '<')) {
+                            if( !empty($order->billing_first_name) || !empty($order->billing_last_name)) {
+                                $buyer = trim( sprintf( _x( '%1$s %2$s', 'full name', 'woocommerce' ), $order->billing_first_name, $order->billing_last_name ) );
+                            } elseif ( !empty ($order->billing_country)) {
+                                $buyer = trim( $order->billing_country );
+                            }
                         } else {
-                            $billing_first_last_name = 'N/A';
+                            if ( $order->get_billing_first_name() || $order->get_billing_last_name() ) {
+                                /* translators: 1: first name 2: last name */
+                                $buyer = trim( sprintf( _x( '%1$s %2$s', 'full name', 'woocommerce' ), $order->get_billing_first_name(), $order->get_billing_last_name() ) );
+                            } elseif ( $order->get_billing_company() ) {
+                                    $buyer = trim( $order->get_billing_company() );
+                            } elseif ( $order->get_customer_id() ) {
+                                    $user  = get_user_by( 'id', $order->get_customer_id() );
+                                    $buyer = ucwords( $user->display_name );
+                            }
                         }
                         ?>
                         <tr class='paypal_here_clickable_row' data-href="<?php echo add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $customer_order), $this->home_url . $this->paypal_here_endpoint_url); ?>">
@@ -25,7 +35,7 @@
                                 <td>
                                     <?php if ('order-select' === $column_id) : ?>
                                         <div class="form-check w-100">
-                                            <label><?php echo $billing_first_last_name; ?></label>
+                                            <label><?php echo $buyer; ?></label>
                                         </div>
                                     <?php elseif ('order-total' === $column_id) : ?>
                                         <?php
