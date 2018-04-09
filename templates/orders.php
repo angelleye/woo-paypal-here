@@ -35,7 +35,7 @@
                                 <td>
                                     <?php if ('order-select' === $column_id) : ?>
                                         <div class="form-check w-100">
-                                            <label><?php echo $buyer; ?></label>
+                                            <label><?php echo !empty($buyer) ? $buyer : '#'.$customer_order; ?></label>
                                         </div>
                                     <?php elseif ('order-total' === $column_id) : ?>
                                         <?php
