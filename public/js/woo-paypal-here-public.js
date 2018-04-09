@@ -146,6 +146,7 @@
                     }
                 },
                 error: function (e) {
+                    $('.send_to_paypal_here').unblock();
                     $('#paypal_here_modal').modal('hide');
                     location.reload();
                 }
