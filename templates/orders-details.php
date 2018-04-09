@@ -69,8 +69,8 @@
                             </div>
                             <div>
                                 <input type="text" class="form-control discount_field" id="paypal_here_coupon_code" placeholder="<?php echo __('Coupon code', 'woo-paypal-here'); ?>" name="coupon_code">
-                                <input type="text" class="form-control discount_field" id="paypal_here_percentage" placeholder="<?php echo __('Percentage', 'woo-paypal-here'); ?>" name="paypal_here_percentage" >
-                                <input type="text" class="form-control discount_field" id="paypal_here_dollar" placeholder="<?php echo __('Amount', 'woo-paypal-here'); ?>" name="paypal_here_amount">
+                                <input type="number" class="form-control discount_field" id="paypal_here_percentage" placeholder="<?php echo __('Percentage', 'woo-paypal-here'); ?>" name="paypal_here_percentage" >
+                                <input type="number" class="form-control discount_field" id="paypal_here_dollar" placeholder="<?php echo __('Amount', 'woo-paypal-here'); ?>" name="paypal_here_amount">
                             </div>
                         </form>
                     </div>
@@ -97,8 +97,8 @@
                             </div>
                             <div>
                                 <input type="text" class="form-control shipping_field" id="paypal_here_shipping_postal_code" placeholder="<?php echo __('Postal code', 'woo-paypal-here'); ?>" name="paypal_here_shipping_postal_code">
-                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_percentage" placeholder="<?php echo __('Percentage', 'woo-paypal-here'); ?>" name="paypal_here_shipping_percentage" >
-                                <input type="text" class="form-control shipping_field" id="paypal_here_shipping_dollar" placeholder="<?php echo __('Amount', 'woo-paypal-here'); ?>" name="paypal_here_shipping_dollar">
+                                <input type="number" class="form-control shipping_field" id="paypal_here_shipping_percentage" placeholder="<?php echo __('Percentage', 'woo-paypal-here'); ?>" name="paypal_here_shipping_percentage" >
+                                <input type="number" class="form-control shipping_field" id="paypal_here_shipping_dollar" placeholder="<?php echo __('Amount', 'woo-paypal-here'); ?>" name="paypal_here_shipping_dollar">
                             </div>
                         </form>
                     </div>

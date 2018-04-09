@@ -20,6 +20,7 @@ class Woo_PayPal_Here_End_Point {
     public function __construct() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         add_action('init', array($this, 'angelleye_woo_paypal_here_add_endpoints'), 0);
+        add_filter( 'status_header', array($this, 'angelleye_woo_paypal_here_status_header'), 0, 2);
         add_filter('template_include', array($this, 'template_loader'), 0, 1);
         add_filter('the_title', array($this, 'angelleye_woo_paypal_here_page_endpoint_title'), 10, 1);
         add_filter('wp_title', array($this, 'angelleye_woo_paypal_here_page_endpoint_wp_title'), 0, 1);
@@ -111,7 +112,7 @@ class Woo_PayPal_Here_End_Point {
     public function angelleye_woo_paypal_here_add_endpoints() {
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
-            add_rewrite_endpoint($this->paypal_here_settings['paypal_here_endpoint_url'], EP_PAGES | EP_PERMALINK);
+            add_rewrite_endpoint($this->paypal_here_settings['paypal_here_endpoint_url'], EP_PAGES | EP_PERMALINK | EP_ALL);
         }
     }
 
@@ -392,6 +393,18 @@ class Woo_PayPal_Here_End_Point {
             }
         }
         wp_send_json_success($items);
+    }
+    
+    public function angelleye_woo_paypal_here_status_header($status_header, $code) {
+        global $wp, $wp_query;
+        if(!empty($wp->query_vars['name']) && !empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
+            if($wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url']) {
+                $status_header = 'HTTP/1.1 200 OK';
+                 $code = 200;
+                 return $status_header;
+            }
+        }
+        return $status_header;
     }
 
 }
