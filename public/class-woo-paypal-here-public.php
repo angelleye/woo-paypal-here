@@ -382,6 +382,10 @@ class Woo_PayPal_Here_Public {
                 if (!empty($order_id) && !empty($coupon_code)) {
                     $order_id = $order_id;
                     $this->order = wc_get_order($order_id);
+                    $coupons_item = $this->order->get_items( 'coupon' );
+                    foreach ( $coupons_item as $item_id => $ex_coupon ) {
+                        $this->order->remove_coupon($ex_coupon->get_code());
+                    }
                     try {
                         $return = $this->order->apply_coupon($coupon_code);
                         if ($is_delete == true) {
