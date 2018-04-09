@@ -146,7 +146,8 @@
                     }
                 },
                 error: function (e) {
-                    alert("Error in ajax post:" + e.statusText);
+                    $('#paypal_here_modal').modal('hide');
+                    location.reload();
                 }
             });
 
