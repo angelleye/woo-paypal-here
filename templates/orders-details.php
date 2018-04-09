@@ -1,6 +1,6 @@
 <div class="row">
     <?php
-    wp_enqueue_script('paypal_here_autoNumeric', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
+    //wp_enqueue_script('paypal_here_autoNumeric', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
     wp_enqueue_style('jquery-ui-styles');
     wp_enqueue_style( 'dashicons' );
     if (!empty($this->order)) {

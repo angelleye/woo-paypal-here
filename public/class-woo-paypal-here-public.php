@@ -469,19 +469,63 @@ class Woo_PayPal_Here_Public {
         $order = wc_get_order($order_id);
         if (isset($_POST['paypal_here_shipping_postal_code'])) {
             $loop = 0;
-            for($loop = 0; $loop < 4; $loop++) {
+            for ($loop = 0; $loop < 4; $loop++) {
                 $bool = $this->angelleye_woo_paypal_here_get_country_code(wc_clean($_POST['paypal_here_shipping_postal_code']));
-                if($bool !== false) {
+                if ($bool !== false) {
                     update_post_meta($order_id, '_billing_country', $bool);
                     update_post_meta($order_id, '_shipping_country', $bool);
+                    if (WC()->cart->is_empty()) {
+                        foreach ($order->get_items() as $item_id => $item) {
+                            $product = $item->get_product();
+                            if( $item->get_variation_id() ) {
+                                $variation_id = $item->get_variation_id();
+                                WC()->cart->add_to_cart($product->get_id(), $item->get_quantity(), $variation_id, $attributes = null);
+                            } else {
+                                $item->get_product_id();
+                                WC()->cart->add_to_cart($product->get_id(), $item->get_quantity());
+                            }
+                        }
+                    }
+                    $order->remove_order_items('shipping');
+                    WC()->customer->set_props(array(
+                        'billing_country' => isset($bool) ? wp_unslash($bool) : null,
+                        'billing_state' => isset($_POST['state']) ? wp_unslash($_POST['state']) : null,
+                        'billing_postcode' => isset($_POST['paypal_here_shipping_postal_code']) ? wp_unslash($_POST['paypal_here_shipping_postal_code']) : null,
+                        'billing_city' => isset($_POST['city']) ? wp_unslash($_POST['city']) : null,
+                        'billing_address_1' => isset($_POST['address']) ? wp_unslash($_POST['address']) : null,
+                        'billing_address_2' => isset($_POST['address_2']) ? wp_unslash($_POST['address_2']) : null,
+                    ));
+                    if (wc_ship_to_billing_address_only()) {
+                        WC()->customer->set_props(array(
+                            'shipping_country' => isset($bool) ? wp_unslash($bool) : null,
+                            'shipping_state' => isset($_POST['state']) ? wp_unslash($_POST['state']) : null,
+                            'shipping_postcode' => isset($_POST['paypal_here_shipping_postal_code']) ? wp_unslash($_POST['paypal_here_shipping_postal_code']) : null,
+                            'shipping_city' => isset($_POST['city']) ? wp_unslash($_POST['city']) : null,
+                            'shipping_address_1' => isset($_POST['address']) ? wp_unslash($_POST['address']) : null,
+                            'shipping_address_2' => isset($_POST['address_2']) ? wp_unslash($_POST['address_2']) : null,
+                        ));
+                    } else {
+                        WC()->customer->set_props(array(
+                            'shipping_country' => isset($bool) ? wp_unslash($bool) : null,
+                            'shipping_state' => isset($_POST['s_state']) ? wp_unslash($_POST['s_state']) : null,
+                            'shipping_postcode' => isset($_POST['paypal_here_shipping_postal_code']) ? wp_unslash($_POST['paypal_here_shipping_postal_code']) : null,
+                            'shipping_city' => isset($_POST['s_city']) ? wp_unslash($_POST['s_city']) : null,
+                            'shipping_address_1' => isset($_POST['s_address']) ? wp_unslash($_POST['s_address']) : null,
+                            'shipping_address_2' => isset($_POST['s_address_2']) ? wp_unslash($_POST['s_address_2']) : null,
+                        ));
+                    }
+                    WC()->shipping->reset_shipping();
+                    WC()->customer->set_calculated_shipping(true);
+                    WC()->customer->save();
+                    WC()->cart->calculate_totals();
+                    $shipping['total'] = WC()->cart->shipping_total;
                     break;
                 }
             }
-            //WC()->cart->add_fee('PayPal Here Temp', $order->get_total());
             update_post_meta($order_id, '_shipping_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
             update_post_meta($order_id, '_billing_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
-            $order->remove_order_items('shipping');
-            $order->calculate_totals(true);
+            WC()->cart->empty_cart();
+            $this->paypal_here_apply_shipping_handler($order, $shipping);
         } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
             $shipping['total'] = number_format(( $order->get_subtotal() * ( $paypal_here_shipping_percentage / 100 )), 2);
@@ -519,19 +563,19 @@ class Woo_PayPal_Here_Public {
             session_start();
         }
     }
-    
+
     public function angelleye_woo_paypal_here_get_country_code($post_code) {
-        $response = wp_remote_get( "http://maps.googleapis.com/maps/api/geocode/json?address=$post_code&sensor=false" );
-        if ( !is_wp_error( $response ) ) {
-            if(!empty($response['body'])) {
+        $response = wp_remote_get("http://maps.googleapis.com/maps/api/geocode/json?address=$post_code&sensor=false");
+        if (!is_wp_error($response)) {
+            if (!empty($response['body'])) {
                 $output = json_decode($response['body']);
-                if ( isset($output->results) ) {
-                    if ( isset($output->results[0]) ) {
-                        if ( isset($output->results[0]->address_components) ) {
-                            foreach ($output->results[0]->address_components as $key => $value) {   
-                                if ( isset($value->types) ) {
-                                    if ( isset($value->types[0]) ) {
-                                        if($value->types[0] == 'country'){
+                if (isset($output->results)) {
+                    if (isset($output->results[0])) {
+                        if (isset($output->results[0]->address_components)) {
+                            foreach ($output->results[0]->address_components as $key => $value) {
+                                if (isset($value->types)) {
+                                    if (isset($value->types[0])) {
+                                        if ($value->types[0] == 'country') {
                                             return $value->short_name;
                                         }
                                     }
