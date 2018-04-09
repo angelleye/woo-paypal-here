@@ -5,7 +5,6 @@
 	 */
 	var VariationForm = function( $form ) {
 		this.$form                = $form;
-                console.log(this.$form);
 		this.$attributeGroups     = $form.find( '.variations .value' );
 		this.$attributeFields     = $form.find( '.variations input[type=radio]' );
 		this.$singleVariation     = $form.find( '.single_variation' ),

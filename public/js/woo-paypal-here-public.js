@@ -33,7 +33,6 @@
         $('input[type=radio][name=shipping_amount]').change(function () {
             $('.shipping_field').hide();
             var shipping_amount = $('[name=shipping_amount]:checked').val();
-            console.log(shipping_amount)
             if (shipping_amount == 'postal_code') {
                 $('#paypal_here_shipping_postal_code').show();
             } else if (shipping_amount == 'percentage') {
@@ -43,7 +42,7 @@
             }
         });
         $(".paypal_here_add_to_cart_button").click(function () {
-            $('.paypal_here_add_to_cart_button').block({message: null, overlayCSS: {background: '#fff', opacity: 0.6}});
+            $('.modal-content').block({message: null, overlayCSS: {background: '#fff', opacity: 0.4}});
             var get_attributes = function () {
                 var select = $('.variations_form').find('.variations input[type=radio]:checked'),
                         data = {},
@@ -101,7 +100,6 @@
         });
 
         $(".open-modal").click(function () {
-            console.log('hiii');
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
@@ -112,8 +110,6 @@
                     product_id: $(this).attr("id")
                 },
                 success: function (response) {
-
-
                     var data = response.data;
                     if (response.success) {
                         $('.modal-body').html('');
@@ -128,6 +124,7 @@
         });
 
         $('.send_to_paypal_here').click(function () {
+            $('.send_to_paypal_here').block({message: null, overlayCSS: {background: '#fff', opacity: 0.4}});
             var data = {
                 action: 'send_to_paypal_here_action',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
@@ -156,6 +153,7 @@
         });
 
         $(".paypal_here_apply_coupon").click(function () {
+            $('.paypal_here_apply_coupon').block({message: null, overlayCSS: {background: '#fff', opacity: 0.4}});
             var discount_amount = $('[name=discount_amount]:checked').val();
             if (discount_amount == 'coupon') {
                 var data = {
@@ -208,6 +206,7 @@
         });
 
         $(".paypal_here_apply_shipping").click(function () {
+            $('.paypal_here_apply_shipping').block({message: null, overlayCSS: {background: '#fff', opacity: 0.4}});
             var shipping_amount = $('[name=shipping_amount]:checked').val();
             if (shipping_amount == 'coupon') {
                 var data = {
