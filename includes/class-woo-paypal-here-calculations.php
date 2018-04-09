@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-if (!class_exists('Woo_PayPal_Here_Calculation')) :
+if (!class_exists('Woo_PayPal_Here_Calculation')) {
 
     class Woo_PayPal_Here_Calculation {
 
@@ -125,7 +125,7 @@ if (!class_exists('Woo_PayPal_Here_Calculation')) :
                     if ($this->discount_amount > 0) {
                         $discLineItem = array(
                             'name' => 'Discount',
-                            'description' => 'Discount Amount',
+                            'description' => '',
                             'quantity' => 1,
                             'unitPrice' => '-' . $this->number_format($this->discount_amount)
                         );
@@ -137,6 +137,17 @@ if (!class_exists('Woo_PayPal_Here_Calculation')) :
             }
             if (!is_numeric($this->shippingamt)) {
                 $this->shippingamt = 0;
+            }
+            if ($this->shippingamt > 0) {
+                $shipLineItem = array(
+                    'name' => 'Shipping',
+                    'description' => '',
+                    'quantity' => 1,
+                    'unitPrice' => $this->number_format($this->shippingamt)
+                );
+                $this->order_items[] = $shipLineItem;
+                $this->itemamt += $this->shippingamt;
+                $this->order_total += $this->shippingamt;
             }
             $this->order_re_calculate($order);
             if ($this->taxamt > 0) {
@@ -170,9 +181,9 @@ if (!class_exists('Woo_PayPal_Here_Calculation')) :
             }
             $this->itemamt = $temp_roundedPayPalTotal;
             if ($this->is_separate_discount == true) {
-                $this->temp_total = round($this->itemamt + $this->taxamt + $this->shippingamt - $this->discount_amount, $this->decimals);
+                $this->temp_total = round($this->itemamt + $this->taxamt - $this->discount_amount, $this->decimals);
             } else {
-                $this->temp_total = round($this->itemamt + $this->taxamt + $this->shippingamt, $this->decimals);
+                $this->temp_total = round($this->itemamt + $this->taxamt, $this->decimals);
             }
             if (round($order->get_total(), $this->decimals) != $this->temp_total) {
                 $cartItemAmountDifference = round($order->get_total(), $this->decimals) - $this->temp_total;
@@ -259,5 +270,4 @@ if (!class_exists('Woo_PayPal_Here_Calculation')) :
 
     }
 
-    
-endif;
+}
