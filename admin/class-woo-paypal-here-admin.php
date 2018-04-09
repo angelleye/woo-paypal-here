@@ -80,7 +80,10 @@ class Woo_PayPal_Here_Admin {
     }
 
     public function angelleye_woo_paypal_here_add_meta_box() {
-        add_meta_box('angelleye_admin_paypal_here_metabox', __('PayPal Here', 'woo-paypal-here'), array($this, 'angelleye_woo_paypal_here_metabox'), 'shop_order', 'side', 'default');
+        global $post;
+        if( !empty($post->post_status) && $post->post_status == 'wc-pending' ) {
+            add_meta_box('angelleye_admin_paypal_here_metabox', __('PayPal Here', 'woo-paypal-here'), array($this, 'angelleye_woo_paypal_here_metabox'), 'shop_order', 'side', 'default');
+        }
     }
 
     public function angelleye_woo_paypal_here_metabox($post) {
