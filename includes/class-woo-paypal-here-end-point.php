@@ -68,10 +68,12 @@ class Woo_PayPal_Here_End_Point {
         global $wp_query, $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
-            $vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
-            $vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
-            $wp->query_vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
-            $wp->query_vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+            if( strpos($wp->request, wc_clean($this->paypal_here_settings['paypal_here_endpoint_url'])) !== false ) {
+                $vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+                $vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+                $wp->query_vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+                $wp->query_vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+            }
         }
         return $vars;
     }
@@ -106,7 +108,7 @@ class Woo_PayPal_Here_End_Point {
         global $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($wp->query_vars)) {
-            if (!empty($this->paypal_here_settings['paypal_here_endpoint_url']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url']) {
+            if( strpos($wp->request, wc_clean($this->paypal_here_settings['paypal_here_endpoint_url'])) !== false ) {
                 return true;
             } else {
                 return false;
@@ -127,7 +129,7 @@ class Woo_PayPal_Here_End_Point {
         global $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($wp->query_vars)) {
-            if (!empty($this->paypal_here_settings['paypal_here_endpoint_url']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url']) {
+            if( strpos($wp->request, wc_clean($this->paypal_here_settings['paypal_here_endpoint_url'])) !== false ) {
                 $template = $this->plugin_path() . '/templates/' . 'page.php';
             }
         }
