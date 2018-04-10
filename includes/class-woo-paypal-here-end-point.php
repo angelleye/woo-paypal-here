@@ -57,16 +57,21 @@ class Woo_PayPal_Here_End_Point {
         global $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
-            if (isset($_GET[$this->paypal_here_settings['paypal_here_endpoint_url']])) {
-                $wp->query_vars[] = wc_clean($_GET[$this->paypal_here_settings['paypal_here_endpoint_url']]);
+            if( strpos($wp->request, wc_clean($this->paypal_here_settings['paypal_here_endpoint_url'])) !== false ) {
+                $wp->query_vars[] = wc_clean($this->paypal_here_settings['paypal_here_endpoint_url']);
             }
+            
         }
     }
 
     public function angelleye_woo_paypal_here_add_query_vars($vars) {
+        global $wp_query, $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
             $vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+            $vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+            $wp->query_vars[] = $this->paypal_here_settings['paypal_here_endpoint_url'];
+            $wp->query_vars['name'] = $this->paypal_here_settings['paypal_here_endpoint_url'];
         }
         return $vars;
     }
@@ -101,7 +106,7 @@ class Woo_PayPal_Here_End_Point {
         global $wp;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($wp->query_vars)) {
-            if (!empty($this->paypal_here_settings['paypal_here_endpoint_url']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url'] && strpos($title, 'not found') !== false) {
+            if (!empty($this->paypal_here_settings['paypal_here_endpoint_url']) && !empty($wp->query_vars['name']) && $wp->query_vars['name'] == $this->paypal_here_settings['paypal_here_endpoint_url']) {
                 return true;
             } else {
                 return false;
@@ -110,9 +115,11 @@ class Woo_PayPal_Here_End_Point {
     }
 
     public function angelleye_woo_paypal_here_add_endpoints() {
+        global $wp_rewrite;
         $this->paypal_here_settings = get_option('woocommerce_angelleye_woo_paypal_here_settings');
         if (!empty($this->paypal_here_settings['paypal_here_endpoint_url'])) {
             add_rewrite_endpoint($this->paypal_here_settings['paypal_here_endpoint_url'], EP_PAGES | EP_PERMALINK | EP_ALL);
+            $wp_rewrite->flush_rules();
         }
     }
 
