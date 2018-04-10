@@ -96,7 +96,7 @@ class Woo_PayPal_Here_Admin {
     public function paypal_here_action_links($actions, $plugin_file, $plugin_data, $context) {
         $custom_actions = array(
             'configure' => sprintf('<a href="%s">%s</a>', admin_url('admin.php?page=wc-settings&tab=checkout&section=angelleye_woo_paypal_here'), __('Configure', 'woo-paypal-here')),
-            'docs' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://www.angelleye.com/category/docs/woo-paypal-here/?utm_source=woo_paypal_here&utm_medium=docs_link&utm_campaign=woo_paypal_here', __('Docs', 'woo-paypal-here')),
+            'docs' => sprintf('<a href="%s" target="_blank">%s</a>', 'https://www.angelleye.com/category/docs/paypal-here-for-woocommerce/?utm_source=woo_paypal_here&utm_medium=docs_link&utm_campaign=woo_paypal_here', __('Docs', 'woo-paypal-here')),
             'support' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/plugin/woo-paypal-here/', __('Support', 'woo-paypal-here')),
             'review' => sprintf('<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woo-paypal-here', __('Write a Review', 'woo-paypal-here')),
         );
