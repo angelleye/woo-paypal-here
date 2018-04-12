@@ -175,7 +175,7 @@ div label.btn input[type="radio"] {
     margin-bottom: 20px;
 }
 
-.angelleye_delete_button_paypal_here {
+.angelleye_delete_button_paypal_here, .angelleye_delete_pending_order_paypal_here, .paypal_here_clickable_row {
     margin-top: 4px;
     margin-left: 6px;
     cursor: pointer;

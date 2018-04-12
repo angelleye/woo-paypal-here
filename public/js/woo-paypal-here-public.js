@@ -280,7 +280,7 @@
             var data = {
                 action: 'paypal_here_delete_order_item',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
-                'item_id': $(this).data("item_id")
+                'order_id': $(this).data("item_id")
             };
             $('.table-responsive').block({
                 message: null,
@@ -302,6 +302,36 @@
                 error: function (e) {
                     $('.table-responsive').unblock();
                     alert("Error in ajax post:" + e.statusText);
+                }
+            });
+        });
+        $('.angelleye_delete_pending_order_paypal_here').click(function () {
+            var data = {
+                action: 'paypal_here_delete_order',
+                'security': paypal_here_ajax_param.paypal_here_nonce,
+                'order_id': $(this).data("order_id")
+            };
+            $('.table-responsive').block({
+                message: null,
+                overlayCSS: {
+                    background: '#fff',
+                    opacity: 0.6
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: paypal_here_ajax_param.ajax_url,
+                dataType: 'json',
+                success: function (result) {
+                    if ('success' === result.result) {
+                        document.location.reload(true);
+                    }
+                },
+                error: function (e) {
+                    $('.table-responsive').unblock();
+                    //alert("Error in ajax post:" + e.statusText);
+                    console.log(e);
                 }
             });
         });
