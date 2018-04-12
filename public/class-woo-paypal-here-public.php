@@ -336,6 +336,17 @@ class Woo_PayPal_Here_Public {
             
         }
     }
+    
+    public function paypal_here_paypal_here_delete_order() {
+        check_ajax_referer('paypal_here_nonce', 'security');
+        try {
+            $order_id = absint($_POST['order_id']);
+            wp_delete_post($order_id,true);
+            $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
+        } catch (Exception $ex) {
+            
+        }
+    }
 
     public function paypal_here_set_address($order_id, $address) {
         foreach ($address as $key => $value) {

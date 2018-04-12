@@ -29,7 +29,7 @@
                     foreach ($this->order->get_order_item_totals() as $key => $total) :
                         if (!in_array($key, array('payment_method', 'order_total', 'discount', 'shipping'))) :
                             echo '<tr>';
-                            echo '<td>' . $total['label'] . '</th>';
+                            echo '<td>' . $total['label'] . '</td>';
                             echo '<td>' . $total['value'] . '</td>';
                             echo '</tr>';
                         endif;
@@ -39,7 +39,7 @@
                         echo '<td>' . $this->order->get_shipping_to_display() . '</td>';
                         echo '</tr>';
                         echo '<tr class="paypal_here_discount">';
-                        echo '<td> ' . 'Discount:' . '</th>';
+                        echo '<td> ' . 'Discount:' . '</td>';
                         echo '<td>' . '-' .$this->order->get_discount_to_display() . '</td>';
                         echo '</tr>';
                     ?>
