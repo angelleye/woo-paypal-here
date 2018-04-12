@@ -19,6 +19,9 @@ Process WooCommerce order payments using the PayPal Here app.
  * Process pending WooCommerce orders from PayPal Here.
  * Create new orders using WooCommerce data from mobile device and process with PayPal Here.
 
+= BETA Release =
+This plugin is currently being released in BETA in order to gather feedback and continue to make improvements for a 1.0 final release.  The current functionality has been thoroughly tested, but we will be making design and general user experience improvements for the final release.  We welcome any feedback you can offer to make this the perfect PayPal Here for WooCommerce solution!
+
 = Quality Control =
 Payment processing can't go wrong.  It's as simple as that.  Our certified PayPal engineers have developed and thoroughly tested this plugin on the PayPal sandbox (test) servers to ensure your customers don't have problems paying you.
 
