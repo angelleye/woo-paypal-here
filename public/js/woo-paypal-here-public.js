@@ -280,7 +280,7 @@
             var data = {
                 action: 'paypal_here_delete_order_item',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
-                'order_id': $(this).data("item_id")
+                'item_id': $(this).data("item_id")
             };
             $('.table-responsive').block({
                 message: null,
