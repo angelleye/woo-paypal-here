@@ -342,10 +342,8 @@
             $('#paypal_here_modal_shipping').modal({show: true});
         });
         $(".paypal_here_clickable_row").click(function (e) {
-            alert(e.target.id);
             if( e.target.id === 'angelleye_delete_pending_order_paypal_here' ) {
                 e.preventDefault();
-                
             } else {
                 window.document.location = $(this).data("href");
             }
