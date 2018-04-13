@@ -32,13 +32,13 @@
                             }
                         }
                         ?>
-                        <tr class=''>
+                        <tr class='paypal_here_clickable_row' data-href="<?php echo add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $customer_order), $this->home_url . $this->paypal_here_endpoint_url); ?>">
                             <?php foreach ($columns as $column_id => $column_name) : ?>
                                 <td>
                                     <?php if ('order-select' === $column_id) : ?>
                                         <div class="form-check w-100">
                                             <label><?php echo !empty($buyer) ? $buyer : '#'.$customer_order; ?></label>
-                                            <span title="Delete Order" data-order_id="<?php echo $customer_order; ?>"  class="angelleye_delete_pending_order_paypal_here dashicons dashicons-trash"></span>
+                                            <span title="Delete Order" data-order_id="<?php echo $customer_order; ?>"  id="angelleye_delete_pending_order_paypal_here" class="dashicons dashicons-trash"></span>
                                         </div>
                                     <?php elseif ('order-total' === $column_id) : ?>
                                         <?php
@@ -47,7 +47,6 @@
                                     <?php endif; ?>
                                 </td>
                             <?php endforeach; ?>
-                                <td style="width:30px;"><span class="paypal_here_clickable_row dashicons dashicons-visibility" data-href="<?php echo add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $customer_order), $this->home_url . $this->paypal_here_endpoint_url); ?>"></span></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

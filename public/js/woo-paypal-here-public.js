@@ -305,7 +305,7 @@
                 }
             });
         });
-        $('.angelleye_delete_pending_order_paypal_here').click(function () {
+        $('#angelleye_delete_pending_order_paypal_here').click(function () {
             var data = {
                 action: 'paypal_here_delete_order',
                 'security': paypal_here_ajax_param.paypal_here_nonce,
@@ -341,8 +341,14 @@
         $(".paypal_here_shipping").click(function () {
             $('#paypal_here_modal_shipping').modal({show: true});
         });
-        $(".paypal_here_clickable_row").click(function () {
-            window.document.location = $(this).data("href");
+        $(".paypal_here_clickable_row").click(function (e) {
+            alert(e.target.id);
+            if( e.target.id === 'angelleye_delete_pending_order_paypal_here' ) {
+                e.preventDefault();
+                
+            } else {
+                window.document.location = $(this).data("href");
+            }
         });
     });
 })(jQuery);
