@@ -342,6 +342,13 @@
             $('#paypal_here_modal_shipping').modal({show: true});
         });
         $(".paypal_here_clickable_row").click(function (e) {
+            $('.table-responsive').block({
+                message: null,
+                overlayCSS: {
+                    background: '#fff',
+                    opacity: 0.6
+                }
+            });
             if( e.target.id === 'angelleye_delete_pending_order_paypal_here' ) {
                 e.preventDefault();
             } else {
