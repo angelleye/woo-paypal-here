@@ -275,9 +275,9 @@ class Woo_PayPal_Here_Public {
                 define('WOOCOMMERCE_CART', true);
             }
             check_ajax_referer('paypal_here_nonce', 'security');
-            if(!empty($_POST['is_create_new_order']) && $_POST['is_create_new_order'] == 'yes') {
+            if (!empty($_POST['is_create_new_order']) && $_POST['is_create_new_order'] == 'yes') {
                 WC()->cart->empty_cart();
-                 paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment');
+                paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment');
             }
             WC()->shipping->reset_shipping();
             if (empty($post->ID)) {
@@ -340,12 +340,12 @@ class Woo_PayPal_Here_Public {
             
         }
     }
-    
+
     public function paypal_here_paypal_here_delete_order() {
         check_ajax_referer('paypal_here_nonce', 'security');
         try {
             $order_id = absint($_POST['order_id']);
-            wp_delete_post($order_id,true);
+            wp_delete_post($order_id, true);
             $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
         } catch (Exception $ex) {
             
@@ -390,8 +390,8 @@ class Woo_PayPal_Here_Public {
                 if (!empty($order_id) && !empty($coupon_code)) {
                     $order_id = $order_id;
                     $this->order = wc_get_order($order_id);
-                    $coupons_item = $this->order->get_items( 'coupon' );
-                    foreach ( $coupons_item as $item_id => $ex_coupon ) {
+                    $coupons_item = $this->order->get_items('coupon');
+                    foreach ($coupons_item as $item_id => $ex_coupon) {
                         $this->order->remove_coupon($ex_coupon->get_code());
                     }
                     try {
@@ -474,6 +474,28 @@ class Woo_PayPal_Here_Public {
         $payment_gateway->angelleye_woo_paypal_here_process_payment();
     }
 
+    public function paypal_here_apply_tax() {
+        try {
+			$order_id = absint( $_POST['order_id'] );
+			$rate_id  = absint( $_POST['rate_id'] );
+			$order    = wc_get_order( $order_id );
+			$data     = get_post_meta( $order_id );
+
+			// Add new tax
+			$item = new WC_Order_Item_Tax();
+			$item->set_rate( $rate_id );
+			$item->set_order_id( $order_id );
+			$item->save();
+                        wc_add_notice('Order updated.', 'success');
+			ob_start();
+			
+
+			$this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order->get_id()), $this->home_url . $this->paypal_here_endpoint_url));
+		} catch ( Exception $e ) {
+			$this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order->get_id()), $this->home_url . $this->paypal_here_endpoint_url));
+		}
+    }
+
     public function paypal_here_apply_shipping() {
         $shipping['method_title'] = 'Others';
         $shipping['method_id'] = 'paypal_here';
@@ -489,7 +511,7 @@ class Woo_PayPal_Here_Public {
                     if (WC()->cart->is_empty()) {
                         foreach ($order->get_items() as $item_id => $item) {
                             $product = $item->get_product();
-                            if( $item->get_variation_id() ) {
+                            if ($item->get_variation_id()) {
                                 $variation_id = $item->get_variation_id();
                                 WC()->cart->add_to_cart($product->get_id(), $item->get_quantity(), $variation_id, $attributes = null);
                             } else {

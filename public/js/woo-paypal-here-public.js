@@ -73,7 +73,7 @@
                 'attributes': $('.variations_form').length ? get_attributes().data : [],
                 'product_id': $("input[name=add-to-cart]").val(),
                 'variation_id': $("input[name=variation_id]").val(),
-                'is_create_new_order' : paypal_here_ajax_param.is_create_new_order
+                'is_create_new_order': paypal_here_ajax_param.is_create_new_order
             };
             $.ajax({
                 type: 'POST',
@@ -204,6 +204,27 @@
                 },
                 error: function (e) {
 
+                }
+            });
+        });
+
+        $(".paypal_here_apply_tax").click(function () {
+            $('.paypal_here_apply_tax').block({message: null, overlayCSS: {background: '#fff', opacity: 0.4}});
+            var data = {
+                action: 'paypal_here_apply_tax',
+                rate_id: $("input[name=add_order_tax]").val(),
+                order_id: $("input[name=order_id]").val(),
+                security: paypal_here_ajax_param.paypal_here_nonce
+            };
+
+            $.ajax({
+                url: paypal_here_ajax_param.ajax_url,
+                data: data,
+                dataType: 'json',
+                type: 'POST',
+                success: function (result) {
+                    $('#paypal_here_modal_tax').modal('hide');
+                    location.reload();
                 }
             });
         });
@@ -342,6 +363,9 @@
         $(".paypal_here_shipping").click(function () {
             $('#paypal_here_modal_shipping').modal({show: true});
         });
+        $(".paypal_here_tax").click(function () {
+            $('#paypal_here_modal_tax').modal({show: true});
+        });
         $(".paypal_here_clickable_row").click(function (e) {
             $('.table-responsive').block({
                 message: null,
@@ -350,7 +374,7 @@
                     opacity: 0.6
                 }
             });
-            if( e.target.id === 'angelleye_delete_pending_order_paypal_here' ) {
+            if (e.target.id === 'angelleye_delete_pending_order_paypal_here') {
                 e.preventDefault();
             } else {
                 window.document.location = $(this).data("href");

@@ -1,5 +1,7 @@
 <div class="row">
     <?php
+    global $wpdb;
+    $rates = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}woocommerce_tax_rates ORDER BY tax_rate_name LIMIT 100" );
     //wp_enqueue_script('paypal_here_autoNumeric', WOO_PAYPAL_HERE_ASSET_URL . 'public/js/autoNumeric.min.js', array('jquery'), '1.0.0', true);
     wp_enqueue_style('jquery-ui-styles');
     wp_enqueue_style( 'dashicons' );
@@ -27,13 +29,19 @@
                         echo '</tr>';
                     endforeach;
                     foreach ($this->order->get_order_item_totals() as $key => $total) :
-                        if (!in_array($key, array('payment_method', 'order_total', 'discount', 'shipping'))) :
+                        if (in_array($key, array('cart_subtotal'))) :
                             echo '<tr>';
                             echo '<td>' . $total['label'] . '</td>';
                             echo '<td>' . $total['value'] . '</td>';
                             echo '</tr>';
                         endif;
                     endforeach;
+                        if(wc_tax_enabled() && !empty($rates)) {
+                            echo '<tr class="paypal_here_tax">';
+                            echo '<td> ' . WC()->countries->tax_or_vat() . ':' . '</th>';
+                            echo '<td>' . wc_price( $this->order->get_total_tax(), array( 'currency' => $this->order->get_currency() ) ) . '</td>';
+                            echo '</tr>';
+                        }
                         echo '<tr class="paypal_here_shipping">';
                         echo '<td> ' . 'Shipping:' . '</th>';
                         echo '<td>' . $this->order->get_shipping_to_display() . '</td>';
@@ -109,7 +117,61 @@
                 </div>
             </div>
         </div>
+    
+    <?php 
+    $rates = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}woocommerce_tax_rates ORDER BY tax_rate_name LIMIT 100" );
+    if( !empty($rates) ) {
+    ?>
+    <div class="modal fade" id="paypal_here_modal_tax" tabindex="-1" role="dialog" aria-labelledby="paypal_here_modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"  style="text-align: center;display: inline;">
+                        <h5 class="modal-title" id="paypal_here_modal_shippingLabel"><?php echo __('Add Tax', 'woo-paypal-here'); ?></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                        <form action="" method="post">
+						
+            <table class="table table-hover">
+							<thead>
+								<tr>
+									<th>&nbsp;</th>
+									<th><?php esc_html_e( 'Rate name', 'woocommerce' ); ?></th>
+									<th><?php esc_html_e( 'Tax class', 'woocommerce' ); ?></th>
+									<th><?php esc_html_e( 'Rate code', 'woocommerce' ); ?></th>
+									<th><?php esc_html_e( 'Rate %', 'woocommerce' ); ?></th>
+								</tr>
+							</thead>
+						<?php
+							
+
+						foreach ( $rates as $rate ) {
+							echo '
+									<tr>
+										<td><input type="radio" id="add_order_tax_' . absint( $rate->tax_rate_id ) . '" name="add_order_tax" value="' . absint( $rate->tax_rate_id ) . '" /></td>
+										<td><label for="add_order_tax_' . absint( $rate->tax_rate_id ) . '">' . WC_Tax::get_rate_label( $rate ) . '</label></td>
+										<td>' . ( isset( $classes_options[ $rate->tax_rate_class ] ) ? $classes_options[ $rate->tax_rate_class ] : '-' ) . '</td>
+										<td>' . WC_Tax::get_rate_code( $rate ) . '</td>
+										<td>' . WC_Tax::get_rate_percent( $rate ) . '</td>
+									</tr>
+								';
+						}
+						?>
+						</table>
+						
+					</form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal"><?php echo __('Close', 'woo-paypal-here'); ?></button>
+                        <button type="button" class="btn btn-primary paypal_here_apply_tax"><?php echo __('Apply', 'woo-paypal-here'); ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
         <?php
+    }
     } else {
         echo '<div class="col">'. __('No Pending order found') . '</div>';
     }

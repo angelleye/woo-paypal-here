@@ -65,7 +65,7 @@ body {
 .tar {
     text-align: right;
 }
-.paypal_here_discount, .paypal_here_shipping {
+.paypal_here_discount, .paypal_here_shipping, .paypal_here_tax {
     cursor: pointer;
 }
 .ui-autocomplete {
