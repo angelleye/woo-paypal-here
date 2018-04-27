@@ -309,11 +309,11 @@ class Woo_PayPal_Here_Public {
                 $order = wc_get_order($order_id);
                 $billing_address = paypal_here_get_session('billing_address');
                 if (!empty($billing_address)) {
-                    $this->paypal_here_set_address($order_id, $billing_address);
+                    paypal_here_set_address($order_id, $billing_address);
                 }
                 $shipping_address = paypal_here_get_session('shipping_address');
                 if (!empty($shipping_address)) {
-                    $this->paypal_here_set_address($order_id, $shipping_address);
+                    paypal_here_set_address($order_id, $shipping_address);
                 }
                 $order->calculate_totals();
                 WC()->cart->empty_cart();
@@ -349,13 +349,6 @@ class Woo_PayPal_Here_Public {
             $this->angelleye_woo_paypal_here_redirect(add_query_arg(array('actions' => 'view_pending_orders'), $this->home_url . $this->paypal_here_endpoint_url));
         } catch (Exception $ex) {
             
-        }
-    }
-
-    public function paypal_here_set_address($order_id, $address) {
-        foreach ($address as $key => $value) {
-            is_string($value) ? wc_clean(stripslashes($value)) : $value;
-            update_post_meta($order_id, "_" . $key, $value);
         }
     }
 

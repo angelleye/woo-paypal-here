@@ -330,6 +330,7 @@ class Woo_PayPal_Here_End_Point {
     }
 
     public function angelleye_woo_paypal_here_handle_submit_action() {
+        $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
         if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_billing') {
             WC()->customer->set_props(array(
                 'billing_country' => isset($_POST['billing_country']) ? wp_unslash($_POST['billing_country']) : null,
@@ -340,6 +341,11 @@ class Woo_PayPal_Here_End_Point {
                 'billing_address_2' => isset($_POST['billing_address_2']) ? wp_unslash($_POST['billing_address_2']) : null,
             ));
             paypal_here_set_session('billing_address', $_POST);
+            $billing_address = paypal_here_get_session('billing_address');
+            if (!empty($billing_address)) {
+                paypal_here_set_address($order_id, $billing_address);
+            }
+                
             WC()->customer->save();
             if (!empty($_POST['action']) && 'skip_shipping' == $_POST['action']) {
                 WC()->customer->set_props(array(
@@ -351,7 +357,6 @@ class Woo_PayPal_Here_End_Point {
                     'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
                 ));
                 WC()->customer->save();
-                $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
                 $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
                 wp_redirect($qrcode_order_url);
                 exit();
@@ -371,6 +376,10 @@ class Woo_PayPal_Here_End_Point {
             ));
             WC()->customer->save();
             paypal_here_set_session('shipping_address', $_POST);
+            $shipping_address = paypal_here_get_session('shipping_address');
+            if (!empty($shipping_address)) {
+                paypal_here_set_address($order_id, $shipping_address);
+            }
             $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
             $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
             wp_redirect($qrcode_order_url);

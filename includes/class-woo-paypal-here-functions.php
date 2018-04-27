@@ -80,3 +80,14 @@ if (!function_exists('print_attribute_radio')) {
     }
 
 }
+
+if (!function_exists('paypal_here_set_address')) {
+
+    function paypal_here_set_address($order_id, $address) {
+        foreach ($address as $key => $value) {
+            is_string($value) ? wc_clean(stripslashes($value)) : $value;
+            update_post_meta($order_id, "_" . $key, $value);
+        }
+    }
+
+}
