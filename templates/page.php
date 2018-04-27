@@ -13,6 +13,9 @@ switch ($action) {
         
         break;
     case 'view_products':
+        if(!empty($_GET['is_create_new_order']) && $_GET['is_create_new_order'] == 'true') {
+           paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment'); 
+        }
         include_once 'menu.php';
         do_action('angelleye_woo_paypal_here_view_products_body_content');
         include_once 'footer.php';

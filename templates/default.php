@@ -34,7 +34,7 @@
             <br>
             <p class="text-secondary"><?php echo __('Create and Process WooCommerce Orders Using PayPal Here.', 'woo-paypal-here'); ?></p>
             <?php if (!empty($this->paypal_here_settings['uniq_cs']) && !empty($this->paypal_here_settings['uniq_ck'])) { ?>
-            <br><div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
+            <br><div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg(array('actions' => 'view_products', 'is_create_new_order' => 'true'))); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
             <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_pending_orders')); ?>" role="button"><?php echo __('View Pending Orders', 'woo-paypal-here'); ?></a></div>
             <?php } else { 
                 echo "<div class='alert alert-warning mtonerem' role='alert' >" . __('Your API keys for WooCommerce are not configured. Please click the Generate WooCommerce REST API Key button in the PayPal Here settings to fix this.', 'woo-paypal-here') . "</div>";

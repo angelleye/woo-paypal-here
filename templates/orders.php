@@ -60,7 +60,7 @@
         <div class="default-ceneter-button">
             <p class="text-secondary"><?php echo __('No Pending order found'); ?> </p>
             <br>
-            <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg('actions', 'view_products')); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
+            <div><a class="btn btn-primary w195" href="<?php echo esc_url(add_query_arg(array('actions' => 'view_products', 'is_create_new_order' => 'true'))); ?>" role="button"><?php echo __('Create New Order', 'woo-paypal-here'); ?></a></div><br>
         </div>
        
     <?php 

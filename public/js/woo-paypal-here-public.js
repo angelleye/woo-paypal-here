@@ -72,7 +72,8 @@
                 'qty': $("input[name=quantity]").val(),
                 'attributes': $('.variations_form').length ? get_attributes().data : [],
                 'product_id': $("input[name=add-to-cart]").val(),
-                'variation_id': $("input[name=variation_id]").val()
+                'variation_id': $("input[name=variation_id]").val(),
+                'is_create_new_order' : paypal_here_ajax_param.is_create_new_order
             };
             $.ajax({
                 type: 'POST',

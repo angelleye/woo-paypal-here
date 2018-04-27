@@ -61,7 +61,6 @@ class Woo_PayPal_Here_Public {
             wp_register_style('jquery-ui-styles', plugin_dir_url(__FILE__) . 'css/jquery-ui.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name . 'bootstrap_css', plugin_dir_url(__FILE__) . 'css/bootstrap.min.css', array(), $this->version, 'all');
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/woo-paypal-here-public.css', array(), $this->version, 'all');
-            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/woo-paypal-here-public.css', array(), $this->version, 'all');
         }
     }
 
@@ -81,7 +80,8 @@ class Woo_PayPal_Here_Public {
             wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/woo-paypal-here-public.js', array('jquery', $this->plugin_name . 'input_button'), $this->version, true);
             wp_localize_script($this->plugin_name, 'paypal_here_ajax_param', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'paypal_here_nonce' => wp_create_nonce('paypal_here_nonce')
+                'paypal_here_nonce' => wp_create_nonce('paypal_here_nonce'),
+                'is_create_new_order' => (!empty($_GET['is_create_new_order']) && $_GET['is_create_new_order'] == 'true') ? 'yes' : 'no'
                     )
             );
         }
@@ -275,6 +275,10 @@ class Woo_PayPal_Here_Public {
                 define('WOOCOMMERCE_CART', true);
             }
             check_ajax_referer('paypal_here_nonce', 'security');
+            if(!empty($_POST['is_create_new_order']) && $_POST['is_create_new_order'] == 'yes') {
+                WC()->cart->empty_cart();
+                 paypal_here_unset_session('angelleye_woo_paypal_here_order_awaiting_payment');
+            }
             WC()->shipping->reset_shipping();
             if (empty($post->ID)) {
                 $product_id = absint($_POST['product_id']);
