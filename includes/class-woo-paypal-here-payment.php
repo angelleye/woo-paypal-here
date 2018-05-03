@@ -384,12 +384,10 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                             }
                         }
                         $transaction_id = !empty($_GET['InvoiceId']) ? wc_clean($_GET['InvoiceId']) : '';
-                        if(!empty($transaction_id)) {
-                            update_post_meta($order_id, 'transaction_id', $transaction_id);
-                        }
+                        update_post_meta( $order_id, '_payment_method', 'angelleye_woo_paypal_here' );
+                        update_post_meta( $order_id, '_payment_method_title', $this->method_title );
                         $type = !empty($_GET['Type']) ? wc_clean($_GET['Type']) : '';
                         update_post_meta($order_id, 'Type', $type);
-                        update_post_meta($order_id, 'InvoiceId', $transaction_id);
                         $this->add_log('Type: ' . print_r($type, true));
                         $this->add_log('InvoiceId: ' . print_r($transaction_id, true));
                         if ($type == 'UNKNOWN') {
