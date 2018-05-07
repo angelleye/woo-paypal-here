@@ -16,10 +16,11 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       woo-paypal-here
  * Domain Path:       /languages
- * Tested up to: 4.9.4
+ * Tested up to: 4.9.5
  * WC requires at least: 3.0.0
- * WC tested up to: 3.3.4
+ * WC tested up to: 3.3.5
  */
+
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
     die;
@@ -73,7 +74,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-woo-paypal-here.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    0.1.0
  */
 function run_woo_paypal_here() {
 
