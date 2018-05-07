@@ -3,112 +3,88 @@ Contributors: angelleye
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QGCKWPXUEKRPW
 Tags: woocommerce, paypal, paypal here, credit card, swipe, pos, point of sale
 Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tested up to: 4.9.4
+Stable tag: 0.1.0
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Process WooCommerce Orders Using PayPal Here
+Bring WooCommerce and PayPal Here together!
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+= Introduction =
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Process WooCommerce order payments using the PayPal Here app.
 
-A few notes about the sections above:
+ * Process pending WooCommerce orders from PayPal Here.
+ * Create new orders using WooCommerce data from mobile device and process with PayPal Here.
 
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+= BETA Release =
+This plugin is currently being released in BETA in order to gather feedback and continue to make improvements for a 1.0 final release.  The current functionality has been thoroughly tested, but we will be making design and general user experience improvements for the final release.  We welcome any feedback you can offer to make this the perfect PayPal Here for WooCommerce solution!
 
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+= Quality Control =
+Payment processing can't go wrong.  It's as simple as that.  Our certified PayPal engineers have developed and thoroughly tested this plugin on the PayPal sandbox (test) servers to ensure your customers don't have problems paying you.
 
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+= Seamless PayPal Here Integration =
+All WooCommerce data is available within the web-based PayPal Here provided by the plugin.  Orders can be created fresh and processed from within the PayPal Here app, or pending WooCommerce orders can be loaded and processed in the PayPal Here app.
+
+= Get Involved =
+Developers can contribute to the source code on the [PayPal Here for WooCommerce GitHub repository](https://github.com/angelleye/woo-paypal-here).
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+= Minimum Requirements =
 
-e.g.
+* WooCommerce 3.0 or higher
 
-1. Upload `paypal-here-woocommerce.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+= Automatic installation =
 
-== Frequently Asked Questions ==
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PayPal Here for WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
-= A question that someone might have =
+In the search field type PayPal Here for WooCommerce and click Search Plugins. Once you've found our plugin you can view details about it such as the the rating and description. Most importantly, of course, you can install it by simply clicking Install Now.
 
-An answer to that question.
+= Manual Installation =
 
-= What about foo bar? =
+1. Unzip the files and upload the folder into your plugins folder (/wp-content/plugins/) overwriting older versions if they exist
+2. Activate the plugin in your WordPress admin area.
 
-Answer to foo bar dilemma.
+= Usage =
+
+1. Open the settings page for WooCommerce and click the "Checkout" tab
+2. Click on the sub-item for PayPal Here.
+3. Click to generate the WooCommerce API keys, and configure settings accordingly.
+4. Load the web-based app by scanning the QR code from the PayPal Here settings page or an individual order.
+5. Click "Send to PayPal Here" to process the order payment using the PayPal Here app.
+
+= Updating =
+
+Automatic updates should work great for you.  As always, though, we recommend backing up your site prior to making any updates just to be sure nothing goes wrong.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Dashboard for the PayPal Here for WooCommerce web app.
+2. WooCommerce pending orders list displayed in the web app.
+3. Order screen for the web app with total prepared, and button to Send to PayPal Here.
+4. Order details sent to the PayPal Here app with credit card reader available as well as additional payment methods.
+5. PayPal Here successful payment notification and receipt option screen.
+6. Dashboard for the PayPal Here for WooCommerce web app with the successful payment message displayed.
+7. WooCommerce product list displayed in web app for adding items to an order.
+8. Adjust quantity and select attributes from WooCommerce when adding an item to an order using the web app.
+9. Adjust shipping on an order using WooCommerce rules, percentage based, or flat rate options.
+10. Add a coupon code using codes from WooCommerce or percentage / flat-rate options.
+11. PayPal Here for WooCommerce Settings.
+12. WooCommerce order screen with PayPal Here QR code ready to scan, which loads the order in the web app for processing with PayPal Here.
+13. WooCommerce order payment details after payment is processed via PayPal Here.
+
+== Frequently Asked Questions ==
+
+= How does this thing work? =
+
+The plugin creates a web-based app (ie. www.domain.com/paypal-here) where you can view WooCommerce pending orders or create new orders using WooCommerce product data.  When the order is ready you push "Send to PayPal Here".  The PayPal Here app will load on your device with the order data populated and ready for payment.
+
+From here you can process it using credit card, PayPal invoice, cash, etc. just like you would any other PayPal Here transaction.  The WooCommerce order status will udpate accordingly when the payment is processed with the PayPal Here app.
 
 == Changelog ==
 
-= 1.0 =
-* A change since the previous version.
-* Another change.
-
-= 0.5 =
-* List versions from most recent at top to oldest at bottom.
-
-== Upgrade Notice ==
-
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
-
-= 0.5 =
-This version fixes a security related bug.  Upgrade immediately.
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
-
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
+= 0.1.0 =
+Initial BETA release.

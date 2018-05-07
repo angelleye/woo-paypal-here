@@ -1,0 +1,182 @@
+html { margin-top: 32px !important; }
+* html body { margin-top: 32px !important; }
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    overflow-y: scroll
+}
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+}
+.container-fluid {
+    min-height: 320px;
+}
+.pt50 {
+    padding-top: 50px;
+}
+.pt30 {
+    padding-top: 25px;
+}
+.default-ceneter-button {
+    padding-top: 25px;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.pb20 {
+    padding-bottom: 20px;
+}
+.modal-body {
+    padding: 10px 10px 10px 6px;
+}
+.default-ceneter-button {
+    max-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+}
+.w195 {
+    width: 195px;
+}
+.fr {
+    float: right;
+}
+.modal-header .close {
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+}
+.modal-content  {
+
+    border-radius: 15px;
+}
+.modal-header {
+    padding: 5px 16px 7px 10px;
+}
+.mtonerem {
+    margin-top: 1rem;
+}
+.tal {
+    text-align: left;
+}
+.tar {
+    text-align: right;
+}
+.paypal_here_discount, .paypal_here_shipping, .paypal_here_tax {
+    cursor: pointer;
+}
+.ui-autocomplete {
+    z-index: 99999;
+}
+.angelleye_woo_paypal_here_shop_thumbnail {
+    width: 50px;
+}
+.open-modal {
+    cursor: pointer;
+}
+.here_header_img {
+    width: 87px;
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+.send_to_paypal_here {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+.table tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+.paypal_here_clickable_row, .paypal_here_clickable_row label {
+    cursor: pointer;
+}
+.large-text-size {
+    font-size: 45px;
+}
+.discount-img, .shipping-img {
+    opacity:0.3;
+    color:#996;
+}
+.discount-img.checked , .shipping-img.checked {
+    opacity:0.9;
+}
+.hidden {
+    display:none;
+}
+tr.paypal_here_shipping td small.shipped_via, #paypal_here_modal_shipping small.shipped_via {
+    display: none;
+}
+.hr-text {
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: black;
+    text-align: center;
+    height: 1.5em;
+}
+.hr-text:before {
+    content: '';
+    background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#818078), to(transparent));
+    background: linear-gradient(to right, transparent, #818078, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+}
+.hr-text:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: black;
+    padding: 0 .5em;
+    line-height: 1.5em;
+    color: black;
+    background-color: #fcfcfa;
+}
+
+div label.btn input[type="radio"] {
+    display: none;
+}
+.img-fluid-default {
+    width: 70%;
+    margin-bottom: 15px;
+}
+.text-secondary {
+    font-size: 12px;
+}
+@media (min-width: 992px) {
+    .pt30 {
+        padding-top: 50px;
+    }
+}
+@media (min-width: 1200px) {
+    .pt30 {
+        padding-top: 50px;
+    }
+
+}
+@media screen and ( max-width: 782px ) {
+    html { margin-top: 46px !important; }
+    * html body { margin-top: 46px !important; }
+
+}
+.default-ceneter-button {
+    clear: both;
+    margin-bottom: 20px;
+}
+
+.angelleye_delete_button_paypal_here, #angelleye_delete_pending_order_paypal_here, .paypal_here_clickable_row {
+    margin-top: 4px;
+    margin-left: 6px;
+    cursor: pointer;
+}
