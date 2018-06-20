@@ -82,7 +82,7 @@ class Woo_PayPal_Here_Rest_API {
 
     public function angelleye_woo_paypal_here_get_coupons() {
         if (!empty($_POST['search']['term'])) {
-            $request_param['search'] = $_POST['search']['term'];
+            $request_param['search'] = wp_unslash($_POST['search']['term']);
             $this->result = $this->woocommerce->get('coupons', $request_param);
         } else {
             $this->result = $this->woocommerce->get('coupons');

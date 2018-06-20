@@ -340,7 +340,7 @@ class Woo_PayPal_Here_End_Point {
                 'billing_address_1' => isset($_POST['billing_address_1']) ? wp_unslash($_POST['billing_address_1']) : null,
                 'billing_address_2' => isset($_POST['billing_address_2']) ? wp_unslash($_POST['billing_address_2']) : null,
             ));
-            paypal_here_set_session('billing_address', $_POST);
+            paypal_here_set_session('billing_address', wp_unslash($_POST));
             $billing_address = paypal_here_get_session('billing_address');
             if (!empty($billing_address)) {
                 paypal_here_set_address($order_id, $billing_address);
@@ -375,7 +375,7 @@ class Woo_PayPal_Here_End_Point {
                 'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
             ));
             WC()->customer->save();
-            paypal_here_set_session('shipping_address', $_POST);
+            paypal_here_set_session('shipping_address', wp_unslash($_POST));
             $shipping_address = paypal_here_get_session('shipping_address');
             if (!empty($shipping_address)) {
                 paypal_here_set_address($order_id, $shipping_address);
