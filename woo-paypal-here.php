@@ -16,9 +16,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       woo-paypal-here
  * Domain Path:       /languages
- * Tested up to: 4.9.5
+ * Tested up to: 4.9.6
  * WC requires at least: 3.0.0
- * WC tested up to: 3.3.5
+ * WC tested up to: 3.4
  */
 
 // If this file is called directly, abort.
@@ -26,7 +26,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WOO_PAYPAL_HERE_VERSION', '0.1.0');
+define('WOO_PAYPAL_HERE_VERSION', '0.2.0');
 if (!defined('WOO_PAYPAL_HERE_PLUGIN_DIR')) {
     define('WOO_PAYPAL_HERE_PLUGIN_DIR', dirname(__FILE__));
 }
