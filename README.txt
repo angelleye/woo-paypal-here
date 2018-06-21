@@ -86,5 +86,8 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
+= 0.2.0 - 06.20.2018 =
+* Fix - Removes redundant success message on web app dashboard after completed payment. ([PHFW-6](https://github.com/angelleye/woo-paypal-here/pull/64))
+
 = 0.1.0 =
 Initial BETA release.
