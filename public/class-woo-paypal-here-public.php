@@ -434,7 +434,7 @@ class Woo_PayPal_Here_Public {
             $this->paypal_here_apply_coupon_handler($arg['coupon_code'], $order_id, true);
         } elseif (!empty($_POST['paypal_here_amount']) && !empty($_POST['order_id'])) {
             $arg = array('coupon_code' => 'Discount_PayPal_Here' . wp_rand(1, 10000),
-                'amount' => str_replace('$', '', $_POST['paypal_here_amount']),
+                'amount' => str_replace('$', '', wc_clean($_POST['paypal_here_amount'])),
                 'discount_type' => 'fixed_cart'
             );
             $order_id = absint($_POST['order_id']);
