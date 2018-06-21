@@ -393,7 +393,6 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                         if ($type == 'UNKNOWN') {
                             $order->update_status('failed', __('transaction declined', 'woo-paypal-here'));
                         } else {
-                            wc_add_notice(apply_filters('woocommerce_thankyou_order_received_text', __('Order payment processed successfully!', 'woocommerce'), $order), 'success');
                             $order->payment_complete($transaction_id);
                         }
                         wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
