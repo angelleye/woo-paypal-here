@@ -588,7 +588,9 @@ class Woo_PayPal_Here_Public {
     }
 
     public function woo_paypal_here_available_payment_gateways($available_payment_gateways) {
-        unset($available_payment_gateways['angelleye_woo_paypal_here']);
+        if(is_checkout() || is_checkout_pay_page()) {
+            unset($available_payment_gateways['angelleye_woo_paypal_here']);
+        }
         return $available_payment_gateways;
     }
 
