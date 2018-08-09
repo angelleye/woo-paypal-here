@@ -332,31 +332,34 @@ class Woo_PayPal_Here_End_Point {
     public function angelleye_woo_paypal_here_handle_submit_action() {
         $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
         if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_billing') {
-            WC()->customer->set_props(array(
-                'billing_country' => isset($_POST['billing_country']) ? wp_unslash($_POST['billing_country']) : null,
-                'billing_state' => isset($_POST['billing_state']) ? wp_unslash($_POST['billing_state']) : null,
-                'billing_postcode' => isset($_POST['billing_postcode']) ? wp_unslash($_POST['billing_postcode']) : null,
-                'billing_city' => isset($_POST['billing_city']) ? wp_unslash($_POST['billing_city']) : null,
-                'billing_address_1' => isset($_POST['billing_address_1']) ? wp_unslash($_POST['billing_address_1']) : null,
-                'billing_address_2' => isset($_POST['billing_address_2']) ? wp_unslash($_POST['billing_address_2']) : null,
-            ));
-            paypal_here_set_session('billing_address', wp_unslash($_POST));
-            $billing_address = paypal_here_get_session('billing_address');
-            if (!empty($billing_address)) {
-                paypal_here_set_address($order_id, $billing_address);
-            }
-                
-            WC()->customer->save();
-            if (!empty($_POST['action']) && 'skip_shipping' == $_POST['action']) {
+            if( !empty($_POST['billing_country']) || !empty($_POST['billing_state']) || !empty($_POST['billing_postcode']) || !empty($_POST['billing_city']) || !empty($_POST['billing_address_1'])) {
                 WC()->customer->set_props(array(
-                    'shipping_country' => isset($_POST['shipping_country']) ? wp_unslash($_POST['shipping_country']) : null,
-                    'shipping_state' => isset($_POST['shipping_state']) ? wp_unslash($_POST['shipping_state']) : null,
-                    'shipping_postcode' => isset($_POST['shipping_postcode']) ? wp_unslash($_POST['shipping_postcode']) : null,
-                    'shipping_city' => isset($_POST['shipping_city']) ? wp_unslash($_POST['shipping_city']) : null,
-                    'shipping_address_1' => isset($_POST['shipping_address_1']) ? wp_unslash($_POST['shipping_address_1']) : null,
-                    'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
+                    'billing_country' => isset($_POST['billing_country']) ? wp_unslash($_POST['billing_country']) : null,
+                    'billing_state' => isset($_POST['billing_state']) ? wp_unslash($_POST['billing_state']) : null,
+                    'billing_postcode' => isset($_POST['billing_postcode']) ? wp_unslash($_POST['billing_postcode']) : null,
+                    'billing_city' => isset($_POST['billing_city']) ? wp_unslash($_POST['billing_city']) : null,
+                    'billing_address_1' => isset($_POST['billing_address_1']) ? wp_unslash($_POST['billing_address_1']) : null,
+                    'billing_address_2' => isset($_POST['billing_address_2']) ? wp_unslash($_POST['billing_address_2']) : null,
                 ));
+                paypal_here_set_session('billing_address', wp_unslash($_POST));
+                $billing_address = paypal_here_get_session('billing_address');
+                if (!empty($billing_address)) {
+                    paypal_here_set_address($order_id, $billing_address);
+                }
                 WC()->customer->save();
+            }
+            if (!empty($_POST['action']) && 'skip_shipping' == $_POST['action']) {
+                if( !empty($_POST['shipping_country']) || !empty($_POST['shipping_state']) || !empty($_POST['shipping_postcode']) || !empty($_POST['shipping_address_1']) || !empty($_POST['billing_address_1'])) {
+                    WC()->customer->set_props(array(
+                        'shipping_country' => isset($_POST['shipping_country']) ? wp_unslash($_POST['shipping_country']) : null,
+                        'shipping_state' => isset($_POST['shipping_state']) ? wp_unslash($_POST['shipping_state']) : null,
+                        'shipping_postcode' => isset($_POST['shipping_postcode']) ? wp_unslash($_POST['shipping_postcode']) : null,
+                        'shipping_city' => isset($_POST['shipping_city']) ? wp_unslash($_POST['shipping_city']) : null,
+                        'shipping_address_1' => isset($_POST['shipping_address_1']) ? wp_unslash($_POST['shipping_address_1']) : null,
+                        'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
+                    ));
+                    WC()->customer->save();
+                }
                 $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);
                 wp_redirect($qrcode_order_url);
                 exit();
@@ -366,19 +369,21 @@ class Woo_PayPal_Here_End_Point {
             }
         }
         if (!empty($_POST['last_action']) && $_POST['last_action'] == 'order_shipping') {
-            WC()->customer->set_props(array(
-                'shipping_country' => isset($_POST['shipping_country']) ? wp_unslash($_POST['shipping_country']) : null,
-                'shipping_state' => isset($_POST['shipping_state']) ? wp_unslash($_POST['shipping_state']) : null,
-                'shipping_postcode' => isset($_POST['shipping_postcode']) ? wp_unslash($_POST['shipping_postcode']) : null,
-                'shipping_city' => isset($_POST['shipping_city']) ? wp_unslash($_POST['shipping_city']) : null,
-                'shipping_address_1' => isset($_POST['shipping_address_1']) ? wp_unslash($_POST['shipping_address_1']) : null,
-                'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
-            ));
-            WC()->customer->save();
-            paypal_here_set_session('shipping_address', wp_unslash($_POST));
-            $shipping_address = paypal_here_get_session('shipping_address');
-            if (!empty($shipping_address)) {
-                paypal_here_set_address($order_id, $shipping_address);
+            if( !empty($_POST['shipping_country']) || !empty($_POST['shipping_state']) || !empty($_POST['shipping_postcode']) || !empty($_POST['shipping_address_1']) || !empty($_POST['billing_address_1'])) {
+                WC()->customer->set_props(array(
+                    'shipping_country' => isset($_POST['shipping_country']) ? wp_unslash($_POST['shipping_country']) : null,
+                    'shipping_state' => isset($_POST['shipping_state']) ? wp_unslash($_POST['shipping_state']) : null,
+                    'shipping_postcode' => isset($_POST['shipping_postcode']) ? wp_unslash($_POST['shipping_postcode']) : null,
+                    'shipping_city' => isset($_POST['shipping_city']) ? wp_unslash($_POST['shipping_city']) : null,
+                    'shipping_address_1' => isset($_POST['shipping_address_1']) ? wp_unslash($_POST['shipping_address_1']) : null,
+                    'shipping_address_2' => isset($_POST['shipping_address_2']) ? wp_unslash($_POST['shipping_address_2']) : null,
+                ));
+                WC()->customer->save();
+                paypal_here_set_session('shipping_address', wp_unslash($_POST));
+                $shipping_address = paypal_here_get_session('shipping_address');
+                if (!empty($shipping_address)) {
+                    paypal_here_set_address($order_id, $shipping_address);
+                }
             }
             $order_id = absint(paypal_here_get_session('angelleye_woo_paypal_here_order_awaiting_payment'));
             $qrcode_order_url = add_query_arg(array('actions' => 'view_pending_orders', 'order_id' => $order_id), $this->home_url . $this->paypal_here_endpoint_url);

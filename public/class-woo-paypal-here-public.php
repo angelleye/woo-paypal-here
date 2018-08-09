@@ -501,7 +501,7 @@ class Woo_PayPal_Here_Public {
         $shipping['method_id'] = 'paypal_here';
         $order_id = absint($_POST['order_id']);
         $order = wc_get_order($order_id);
-        if (isset($_POST['paypal_here_shipping_postal_code'])) {
+        if (isset($_POST['paypal_here_shipping_postal_code']) && !empty($_POST['paypal_here_shipping_postal_code'])) {
             $loop = 0;
             for ($loop = 0; $loop < 4; $loop++) {
                 $bool = $this->angelleye_woo_paypal_here_get_country_code(wc_clean($_POST['paypal_here_shipping_postal_code']));
@@ -560,11 +560,11 @@ class Woo_PayPal_Here_Public {
             update_post_meta($order_id, '_billing_postcode', wc_clean($_POST['paypal_here_shipping_postal_code']));
             WC()->cart->empty_cart();
             $this->paypal_here_apply_shipping_handler($order, $shipping);
-        } elseif (isset($_POST['paypal_here_shipping_percentage'])) {
+        } elseif (isset($_POST['paypal_here_shipping_percentage']) && !empty ($_POST['paypal_here_shipping_percentage'])) {
             $paypal_here_shipping_percentage = str_replace('%', '', wc_clean($_POST['paypal_here_shipping_percentage']));
             $shipping['total'] = number_format(( $order->get_subtotal() * ( $paypal_here_shipping_percentage / 100 )), 2);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
-        } elseif (isset($_POST['paypal_here_shipping_dollar'])) {
+        } elseif (isset($_POST['paypal_here_shipping_dollar']) && !empty ($_POST['paypal_here_shipping_dollar'])) {
             $shipping['total'] = wc_clean($_POST['paypal_here_shipping_dollar']);
             $this->paypal_here_apply_shipping_handler($order, $shipping);
         }
