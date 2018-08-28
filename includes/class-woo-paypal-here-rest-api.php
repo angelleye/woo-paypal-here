@@ -29,6 +29,7 @@ class Woo_PayPal_Here_Rest_API {
                         $this->site_url, $this->ck, $this->cs, [
                     'wp_api' => true,
                     'version' => 'wc/v2',
+                    'query_string_auth' => true
                         ]
                 );
             } catch (Exception $ex) {
