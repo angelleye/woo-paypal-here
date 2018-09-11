@@ -87,7 +87,9 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 == Changelog ==
 
 = 0.3.0 - xx.xx.2018 =
+* Tweak - Adds shipping by default when user is logged in. ([PHFW-1](https://github.com/angelleye/woo-paypal-here/pull/69))
 * Fix - Resolves a problem with scanning order QR code from mobile device. ([PHFW-14](https://github.com/angelleye/woo-paypal-here/pull/70))
+
 
 = 0.2.0 - 06.20.2018 =
 * Tweak - Data sanitization adjustments to ensure GDPR compliance. ([PHFW-4](https://github.com/angelleye/woo-paypal-here/pull/67))
