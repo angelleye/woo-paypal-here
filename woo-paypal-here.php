@@ -26,7 +26,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WOO_PAYPAL_HERE_VERSION', '0.2.0');
+define('WOO_PAYPAL_HERE_VERSION', '0.3.0');
 if (!defined('WOO_PAYPAL_HERE_PLUGIN_DIR')) {
     define('WOO_PAYPAL_HERE_PLUGIN_DIR', dirname(__FILE__));
 }
