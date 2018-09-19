@@ -9,7 +9,7 @@
  * Plugin Name:       PayPal Here for WooCommerce
  * Plugin URI:        https://www.angelleye.com/woo-paypal-here
  * Description:       Process WooCommerce orders with PayPal Here, or create new orders from the mobile app using WooCommerce data and sync the order back to WooCommerce.
- * Version:           0.1.0
+ * Version:           0.3.0
  * Author:            Angell EYE
  * Author URI:        https://www.angelleye.com
  * License:           GPL-3.0+
