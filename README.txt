@@ -86,6 +86,9 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
+= 0.4.0 - 04.04.2019 =
+* Feature - Adds AE Updater compatibility for future notices and automated updates. ([PHWOO-53](https://github.com/angelleye/woo-paypal-here/pull/72))
+
 = 0.3.0 - 09.14.2018 =
 * Tweak - Adds shipping by default when user is logged in. ([PHFW-1](https://github.com/angelleye/woo-paypal-here/pull/69))
 * Fix - Resolves a problem with scanning order QR code from mobile device. ([PHFW-14](https://github.com/angelleye/woo-paypal-here/pull/70))
