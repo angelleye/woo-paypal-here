@@ -39,6 +39,16 @@ if (!defined('WOO_PAYPAL_HERE_PLUGIN_FILE')) {
 if (!defined('WOO_PAYPAL_HERE_PLUGIN_BASENAME')) {
     define('WOO_PAYPAL_HERE_PLUGIN_BASENAME', plugin_basename(__FILE__));
 }
+if (!defined('AEU_ZIP_URL')) {
+    define('AEU_ZIP_URL', 'https://updates.angelleye.com/ae-updater/angelleye-updater/angelleye-updater.zip');
+}
+
+/**
+ * Required functions
+ */
+if (!function_exists('angelleye_queue_update')) {
+    require_once( 'includes/angelleye-functions.php' );
+}
 
 /**
  * The code that runs during plugin activation.
