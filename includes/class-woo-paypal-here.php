@@ -150,6 +150,8 @@ class Woo_PayPal_Here {
         $basename = WOO_PAYPAL_HERE_PLUGIN_BASENAME;
         $prefix = is_network_admin() ? 'network_admin_' : '';
         $this->loader->add_filter("{$prefix}plugin_action_links_$basename", $plugin_admin, 'paypal_here_action_links', 10, 4);
+        $this->loader->add_action('wp_ajax_angelleye_paypal_here_adismiss_notice', $plugin_admin, 'angelleye_paypal_here_adismiss_notice', 10);
+        $this->loader->add_action('admin_notices', $plugin_admin, 'angelleye_paypal_here_display_push_notification', 10);
     }
 
     /**
