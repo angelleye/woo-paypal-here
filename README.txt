@@ -86,6 +86,9 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
+= 0.5.1 - 05.31.2019 =
+* Tweak - Updates WordPress and WooCommerce version compatibility.
+
 = 0.5.0 - 05.31.2019 =
 * Feature - Adds AE notification system. ([PHWOO-54](https://github.com/angelleye/woo-paypal-here/pull/73))
 
