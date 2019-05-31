@@ -16,9 +16,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       woo-paypal-here
  * Domain Path:       /languages
- * Tested up to: 5.1.1
+ * Tested up to: 5.2.1
  * WC requires at least: 3.0.0
- * WC tested up to: 3.5.7
+ * WC tested up to: 3.6.4
  */
 
 // If this file is called directly, abort.
