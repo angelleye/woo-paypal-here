@@ -86,6 +86,9 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
+= 0.5.0 - xx.xx.2019 =
+* Feature - Adds AE notification system. ([PHWOO-54](https://github.com/angelleye/woo-paypal-here/pull/73))
+
 = 0.4.0 - 04.04.2019 =
 * Feature - Adds AE Updater compatibility for future notices and automated updates. ([PHWOO-53](https://github.com/angelleye/woo-paypal-here/pull/72))
 
