@@ -3,8 +3,8 @@ Contributors: angelleye
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QGCKWPXUEKRPW
 Tags: woocommerce, paypal, paypal here, credit card, swipe, pos, point of sale
 Requires at least: 3.0.1
-Tested up to: 5.2.1
-Stable tag: 0.5.1
+Tested up to: 5.2.2
+Stable tag: 0.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -85,6 +85,9 @@ The plugin creates a web-based app (ie. www.domain.com/paypal-here) where you ca
 From here you can process it using credit card, PayPal invoice, cash, etc. just like you would any other PayPal Here transaction.  The WooCommerce order status will udpate accordingly when the payment is processed with the PayPal Here app.
 
 == Changelog ==
+
+= 0.5.2 - 07.09.2019 =
+* Tweak - Minor adjustment to PayPal API requests.
 
 = 0.5.1 - 05.31.2019 =
 * Tweak - Updates WordPress and WooCommerce version compatibility.
