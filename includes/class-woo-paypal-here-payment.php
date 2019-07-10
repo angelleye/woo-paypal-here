@@ -392,6 +392,11 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                         if ($type == 'UNKNOWN') {
                             $order->update_status('failed', __('transaction declined', 'woo-paypal-here'));
                         } else {
+                            $request = array();
+                            $request['amount'] = $order->get_total();
+                            $request['transaction_id'] = $transaction_id;
+                            $request['Type'] = $transaction_id;
+                            do_action('angelleye_paypal_here_response_data', $request, array(), '15', false, false, 'paypal_here');
                             $order->payment_complete($transaction_id);
                         }
                         wp_redirect($this->home_url . $this->paypal_here_endpoint_url);
