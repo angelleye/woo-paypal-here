@@ -112,7 +112,12 @@ class Woo_PayPal_Here_Admin {
     public function angelleye_paypal_here_display_push_notification() {
         global $current_user;
         $user_id = $current_user->ID;
-        $response = $this->angelleye_get_push_notifications();
+        if (false === ( $response = get_transient('angelleye_paypal_here_push_notification_result') )) {
+            $response = $this->angelleye_get_push_notifications();
+            if(is_object($response)) {
+                set_transient('angelleye_paypal_here_push_notification_result', $response, 12 * HOUR_IN_SECONDS);
+            }
+        }
         if (is_object($response)) {
             foreach ($response->data as $key => $response_data) {
                 if (!get_user_meta($user_id, $response_data->id)) {
