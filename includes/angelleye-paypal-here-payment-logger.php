@@ -17,7 +17,7 @@ class AngellEYE_PayPal_Here_Payment_Logger {
     public function __construct() {
         $this->api_url = 'https://gtctgyk7fh.execute-api.us-east-2.amazonaws.com/default/PayPalPaymentsTracker';
         $this->api_key = 'srGiuJFpDO4W7YCDXF56g2c9nT1JhlURVGqYD7oa';
-        $this->allow_method = array('paypal_here');
+        $this->allow_method = array('PayPal Here');
         add_action('angelleye_paypal_here_response_data', array($this, 'own_angelleye_paypal_here_response_data'), 10, 6);
     }
 
