@@ -37,19 +37,19 @@ class AngellEYE_PayPal_Here_Payment_Logger {
                 if ($opt_in_log == 'yes') {
                     $request_param['site_url'] = get_bloginfo('url');
                 }
-                $request_param['type'] = $request['Type'];
+                $request_param['type'] = $result['Type'];
                 $request_param['mode'] = ($sandbox) ? 'sandbox' : 'live';
                 $request_param['product_id'] = $product_id;
-                if ($request['METHOD'] == 'paypal_here') {
-                    if (isset($request['transaction_id'])) {
+                if ($request['METHOD'] == 'PayPal Here') {
+                    if (isset($result['transaction_id'])) {
                         $request_param['status'] = 'Success';
-                        $request_param['transaction_id'] = isset($request['transaction_id']) ? $request['transaction_id'] : '';
+                        $request_param['transaction_id'] = isset($result['transaction_id']) ? $result['transaction_id'] : '';
                     } else {
                         $request_param['status'] = 'Failure';
                     }
                     $request_param['merchant_id'] = '';
                     $request_param['correlation_id'] = '';
-                    $request_param['amount'] = isset($request['amount']) ? $request['amount'] : '0.00';
+                    $request_param['amount'] = isset($result['amount']) ? $result['amount'] : '0.00';
                     $this->angelleye_tpv_request($request_param);
                 }
             }

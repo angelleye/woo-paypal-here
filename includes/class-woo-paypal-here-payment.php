@@ -395,7 +395,7 @@ class Woo_PayPal_Here_Payment extends WC_Payment_Gateway {
                             $request = array();
                             $request['amount'] = $order->get_total();
                             $request['transaction_id'] = $transaction_id;
-                            $request['Type'] = $transaction_id;
+                            $request['Type'] = $type;
                             do_action('angelleye_paypal_here_response_data', $request, array(), '15', false, false, 'paypal_here');
                             $order->payment_complete($transaction_id);
                         }
