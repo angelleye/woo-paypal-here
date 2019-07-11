@@ -21,7 +21,7 @@ class AngellEYE_PayPal_Here_Payment_Logger {
         add_action('angelleye_paypal_here_response_data', array($this, 'own_angelleye_paypal_here_response_data'), 10, 6);
     }
 
-    public function own_angelleye_paypal_plus_response_data($result_data, $request_data, $product_id = 1, $sandbox = false, $is_nvp = true, $payment_method = 'express_checkout') {
+    public function own_angelleye_paypal_here_response_data($result_data, $request_data, $product_id = 1, $sandbox = false, $is_nvp = true, $payment_method = 'express_checkout') {
         $request_param = array();
         if (isset($result_data) && is_array($result_data) && !empty($result_data['CURL_ERROR'])) {
             return $result_data;
