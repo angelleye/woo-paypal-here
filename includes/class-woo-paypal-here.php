@@ -110,6 +110,7 @@ class Woo_PayPal_Here {
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-payment.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-navwalker.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-woo-paypal-here-checkout.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/angelleye-paypal-here-payment-logger.php';
 
 
 
@@ -163,6 +164,7 @@ class Woo_PayPal_Here {
      */
     private function define_public_hooks() {
         $plugin_public = new Woo_PayPal_Here_Public($this->get_plugin_name(), $this->get_version());
+        AngellEYE_PayPal_Here_Payment_Logger::instance();
         $this->loader->add_action('init', $plugin_public, 'paypal_here_register_session', 1);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles', 99999);
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
