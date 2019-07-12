@@ -88,6 +88,7 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 = 0.5.3 - XX.XX.2019 =
 * Feature - Adds push notification system. ([PHWOO-56](https://github.com/angelleye/woo-paypal-here/pull/74))
+* Feature - Adds Volume tracking system. ([PHWOO-57](https://github.com/angelleye/woo-paypal-here/pull/75))
 
 = 0.5.2 - 07.09.2019 =
 * Tweak - Minor adjustment to PayPal API requests.
