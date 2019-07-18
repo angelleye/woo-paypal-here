@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: woocommerce, paypal, paypal here, credit card, swipe, pos, point of sale
 Requires at least: 3.0.1
 Tested up to: 5.2.2
-Stable tag: 0.5.2
+Stable tag: 0.5.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -86,7 +86,7 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
-= 0.5.3 - XX.XX.2019 =
+= 0.5.3 - 07.18.2019 =
 * Feature - Adds push notification system. ([PHWOO-56](https://github.com/angelleye/woo-paypal-here/pull/74))
 * Feature - Adds Volume tracking system. ([PHWOO-57](https://github.com/angelleye/woo-paypal-here/pull/75))
 

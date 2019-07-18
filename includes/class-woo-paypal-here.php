@@ -57,7 +57,7 @@ class Woo_PayPal_Here {
         if (defined('WOO_PAYPAL_HERE_VERSION')) {
             $this->version = WOO_PAYPAL_HERE_VERSION;
         } else {
-            $this->version = '0.5.2';
+            $this->version = '0.5.3';
         }
         $this->plugin_name = 'woo-paypal-here';
         $this->load_dependencies();
