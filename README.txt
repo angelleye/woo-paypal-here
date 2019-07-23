@@ -86,7 +86,7 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
-= 0.5.3 - 07.18.2019 =
+= 0.5.3 - 07.23.2019 =
 * Feature - Adds push notification system. ([PHWOO-56](https://github.com/angelleye/woo-paypal-here/pull/74))
 
 = 0.5.2 - 07.09.2019 =
