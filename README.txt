@@ -86,6 +86,9 @@ From here you can process it using credit card, PayPal invoice, cash, etc. just 
 
 == Changelog ==
 
+= 0.5.5 - 12.XX.2019 =
+* Tweak - Adjustment to Updater plugin notice dismissible. ([PHWOO-59](https://github.com/angelleye/woo-paypal-here/pull/76))
+
 = 0.5.4 - 11.20.2019 =
 * Verification - WooCommerce 3.8 and WordPress 5.3 compatibility.
 
